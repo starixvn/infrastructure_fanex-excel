@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6165F4EE-59EC-482A-8C05-1FF11E117ADB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Fanex.Excel</RootNamespace>
+    <AssemblyName>Fanex.Excel</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\_Dependencies\Fanex.NAP.Framework\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI, Version=2.0.6.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\_Dependencies\Fanex.NAP.Framework\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML, Version=2.0.6.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\_Dependencies\Fanex.NAP.Framework\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net, Version=2.0.6.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\_Dependencies\Fanex.NAP.Framework\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats, Version=2.0.6.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\_Dependencies\Fanex.NAP.Framework\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="OfficeOpenXmlCrypto, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\_Dependencies\Fanex.NAP.Framework\OfficeOpenXmlCrypto.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Constants\ExcelConstants.cs" />
+    <Compile Include="Enums\RowType.cs" />
+    <Compile Include="Enums\ExcelFont.cs" />
+    <Compile Include="IFanexExcel.cs" />
+    <Compile Include="Enums\TitleType.cs" />
+    <Compile Include="Enums\ExcelCellType.cs" />
+    <Compile Include="Enums\VAlignment.cs" />
+    <Compile Include="Enums\HAlignment.cs" />
+    <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="Extensions\JsonNetResult.cs" />
+    <Compile Include="Models\Columns.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
+    <Compile Include="Models\IGridDataRow.cs" />
+    <Compile Include="Models\IHeaderColumns.cs" />
+    <Compile Include="Models\IColumns.cs" />
+    <Compile Include="Models\FooterRow.cs" />
+    <Compile Include="Models\GridDataRow.cs" />
+    <Compile Include="Models\GridOptions.cs" />
+    <Compile Include="Models\GroupHeaderRows.cs" />
+    <Compile Include="Models\HeaderColumns.cs" />
+    <Compile Include="Models\PagerOption.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="FanexExcel.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
+    <Compile Include="Repositories\CellStyles\BodyCellStyles.cs" />
+    <Compile Include="Repositories\CellStyles\BaseCellStyles.cs" />
+    <Compile Include="Repositories\CellStyles\Body\DateTimeStyles\OddEvenStyles\SubTotalStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\DoubleParenthesisNegativeStyles\DoubleRedParenthesisNegativeStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\DoubleParenthesisNegativeStyles\OddEvenStyles\SubTotalStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\DoubleParenthesisNegativeStyles\OddEvenStyles\EvenStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\DoubleParenthesisNegativeStyles\OddEvenStyles\OddStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\DateTimeStyles\DateTimeStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\DateTimeStyles\OddEvenStyles\EvenStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\DateTimeStyles\OddEvenStyles\OddStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\DoubleRedNegativeStyles\OddEvenStyles\SubTotalStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\DoubleRedParenthesisNegativeStyles\OddEvenStyles\SubTotalStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\DoubleRedPositiveStyles\OddEvenStyles\SubTotalStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\DoubleStyles\OddEvenStyles\SubTotalStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\GeneralStyles\CenterStyles\OddEvenStyles\SubTotalStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\GeneralStyles\LeftStyles\OddEvenStyles\SubTotalStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\GeneralStyles\RightStyles\OddEvenStyles\SubTotalStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\IntegerRedNegativeStyles\OddEvenStyles\SubTotalStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\IntegerRedparenthesisNegativeStyles\OddEvenStyles\SubTotalStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\IntegerRedPositiveStyles\OddEvenStyles\SubTotalStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\IntegerStyles\OddEvenStyles\SubTotalStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\PercentageRedNegativeStyles\OddEvenStyles\SubTotalStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\PercentageRedNegativeStyles\PercentageRedNegativeStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\PercentageRedNegativeStyles\OddEvenStyles\EvenStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\PercentageRedNegativeStyles\OddEvenStyles\OddStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\PercentageRedparenthesisNegativeStyles\OddEvenStyles\SubTotalStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\PercentageRedparenthesisNegativeStyles\PercentageRedparenthesisNegativeStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\PercentageRedparenthesisNegativeStyles\OddEvenStyles\EvenStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\PercentageRedparenthesisNegativeStyles\OddEvenStyles\OddStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\PercentageRedPositiveStyles\OddEvenStyles\SubTotalStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\PercentageRedPositiveStyles\PercentageRedPositiveStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\PercentageRedPositiveStyles\OddEvenStyles\EvenStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\PercentageRedPositiveStyles\OddEvenStyles\OddStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\PercentageStyles\OddEvenStyles\SubTotalStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\PercentageStyles\PercentageStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\PercentageStyles\OddEvenStyles\EvenStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\PercentageStyles\OddEvenStyles\OddStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\DoubleRedNegativeStyles\DoubleRedNegativeStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\DoubleRedNegativeStyles\OddEvenStyles\EvenStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\DoubleRedNegativeStyles\OddEvenStyles\OddStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\DoubleRedParenthesisNegativeStyles\DoubleRedparenthesisNegativeStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\DoubleRedParenthesisNegativeStyles\OddEvenStyles\EvenStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\DoubleRedParenthesisNegativeStyles\OddEvenStyles\OddStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\DoubleRedPositiveStyles\DoubleRedPositiveStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\DoubleRedPositiveStyles\OddEvenStyles\EvenStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\DoubleRedPositiveStyles\OddEvenStyles\OddStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\DoubleStyles\DoubleStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\DoubleStyles\OddEvenStyles\EvenStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\DoubleStyles\OddEvenStyles\OddStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\IntegerRedparenthesisNegativeStyles\IntegerRedparenthesisNegativeStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\IntegerRedparenthesisNegativeStyles\OddEvenStyles\EvenStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\IntegerRedparenthesisNegativeStyles\OddEvenStyles\OddStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\IntegerRedNegativeStyles\IntegerRedNegativeStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\IntegerRedNegativeStyles\OddEvenStyles\EvenStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\IntegerRedNegativeStyles\OddEvenStyles\OddStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\IntegerRedPositiveStyles\IntegerRedPositiveStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\IntegerRedPositiveStyles\OddEvenStyles\EvenStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\IntegerRedPositiveStyles\OddEvenStyles\OddStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\GeneralStyles\CenterStyles\CenterStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\GeneralStyles\CenterStyles\OddEvenStyles\EvenStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\GeneralStyles\CenterStyles\OddEvenStyles\OddStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\GeneralStyles\GeneralStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\GeneralStyles\LeftStyles\LeftStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\GeneralStyles\LeftStyles\OddEvenStyles\EvenStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\GeneralStyles\LeftStyles\OddEvenStyles\OddStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\GeneralStyles\RightStyles\RightStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\GeneralStyles\RightStyles\OddEvenStyles\EvenStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\GeneralStyles\RightStyles\OddEvenStyles\OddStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\IntegerStyles\IntegerStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\IntegerStyles\OddEvenStyles\EvenStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\IntegerStyles\OddEvenStyles\OddStyle.cs" />
+    <Compile Include="Repositories\CellStyles\IFooterCellStyles.cs" />
+    <Compile Include="Repositories\CellStyles\IHeaderCellStyles.cs" />
+    <Compile Include="Repositories\CellStyles\IBodyCellStyles.cs" />
+    <Compile Include="Repositories\CellStyles\FooterCellStyles.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\DateTimeStyles\DateTimeStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\DoubleRedNegativeStyles\DoubleRedNegativeStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\DoubleRedparenthesisNegativeStyles\DoubleRedparenthesisNegativeStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\DoubleRedPositiveStyles\DoubleRedPositiveStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\DoubleStyles\DoubleStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\GeneralStyles\CenterStyles\CenterStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\GeneralStyles\GeneralStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\GeneralStyles\InfomationStyles\InfomationStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\GeneralStyles\LeftStyles\LeftStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\GeneralStyles\RightStyles\RightStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\IntegerRedNegativeStyles\IntegerRedNegativeStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\IntegerRedparenthesisNegativeStyles\IntegerRedparenthesisNegativeStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\IntegerRedPositiveStyles\IntegerRedPositiveStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\IntegerStyles\IntegerStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\PercentageRedNegativeStyles\PercentageRedNegativeStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\PercentageRedparenthesisNegativeStyles\PercentageRedparenthesisNegativeStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\PercentageRedPositiveStyles\PercentageRedPositiveStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\PercentageStyles\PercentageStyle.cs" />
+    <Compile Include="Repositories\CellStyles\HeaderCellStyles.cs" />
+    <Compile Include="Repositories\CustomColors\NoteInformationColor.cs" />
+    <Compile Include="Repositories\CustomColors\TitleColor.cs" />
+    <Compile Include="Repositories\CustomColors\ChildColor.cs" />
+    <Compile Include="Repositories\CustomColors\ParentColor.cs" />
+    <Compile Include="Repositories\CustomColors\RevenueLicenseeColor.cs" />
+    <Compile Include="Repositories\CustomColors\SubTotalRowColor.cs" />
+    <Compile Include="Repositories\CustomColors\EvenRowColor.cs" />
+    <Compile Include="Repositories\CustomColors\HeaderColor.cs" />
+    <Compile Include="Repositories\CustomColors\GrandTotalRowColor.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
