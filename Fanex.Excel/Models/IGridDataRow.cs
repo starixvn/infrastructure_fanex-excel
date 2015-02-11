@@ -18,6 +18,6 @@ namespace Fanex.Excel.Models
     {
         void AddValue(GridDataRow dataRow);
 
-        GridDataRow Clone();
+        GridDataRow Clone(bool isCloneSubRows = false);
     }
 }

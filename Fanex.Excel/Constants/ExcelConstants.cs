@@ -58,5 +58,7 @@ namespace Fanex.Excel.Constants
         public static readonly Color EvenRowColor = Color.FromArgb(228, 242, 253);
 
         public static readonly Color SubTotalRowColor = Color.FromArgb(194, 217, 236);
+
+        public static readonly Color ParentRowColor = Color.FromArgb(194, 217, 236);
     }
 }
