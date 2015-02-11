@@ -503,27 +503,48 @@ namespace Fanex.Excel
             this._currentBodyRowIndex = 0;
             for (int i = 0; i < rowCount; i++)
             {
-                int dataColIndex = 0;
                 var currentRow = this._workSheet.CreateRow(this._startRow++);
                 var currentDataRow = this._gridOptions.BodyRows[i];
+                this.RenderRow(currentDataRow, currentRow, this._gridOptions.Columns.Count);
 
-                // If this row is Data Row (is normal or even row only) then increase body row cunt.
-                // In case of this row is Subtotal, Parent or higher level data Row so do not increase body row count.
-                this._currentBodyRowIndex += currentDataRow.RowType == RowType.Normal || currentDataRow.RowType == RowType.Even ? 1 : 0;
-                for (int j = 0; j < this._gridOptions.Columns.Count; j++)
+                if (currentDataRow.SubRows != null && currentDataRow.SubRows.Count > 0)
                 {
-                    var curentCell = CreateOrGetCell(currentRow, j + this._startCol);
-                    if (curentCell != null && Extensions.Extensions.IsMergedCell(curentCell))
+                    int numberSubRows = currentDataRow.SubRows.Count;
+                    for (int j = 0; j < numberSubRows; j++)
                     {
-                        continue;
+                        currentRow = this._workSheet.CreateRow(this._startRow++);
+                        currentDataRow = currentDataRow.SubRows[j];
+                        this.RenderRow(currentDataRow, currentRow, currentDataRow.Columns.Count);
                     }
+                }
+            }
+        }
 
-                    this.RenderBodyCell(
+        /// <summary>
+        /// Renders the row.
+        /// </summary>
+        /// <param name="currentDataRow">The current data row.</param>
+        /// <param name="currentRow">The current row.</param>
+        /// <param name="numberColumns">The number columns.</param>
+        private void RenderRow(GridDataRow currentDataRow, IRow currentRow, int numberColumns)
+        { 
+            //// If this row is Data Row (is normal or even row only) then increase body row cunt.
+            //// In case of this row is Subtotal, Parent or higher level data Row so do not increase body row count.
+            this._currentBodyRowIndex += currentDataRow.RowType == RowType.Normal || currentDataRow.RowType == RowType.Even ? 1 : 0;
+
+            for (int i = 0; i < numberColumns; i++)
+            {
+                var curentCell = CreateOrGetCell(currentRow, i + this._startCol);
+                if (curentCell != null && Extensions.Extensions.IsMergedCell(curentCell))
+                {
+                    continue;
+                }
+
+                this.RenderBodyCell(
                         currentRow,
                         curentCell,
-                        currentDataRow.Columns[dataColIndex++],
+                        currentDataRow.Columns[i++],
                         currentDataRow.RowType);
-                }
             }
         }
 

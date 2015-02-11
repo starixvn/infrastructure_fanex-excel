@@ -21,6 +21,7 @@ namespace Fanex.Excel.Repositories.CellStyles.Body.PercentageRedNegativeStyles
             this.Odd = new OddStyle(workbook, font);
             this.Even = new EvenStyle(workbook, font);
             this.SubTotal = new SubTotalStyle(workbook, font);
+            this.Parent = new ParentStyle(workbook, font);
         }
 
         public OddStyle Odd { get; set; }
@@ -28,6 +29,8 @@ namespace Fanex.Excel.Repositories.CellStyles.Body.PercentageRedNegativeStyles
         public EvenStyle Even { get; set; }
 
         public SubTotalStyle SubTotal { get; set; }
+
+        public ParentStyle Parent { get; set; }
 
         /// <summary>
         /// Gets the cell style.
@@ -44,6 +47,8 @@ namespace Fanex.Excel.Repositories.CellStyles.Body.PercentageRedNegativeStyles
                     return this.Even.Style;
                 case RowType.SubTotal:
                     return this.SubTotal.Style;
+                case RowType.Parent:
+                    return this.Parent.Style;
                 default:
                     return this.Odd.Style;
             }

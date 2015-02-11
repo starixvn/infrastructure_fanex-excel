@@ -128,8 +128,9 @@ namespace Fanex.Excel.Models
         /// <summary>
         /// Clones this instance.
         /// </summary>
+        /// <param name="isCloneSubRows">Is clone sub rows.</param>
         /// <returns>Grid Data Row.</returns>
-        public GridDataRow Clone()
+        public GridDataRow Clone(bool isCloneSubRows = false)
         {
             var result = new GridDataRow();
             result.CssClass = this.CssClass;
@@ -146,15 +147,23 @@ namespace Fanex.Excel.Models
                 result.Columns.Add(column.Clone());
             }
 
-            if (this.SubRows != null && this.SubRows.Count > 0)
+            if (isCloneSubRows)
             {
-                foreach (GridDataRow subRow in this.SubRows)
+                if (this.SubRows != null && this.SubRows.Count > 0)
                 {
-                    result.SubRows.Add(subRow.Clone());
+                    foreach (GridDataRow subRow in this.SubRows)
+                    {
+                        result.SubRows.Add(subRow.Clone());
+                    }
                 }
             }
 
             return result;
+        }
+
+        public bool ShouldSerializeSubRows()
+        {
+            return this.SubRows.Count > 0;
         }
     }
 }

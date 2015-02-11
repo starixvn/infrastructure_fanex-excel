@@ -21,6 +21,7 @@ namespace Fanex.Excel.Repositories.CellStyles.Body.IntegerStyles
             this.Odd = new OddStyle(workbook, font);
             this.Even = new EvenStyle(workbook, font);
             this.SubTotal = new SubTotalStyle(workbook, font);
+            this.Parent = new ParentStyle(workbook, font);
         }
 
         public OddStyle Odd { get; set; }
@@ -28,6 +29,8 @@ namespace Fanex.Excel.Repositories.CellStyles.Body.IntegerStyles
         public EvenStyle Even { get; set; }
 
         public SubTotalStyle SubTotal { get; set; }
+
+        public ParentStyle Parent { get; set; }
 
         /// <summary>
         /// Gets the cell style.
@@ -49,6 +52,8 @@ namespace Fanex.Excel.Repositories.CellStyles.Body.IntegerStyles
                     return this.Even.GetStyle(horizontalAlignment);
                 case RowType.SubTotal:
                     return this.SubTotal.GetStyle(horizontalAlignment);
+                case RowType.Parent:
+                    return this.Parent.GetStyle(horizontalAlignment);
                 default:
                     return this.Odd.GetStyle(horizontalAlignment);
             }

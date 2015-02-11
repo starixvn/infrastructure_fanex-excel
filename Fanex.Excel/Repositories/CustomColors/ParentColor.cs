@@ -15,7 +15,7 @@ namespace Fanex.Excel.Repositories.CustomColors
     public class ParentColor : HSSFColor
     {
         public const string HexString = "";
-        public const short Index = 33;
+        public const short Index = 41;
         private static short[] _triplet = new short[3] { 194, 217, 236 };
 
         public ParentColor()

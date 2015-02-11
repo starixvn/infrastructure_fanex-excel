@@ -25,6 +25,7 @@ namespace Fanex.Excel.Models
             this.THCssClass = string.Empty;
             this.IsBold = false;
             this.Sort = false;
+            this.ShowCollapseExpand = false;
         }
 
         public HeaderColumns(string headerText, string name, int width, HAlignment cellAlignment)
@@ -60,6 +61,8 @@ namespace Fanex.Excel.Models
         public GroupHeaderRows GroupHeaderRow { get; set; }
 
         public string HeaderText { get; set; }
+
+        public bool ShowCollapseExpand { get; set; }
 
         public int Width { get; set; }
 
@@ -245,6 +248,7 @@ namespace Fanex.Excel.Models
             clone.Sort = this.Sort;
             clone.SortDirection = this.SortDirection;
             clone.SortType = this.SortType;
+            clone.ShowCollapseExpand = this.ShowCollapseExpand;
             return clone;
         }
     }

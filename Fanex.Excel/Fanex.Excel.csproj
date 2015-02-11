@@ -95,37 +95,54 @@
     </Compile>
     <Compile Include="Repositories\CellStyles\BodyCellStyles.cs" />
     <Compile Include="Repositories\CellStyles\BaseCellStyles.cs" />
+    <Compile Include="Repositories\CellStyles\Body\DateTimeStyles\OddEvenStyles\ParentStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\DateTimeStyles\OddEvenStyles\SubTotalStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\DoubleParenthesisNegativeStyles\DoubleRedParenthesisNegativeStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\DoubleParenthesisNegativeStyles\OddEvenStyles\ParentStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\DoubleParenthesisNegativeStyles\OddEvenStyles\SubTotalStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\DoubleParenthesisNegativeStyles\OddEvenStyles\EvenStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\DoubleParenthesisNegativeStyles\OddEvenStyles\OddStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\DateTimeStyles\DateTimeStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\DateTimeStyles\OddEvenStyles\EvenStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\DateTimeStyles\OddEvenStyles\OddStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\DoubleRedNegativeStyles\OddEvenStyles\ParentStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\DoubleRedNegativeStyles\OddEvenStyles\SubTotalStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\DoubleRedParenthesisNegativeStyles\OddEvenStyles\ParentStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\DoubleRedParenthesisNegativeStyles\OddEvenStyles\SubTotalStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\DoubleRedPositiveStyles\OddEvenStyles\ParentStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\DoubleRedPositiveStyles\OddEvenStyles\SubTotalStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\DoubleStyles\OddEvenStyles\ParentStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\DoubleStyles\OddEvenStyles\SubTotalStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\GeneralStyles\CenterStyles\OddEvenStyles\ParentStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\GeneralStyles\CenterStyles\OddEvenStyles\SubTotalStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\GeneralStyles\LeftStyles\OddEvenStyles\ParentStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\GeneralStyles\LeftStyles\OddEvenStyles\SubTotalStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\GeneralStyles\RightStyles\OddEvenStyles\ParentStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\GeneralStyles\RightStyles\OddEvenStyles\SubTotalStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\IntegerRedNegativeStyles\OddEvenStyles\ParentStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\IntegerRedNegativeStyles\OddEvenStyles\SubTotalStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\IntegerRedparenthesisNegativeStyles\OddEvenStyles\ParentStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\IntegerRedparenthesisNegativeStyles\OddEvenStyles\SubTotalStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\IntegerRedPositiveStyles\OddEvenStyles\ParentStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\IntegerRedPositiveStyles\OddEvenStyles\SubTotalStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\IntegerStyles\OddEvenStyles\ParentStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\IntegerStyles\OddEvenStyles\SubTotalStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\PercentageRedNegativeStyles\OddEvenStyles\ParentStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\PercentageRedNegativeStyles\OddEvenStyles\SubTotalStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\PercentageRedNegativeStyles\PercentageRedNegativeStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\PercentageRedNegativeStyles\OddEvenStyles\EvenStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\PercentageRedNegativeStyles\OddEvenStyles\OddStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\PercentageRedparenthesisNegativeStyles\OddEvenStyles\ParentStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\PercentageRedparenthesisNegativeStyles\OddEvenStyles\SubTotalStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\PercentageRedparenthesisNegativeStyles\PercentageRedparenthesisNegativeStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\PercentageRedparenthesisNegativeStyles\OddEvenStyles\EvenStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\PercentageRedparenthesisNegativeStyles\OddEvenStyles\OddStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\PercentageRedPositiveStyles\OddEvenStyles\ParentStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\PercentageRedPositiveStyles\OddEvenStyles\SubTotalStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\PercentageRedPositiveStyles\PercentageRedPositiveStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\PercentageRedPositiveStyles\OddEvenStyles\EvenStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\PercentageRedPositiveStyles\OddEvenStyles\OddStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\PercentageStyles\OddEvenStyles\ParentStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\PercentageStyles\OddEvenStyles\SubTotalStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\PercentageStyles\PercentageStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\PercentageStyles\OddEvenStyles\EvenStyle.cs" />
@@ -197,7 +214,9 @@
     <Compile Include="Repositories\CustomColors\HeaderColor.cs" />
     <Compile Include="Repositories\CustomColors\GrandTotalRowColor.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="CodeAnalysis\CodeAnalysisConfiguration.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
