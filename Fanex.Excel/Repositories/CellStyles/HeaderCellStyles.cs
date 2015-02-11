@@ -22,18 +22,27 @@ namespace Fanex.Excel.Repositories.CellStyles
 
         private IFont _titleFont;
 
+        private IFont _titleWhiteBoldFont;
+
         public HeaderCellStyles(IWorkbook workbook)
             : base(workbook)
         {
             this._headerFont = this.CreateFont();
             this._titleFont = this.CreateTitleFont();
-            this.CreateTitleStyle();
+            this._titleWhiteBoldFont = this.CreateTitleWhiteBoldFont();
+            this.CreateTitleCenterStyle();
+            this.CreateTitleLeftStyle();
+            this.CreateTitleRightStyle();
             this.CreateLeftStyle();
             this.CreateRightStyle();
             this.CreateCenterStyle();
         }
 
-        public ICellStyle Title { get; set; }
+        public ICellStyle TitleCenter { get; set; }
+
+        public ICellStyle TitleLeft { get; set; }
+
+        public ICellStyle TitleRight { get; set; }
 
         public ICellStyle Left { get; set; }
 
@@ -79,13 +88,43 @@ namespace Fanex.Excel.Repositories.CellStyles
             return titleFont;
         }
 
-        private void CreateTitleStyle()
+        private IFont CreateTitleWhiteBoldFont()
         {
-            this.Title = this.CreateCellStyle(
+            var titleWhiteBoldFont = this.Workbook.CreateFont();
+            titleWhiteBoldFont.FontName = "Arial";
+            titleWhiteBoldFont.FontHeightInPoints = 10;
+            titleWhiteBoldFont.Boldweight = (short)FontBoldWeight.Bold;
+            titleWhiteBoldFont.Color = HSSFColor.White.Index;
+            return titleWhiteBoldFont;
+        }
+
+        private void CreateTitleCenterStyle()
+        {
+            this.TitleCenter = this.CreateCellStyle(
                 string.Empty,
                 this.Workbook.GetType().Equals(typeof(HSSFWorkbook)) ? (IColor)new TitleColor() : (IColor)(new XSSFColor(ExcelConstants.TitleBackgroundColor)),
-                this._titleFont,
+                this._titleWhiteBoldFont,
+                HorizontalAlignment.Center,
+                VerticalAlignment.Top);
+        }
+
+        private void CreateTitleLeftStyle()
+        {
+            this.TitleLeft = this.CreateCellStyle(
+                string.Empty,
+                this.Workbook.GetType().Equals(typeof(HSSFWorkbook)) ? (IColor)new TitleColor() : (IColor)(new XSSFColor(ExcelConstants.TitleBackgroundColor)),
+                this._titleWhiteBoldFont,
                 HorizontalAlignment.Left,
+                VerticalAlignment.Top);
+        }
+
+        private void CreateTitleRightStyle()
+        {
+            this.TitleRight = this.CreateCellStyle(
+                string.Empty,
+                this.Workbook.GetType().Equals(typeof(HSSFWorkbook)) ? (IColor)new TitleColor() : (IColor)(new XSSFColor(ExcelConstants.TitleBackgroundColor)),
+                this._titleWhiteBoldFont,
+                HorizontalAlignment.Right,
                 VerticalAlignment.Top);
         }
 

@@ -1,0 +1,68 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Drawing;
+
+namespace Fanex.Excel.Models
+{
+    public class ExcelColor
+    {
+        public Color TitleBackgroundColor { get; set; }
+        public Color TitleFontColor { get; set; }
+
+        public Color HeaderBackgroundColor { get; set; }
+        public Color HeaderFontColor { get; set; }
+
+        //public Color BodyOddBackGroundColor { get; set; }
+        //public Color BodyOddFontColor { get; set; }
+
+        public Color BodyEvenBackGroundColor { get; set; }
+        public Color BodyEvenFontColor { get; set; }
+
+        public Color BodyParentLevelOneBackGroundColor { get; set; }
+        public Color BodyParentLevelOneFontColor { get; set; }
+
+        public Color BodyParentLevelTwoBackGroundColor { get; set; }
+        public Color BodyParentLevelTwoFontColor { get; set; }
+
+        public Color BodyParentLevelThreeBackGroundColor { get; set; }
+        public Color BodyParentLevelThreeFontColor { get; set; }
+
+        public Color BodyParentLevelFourBackGroundColor { get; set; }
+        public Color BodyParentLevelFourFontColor { get; set; }
+
+        public Color BodyParentLevelFiveBackGroundColor { get; set; }
+        public Color BodyParentLevelFiveFontColor { get; set; }
+
+        public Color BodySubTotalBackGroundColor { get; set; }
+        public Color BodySubTotalFontColor { get; set; }
+
+        public Color FooterBackgroundColor { get; set; }
+        public Color FooterFontColor { get; set; }
+
+        public ExcelColor()
+        {
+            this.TitleBackgroundColor = Color.Transparent;
+            this.TitleFontColor = Color.Transparent;
+            this.HeaderBackgroundColor = Color.Transparent;
+            this.HeaderFontColor = Color.Transparent;
+            this.BodyEvenBackGroundColor = Color.Transparent;
+            this.BodyEvenFontColor  = Color.Transparent;
+            this.BodyParentLevelOneBackGroundColor = Color.Transparent;
+            this.BodyParentLevelOneFontColor  = Color.Transparent;
+            this.BodyParentLevelTwoBackGroundColor = Color.Transparent;
+            this.BodyParentLevelTwoFontColor = Color.Transparent;
+            this.BodyParentLevelThreeBackGroundColor = Color.Transparent;
+            this.BodyParentLevelThreeFontColor = Color.Transparent;
+            this.BodyParentLevelFourBackGroundColor  = Color.Transparent;
+            this.BodyParentLevelFourFontColor = Color.Transparent;
+            this.BodyParentLevelFiveBackGroundColor  = Color.Transparent;
+            this.BodyParentLevelFiveFontColor  = Color.Transparent;
+            this.BodySubTotalBackGroundColor   = Color.Transparent;
+            this.BodySubTotalFontColor  = Color.Transparent;
+            this.FooterBackgroundColor  = Color.Transparent;
+            this.FooterFontColor  = Color.Transparent;
+        }
+    }
+}

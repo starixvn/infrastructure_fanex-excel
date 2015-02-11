@@ -31,6 +31,10 @@ namespace Fanex.Excel.Models
             this.ShowPager = false;
             this.CustomPager = false;
             this.ShowFooterLineBreak = true;
+            this.HiddenColumns = new List<int>();
+            this.HeaderColumnHeight = 25;
+            this.BodyRowHeight = 21;
+            this.BodyRowHeightAutofit = false;
         }
 
         [JsonProperty("groupHeaderRows")]
@@ -86,6 +90,26 @@ namespace Fanex.Excel.Models
         [JsonIgnore]
         public bool ShowFooterLineBreak { get; set; }
 
+        [JsonProperty("hiddenColumns")]
+        public List<int> HiddenColumns { get; set; }
+
+        [JsonProperty("headerColumnHeight")]
+        public int HeaderColumnHeight { get; set; }
+
+        [JsonIgnore]
+        // Default row height of Fanex Grid is 25 & Excel is 255 so the ratio is 255 / 25 = 10.2
+        public int HeaderColumnHeightExcel { get { return (int)(this.HeaderColumnHeight * 10.2); } }
+
+        [JsonProperty("bodyRowHeight")]
+        public int BodyRowHeight { get; set; }
+
+        [JsonIgnore]
+        public bool BodyRowHeightAutofit { get; set; }
+
+        [JsonIgnore]
+        // Default row height of Fanex Grid is 25 & Excel is 255 so the ratio is 255 / 25 = 10.2
+        public int BodyRowHeightExcel { get { return (int)(this.BodyRowHeight * 10.2); } }
+
         public bool ShouldSerializePagerOption()
         {
             return this.ShowPager && this.CustomPager;
@@ -94,6 +118,11 @@ namespace Fanex.Excel.Models
         public bool ShouldSerializeGroupHeaderRows()
         {
             return this.CustomizeHeader;
+        }
+
+        public bool ShouldSerializeHiddenColumns()
+        {
+            return this.HiddenColumns != null && this.HiddenColumns.Count > 0;
         }
 
         public string GetCellAlign(int cellIndex)
@@ -142,16 +171,19 @@ namespace Fanex.Excel.Models
             clone.CustomizeHeader = this.CustomizeHeader;
             clone.NumberOfFrozenColumn = this.NumberOfFrozenColumn;
             clone.TitleType = this.TitleType;
-            clone.PagerOption = this.PagerOption.Clone();
+            clone.PagerOption = this.PagerOption == null ? null : this.PagerOption.Clone();
             clone.ShowPager = this.ShowPager;
             clone.CustomPager = this.CustomPager;
             clone.TitleSeperatorRowNum = this.TitleSeperatorRowNum;
-
+            clone.BodyRowHeight = this.BodyRowHeight;
+            clone.HeaderColumnHeight = this.HeaderColumnHeight;
+            clone.BodyRowHeightAutofit = this.BodyRowHeightAutofit;
             int i = 0;
-            int groupHeaderRowsCount = this.GroupHeaderRows.Count;
-            int columnsCount = this.Columns.Count;
-            int bodyRowsCount = this.BodyRows.Count;
-            int footerRowsCount = this.FooterRows.Count;
+            int groupHeaderRowsCount = this.GroupHeaderRows == null ? 0 : this.GroupHeaderRows.Count;
+            int columnsCount = this.Columns == null ? 0 : this.Columns.Count;
+            int bodyRowsCount = this.BodyRows == null ? 0 : this.BodyRows.Count;
+            int footerRowsCount = this.FooterRows == null ? 0 : this.FooterRows.Count;
+            int hiddenColumns = this.HiddenColumns == null ? 0 : this.HiddenColumns.Count;
             for (; i < groupHeaderRowsCount; i++)
             {
                 clone.GroupHeaderRows.Add(this.GroupHeaderRows[i]);
@@ -175,7 +207,25 @@ namespace Fanex.Excel.Models
                 clone.FooterRows.Add(this.FooterRows[i]);
             }
 
+            for (i = 0; i < hiddenColumns; i++)
+            {
+                clone.HiddenColumns.Add(this.HiddenColumns[i]);
+            }
+
             return clone;
+        }
+
+        public HeaderColumns GetHeaderColumnByName(string headerName)
+        {
+            foreach (var header in this.Columns)
+            {
+                if (header.Name.Equals(headerName))
+                {
+                    return header;
+                }
+            }
+
+            return null;
         }
     }
 }

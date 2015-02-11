@@ -56,7 +56,7 @@ _ReSharper*
 [Oo]bj
 sql
 [Tt]est[Rr]esult*
-*.Cache
+*.[Cc]ache
 ClientBin
 [Ss]tyle[Cc]op.*
 ~$*

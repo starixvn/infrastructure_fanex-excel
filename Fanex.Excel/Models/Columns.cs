@@ -34,6 +34,8 @@ namespace Fanex.Excel.Models
             this.EndIndex = new List<int>();
             this.TextFont = new List<ExcelFont>();
             this.CustomCellType = ExcelCellType.Null;
+            this.WrapText = false;
+            this.HiddenColumn = false;
         }
 
         public Columns(int columnIndex, string name, object value, HAlignment cellAlignment = HAlignment.Right)
@@ -144,6 +146,12 @@ namespace Fanex.Excel.Models
         [JsonIgnore]
         public ExcelCellType CustomCellType { get; set; }
 
+        [JsonIgnore]
+        public bool WrapText { get; set; }
+
+        [JsonIgnore]
+        public bool HiddenColumn { get; set; }
+
         public bool ShouldSerializeMergeRowNumber()
         {
             return MergeRowNumber > 1;
@@ -163,8 +171,13 @@ namespace Fanex.Excel.Models
         /// Gets the reference header column.
         /// </summary>
         /// <returns>Header Columns object.</returns>
-        public HeaderColumns ReferenceHeaderColumn()
+        public HeaderColumns ReferenceHeaderColumn(GridDataRow root = null)
         {
+            if (root != null)
+            {
+                this.GridDataRow = root;
+            }
+
             if (this.GridDataRow != null && this.GridDataRow.GridOptions != null)
             {
                 int headerColumnsCount = this.GridDataRow.GridOptions.Columns.Count;
@@ -197,6 +210,8 @@ namespace Fanex.Excel.Models
             clone.CustomAttributes = this.CustomAttributes;
             clone.CellAlignment = this.CellAlignment;
             clone.RichTextString = this.RichTextString;
+            clone.WrapText = this.WrapText;
+            clone.HiddenColumn = this.HiddenColumn;
             int startIndexCount = this.StartIndex.Count;
             int endIndexCount = this.EndIndex.Count;
             int textFontCount = this.TextFont.Count;

@@ -26,6 +26,8 @@ namespace Fanex.Excel.Models
             this.IsBold = false;
             this.Sort = false;
             this.ShowCollapseExpand = false;
+            this.WrapText = false;
+            this.AllowTruncate = false;
         }
 
         public HeaderColumns(string headerText, string name, int width, HAlignment cellAlignment)
@@ -185,6 +187,8 @@ namespace Fanex.Excel.Models
         public string SortDirection { get; set; }
 
         public string SortType { get; set; }
+
+        public bool AllowTruncate { get; set; }
 
         public bool ShouldSerializeFormatNumber()
         {

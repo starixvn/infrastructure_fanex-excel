@@ -15,7 +15,7 @@ namespace Fanex.Excel.Constants
     {
         public const string General = "General";
 
-        public const string Integer = "#,#00";
+        public const string Integer = "#,##0";
 
         public const string IntegerRedPositive = "[Red]#,##0;-#,##0;0";
 
@@ -29,7 +29,7 @@ namespace Fanex.Excel.Constants
 
         public const string DoubleRedPositive = "[Red]#,##0.00;-#,##0.00;0.00";
 
-        public const string DoubleRedNegative = "#,#00.00;[Red]-#,#00.00";
+        public const string DoubleRedNegative = "#,##0.00;[Red]-#,##0.00";
 
         public const string DoubleParenthesisNegative = "#,##0.00;(#,##0.00)";
 
@@ -49,16 +49,16 @@ namespace Fanex.Excel.Constants
 
         public const string ThereIsNoData = "There is no data.";
 
-        public static readonly Color TitleBackgroundColor = Color.FromArgb(210, 178, 77);
+        public static Color TitleBackgroundColor = Color.FromArgb(210, 178, 77);
 
-        public static readonly Color HeaderBackgroundColor = Color.FromArgb(60, 94, 165);
+        public static Color HeaderBackgroundColor = Color.FromArgb(60, 94, 165);
 
-        public static readonly Color FooterBackgroundColor = Color.FromArgb(244, 244, 190);
+        public static Color FooterBackgroundColor = Color.FromArgb(244, 244, 190);
 
-        public static readonly Color EvenRowColor = Color.FromArgb(228, 242, 253);
+        public static Color EvenRowColor = Color.FromArgb(228, 242, 253);
 
-        public static readonly Color SubTotalRowColor = Color.FromArgb(194, 217, 236);
+        public static Color SubTotalRowColor = Color.FromArgb(194, 217, 236);
 
-        public static readonly Color ParentRowColor = Color.FromArgb(194, 217, 236);
+        public static Color ParentRowColor = Color.FromArgb(194, 217, 236);
     }
 }

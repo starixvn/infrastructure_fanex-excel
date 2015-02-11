@@ -291,6 +291,12 @@
   <ItemGroup>
     <Content Include="Views\Demo\Default.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Fanex.Excel\Fanex.Excel.csproj">
+      <Project>{6165F4EE-59EC-482A-8C05-1FF11E117ADB}</Project>
+      <Name>Fanex.Excel</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

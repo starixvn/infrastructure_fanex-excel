@@ -19,6 +19,8 @@ namespace Fanex.Excel
     using NPOI.SS.UserModel;
     using NPOI.SS.Util;
     using NPOI.XSSF.UserModel;
+    using System.Drawing;
+    using Fanex.Excel.Constants;
 
     /// <summary>
     /// TODO: Update summary.
@@ -26,6 +28,7 @@ namespace Fanex.Excel
     public class FanexExcel : IFanexExcel
     {
         private const string UnknownSheetName = "Sheet1";
+
         private IWorkbook _workbook;
 
         private ISheet _workSheet;
@@ -50,20 +53,30 @@ namespace Fanex.Excel
 
         private int _columnCount;
 
-        public FanexExcel(GridOptions gridOptions)
+        private int _visibleColumnCount;
+
+        public FanexExcel(GridOptions gridOptions, ExcelColor customColor = null)
         {
             this._listGridOptions = new List<GridOptions>();
             this._listGridOptions.Add(gridOptions);
             this._workbook = new HSSFWorkbook();
+            this.CustomColor = customColor;
+            this._isUseCustomColor = customColor != null;
             this.RegisterCustomColor();
         }
 
-        public FanexExcel(List<GridOptions> listGridOptions)
+        public FanexExcel(List<GridOptions> listGridOptions, ExcelColor customColor = null)
         {
             this._listGridOptions = listGridOptions;
             this._workbook = new HSSFWorkbook();
+            this.CustomColor = customColor;
+            this._isUseCustomColor = customColor != null;
             this.RegisterCustomColor();
         }
+
+        private bool _isUseCustomColor;
+
+        public ExcelColor CustomColor { get; set; }
 
         public HeaderCellStyles HeaderCellStyles
         {
@@ -138,7 +151,9 @@ namespace Fanex.Excel
             foreach (GridOptions gridOptions in this._listGridOptions)
             {
                 this._gridOptions = gridOptions;
+                this.DetectHiddenColumn();
                 this._columnCount = this._gridOptions.Columns.Count;
+                this._visibleColumnCount = this._gridOptions.Columns.Count - this._gridOptions.HiddenColumns.Count;
                 this.GenerateExcel();
                 this._startRow++;
             }
@@ -188,6 +203,7 @@ namespace Fanex.Excel
                 var headerDataRow = this._gridOptions.GroupHeaderRows[i];
                 var headerDataColumnCount = headerDataRow.Columns.Count;
                 var headerRow = this._workSheet.CreateRow(this._startRow++);
+                headerRow.Height = (short)this._gridOptions.HeaderColumnHeightExcel;
                 int cellColIndex = this._startCol;
                 for (int j = 0; j < headerDataColumnCount; j++)
                 {
@@ -235,13 +251,19 @@ namespace Fanex.Excel
         protected virtual void RenderHeaderRow()
         {
             var currentRow = this._workSheet.CreateRow(this._startRow++);
+            currentRow.Height = (short)this._gridOptions.HeaderColumnHeightExcel;
+            int col = this._startCol;
             for (int i = this._startCol; i < this._columnCount; i++)
             {
                 var headerCell = this._gridOptions.Columns[i];
-                var currentCell = currentRow.CreateCell(i);
-                currentCell.CellStyle = this._headerStyles.GetHeaderStyle(headerCell.HeaderAlign);
-                this.SetCellValue(currentCell, headerCell.DisplayValue != null ? headerCell.DisplayValue : headerCell.HeaderText);
-                this._workSheet.SetColumnWidth(i, headerCell.WidthExcel);
+                if (!headerCell.HiddenColumn)
+                {
+                    var currentCell = currentRow.CreateCell(col);
+                    currentCell.CellStyle = this._headerStyles.GetHeaderStyle(headerCell.HeaderAlign);
+                    this.SetCellValue(currentCell, headerCell.DisplayValue != null ? headerCell.DisplayValue : headerCell.HeaderText);
+                    this._workSheet.SetColumnWidth(col, headerCell.WidthExcel);
+                    col++;
+                }
             }
 
             if (!this._isFreezePane)
@@ -260,7 +282,7 @@ namespace Fanex.Excel
         /// <param name="rowType">Type of the row.</param>
         protected virtual void RenderBodyCell(IRow currentRow, ICell currentCell, Columns cell, RowType rowType)
         {
-            var header = this._gridOptions.Columns[cell.ColumnIndex];
+            var header = cell.ReferenceHeaderColumn() ?? this._gridOptions.GetHeaderColumnByName(cell.Name);
             if (this._gridOptions.ShowDistinctRow)
             {
                 if (rowType == RowType.Normal && this._currentBodyRowIndex % 2 != 0)
@@ -274,6 +296,8 @@ namespace Fanex.Excel
                 cell.CellAlignment != Enums.HAlignment.Null ? cell.CellAlignment : header.CellAlignment,
                 rowType,
                 cell.Bold ? cell.Bold : header.IsBold);
+
+            cellStyle.WrapText = header.WrapText;
             currentCell.CellStyle = cellStyle;
             this.SetCellValue(currentCell, cell.DisplayValue != null ? cell.DisplayValue : cell.Value);
 
@@ -314,6 +338,7 @@ namespace Fanex.Excel
                 {
                     var footerDataRow = this._gridOptions.FooterRows[i];
                     var footerExcelRow = this._workSheet.CreateRow(this._startRow++);
+                    footerExcelRow.Height = (short)this._gridOptions.BodyRowHeightExcel;
                     this.RenderFooterRow(footerExcelRow, footerDataRow, this._gridOptions.ShowFooterLineBreak && i == 0);
                 }
             }
@@ -386,6 +411,21 @@ namespace Fanex.Excel
             }
         }
 
+        private void DetectHiddenColumn()
+        {
+            if (this._gridOptions.HiddenColumns != null && this._gridOptions.HiddenColumns.Count > 0)
+            {
+                var columnCount = this._gridOptions.Columns.Count;
+                for (int i = 0; i < columnCount; i++)
+                {
+                    if (this._gridOptions.HiddenColumns.Contains(i))
+                    {
+                        this._gridOptions.Columns[i].HiddenColumn = true;
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// Registers the color of the custom.
         /// </summary>
@@ -393,14 +433,34 @@ namespace Fanex.Excel
         {
             if (this._workbook.GetType().Equals(typeof(HSSFWorkbook)))
             {
-                this.SetColorAtIndex(TitleColor.Index, TitleColor.Triplet);
-                this.SetColorAtIndex(HeaderColor.Index, HeaderColor.Triplet);
-                this.SetColorAtIndex(EvenRowColor.Index, EvenRowColor.Triplet);
-                this.SetColorAtIndex(SubTotalRowColor.Index, SubTotalRowColor.Triplet);
-                this.SetColorAtIndex(GrandTotalRowColor.Index, GrandTotalRowColor.Triplet);
+                this.SetColorAtIndex(TitleColor.Index, this._isUseCustomColor ? this.GetColorTriplet(this.CustomColor.TitleBackgroundColor, TitleColor.Triplet) : TitleColor.Triplet);
+                this.SetColorAtIndex(HeaderColor.Index, this._isUseCustomColor ? this.GetColorTriplet(this.CustomColor.HeaderBackgroundColor, HeaderColor.Triplet) : HeaderColor.Triplet);
+                this.SetColorAtIndex(EvenRowColor.Index, this._isUseCustomColor ? this.GetColorTriplet(this.CustomColor.BodyEvenBackGroundColor, EvenRowColor.Triplet) : EvenRowColor.Triplet);
+                this.SetColorAtIndex(SubTotalRowColor.Index, this._isUseCustomColor ? this.GetColorTriplet(this.CustomColor.BodySubTotalBackGroundColor, SubTotalRowColor.Triplet) : SubTotalRowColor.Triplet);
+                this.SetColorAtIndex(GrandTotalRowColor.Index, this._isUseCustomColor ? this.GetColorTriplet(this.CustomColor.FooterBackgroundColor, GrandTotalRowColor.Triplet) : GrandTotalRowColor.Triplet);
                 this.SetColorAtIndex(RevenueLicenseeColor.Index, RevenueLicenseeColor.Triplet);
                 this.SetColorAtIndex(NoteInformationColor.Index, NoteInformationColor.Triplet);
             }
+
+            if (this._isUseCustomColor)
+            {
+                ExcelConstants.TitleBackgroundColor = this.GetColor(this.CustomColor.TitleBackgroundColor, ExcelConstants.TitleBackgroundColor);
+                ExcelConstants.HeaderBackgroundColor = this.GetColor(this.CustomColor.HeaderBackgroundColor, ExcelConstants.HeaderBackgroundColor);
+                ExcelConstants.FooterBackgroundColor = this.GetColor(this.CustomColor.FooterBackgroundColor, ExcelConstants.FooterBackgroundColor);
+                ExcelConstants.EvenRowColor = this.GetColor(this.CustomColor.BodyEvenBackGroundColor, ExcelConstants.EvenRowColor);
+                ExcelConstants.SubTotalRowColor = this.GetColor(this.CustomColor.BodySubTotalBackGroundColor, ExcelConstants.SubTotalRowColor);
+                ExcelConstants.ParentRowColor = this.GetColor(this.CustomColor.BodyParentLevelOneBackGroundColor, ExcelConstants.ParentRowColor);
+            }
+        }
+
+        private short[] GetColorTriplet(Color color, short[] defaultTriplet)
+        {
+            return color == Color.Transparent ? defaultTriplet : new short[] { color.R, color.G, color.B };
+        }
+
+        private Color GetColor(Color color, Color defaultColor)
+        {
+            return color == Color.Transparent ? defaultColor : color;
         }
 
         /// <summary>
@@ -449,10 +509,10 @@ namespace Fanex.Excel
         {
             var currentRow = this._workSheet.CreateRow(this._startRow++);
             int i = this._startCol;
-            for (; i < this._columnCount; i++)
+            for (; i < this._visibleColumnCount; i++)
             {
                 var currentCell = currentRow.CreateCell(i);
-                currentCell.CellStyle = this._headerStyles.Title;
+                currentCell.CellStyle = this._headerStyles.TitleLeft;
                 currentCell.SetCellValue(this._gridOptions.TitleInfoText);
             }
 
@@ -464,18 +524,19 @@ namespace Fanex.Excel
         /// </summary>
         private void RenderTwoLineBlueTitleRow()
         {
+            int i = this._startCol;
             for (int j = 0; j < 2; j++)
             {
                 var currentRow = this._workSheet.CreateRow(this._startRow++);
-                for (int i = this._startCol; i < this._columnCount; i++)
+                for (; i < this._visibleColumnCount; i++)
                 {
                     var currentCell = currentRow.CreateCell(i);
-                    currentCell.CellStyle = this._headerStyles.Center;
+                    currentCell.CellStyle = this._headerStyles.TitleCenter;
                     currentCell.SetCellValue(this._gridOptions.TitleInfoText);
                 }
             }
 
-            this._workSheet.AddMergedRegion(new CellRangeAddress(this._startRow - 2, this._startRow - 1, this._startCol, this._gridOptions.Columns.Count - 1));
+            this._workSheet.AddMergedRegion(new CellRangeAddress(this._startRow - 2, this._startRow - 1, this._startCol, i - 1));
         }
 
         /// <summary>
@@ -484,14 +545,15 @@ namespace Fanex.Excel
         private void RenderOneLineBlueTitleRow()
         {
             var currentRow = this._workSheet.CreateRow(this._startRow++);
-            for (int i = this._startCol; i < this._columnCount; i++)
+            int i = this._startCol;
+            for (; i < this._visibleColumnCount; i++)
             {
                 var currentCell = currentRow.CreateCell(i);
-                currentCell.CellStyle = this._headerStyles.Center;
+                currentCell.CellStyle = this._headerStyles.TitleLeft;
                 currentCell.SetCellValue(this._gridOptions.TitleInfoText);
             }
 
-            this._workSheet.AddMergedRegion(new CellRangeAddress(this._startRow - 1, this._startRow - 1, this._startCol, this._gridOptions.Columns.Count - 1));
+            this._workSheet.AddMergedRegion(new CellRangeAddress(this._startRow - 1, this._startRow - 1, this._startCol, i - 1));
         }
 
         /// <summary>
@@ -504,6 +566,7 @@ namespace Fanex.Excel
             for (int i = 0; i < rowCount; i++)
             {
                 var currentRow = this._workSheet.CreateRow(this._startRow++);
+                currentRow.Height = (short)this._gridOptions.BodyRowHeightExcel;
                 var currentDataRow = this._gridOptions.BodyRows[i];
                 this.RenderRow(currentDataRow, currentRow, this._gridOptions.Columns.Count);
 
@@ -513,9 +576,13 @@ namespace Fanex.Excel
                     for (int j = 0; j < numberSubRows; j++)
                     {
                         currentRow = this._workSheet.CreateRow(this._startRow++);
-                        currentDataRow = currentDataRow.SubRows[j];
-                        this.RenderRow(currentDataRow, currentRow, currentDataRow.Columns.Count);
+                        var subDataRow = currentDataRow.SubRows[j];
+                        this.RenderRow(subDataRow, currentRow, subDataRow.Columns.Count);
                     }
+                }
+
+                if (this._gridOptions.BodyRowHeightAutofit)
+                {
                 }
             }
         }
@@ -527,14 +594,21 @@ namespace Fanex.Excel
         /// <param name="currentRow">The current row.</param>
         /// <param name="numberColumns">The number columns.</param>
         private void RenderRow(GridDataRow currentDataRow, IRow currentRow, int numberColumns)
-        { 
+        {
             //// If this row is Data Row (is normal or even row only) then increase body row cunt.
             //// In case of this row is Subtotal, Parent or higher level data Row so do not increase body row count.
             this._currentBodyRowIndex += currentDataRow.RowType == RowType.Normal || currentDataRow.RowType == RowType.Even ? 1 : 0;
-
+            int col = this._startCol;
             for (int i = 0; i < numberColumns; i++)
             {
-                var curentCell = CreateOrGetCell(currentRow, i + this._startCol);
+                var currentDataCell = currentDataRow.Columns[i];
+                var refHeader = currentDataCell.ReferenceHeaderColumn() ?? this._gridOptions.GetHeaderColumnByName(currentDataCell.Name);
+                if (refHeader != null && refHeader.HiddenColumn)
+                {
+                    continue;
+                }
+
+                var curentCell = CreateOrGetCell(currentRow, col++);
                 if (curentCell != null && Extensions.Extensions.IsMergedCell(curentCell))
                 {
                     continue;
@@ -543,7 +617,7 @@ namespace Fanex.Excel
                 this.RenderBodyCell(
                         currentRow,
                         curentCell,
-                        currentDataRow.Columns[i++],
+                        currentDataCell,
                         currentDataRow.RowType);
             }
         }
