@@ -11,6 +11,9 @@ namespace Demo
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/common").Include(
+                        "~/Scripts/Common.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
                         "~/Scripts/jquery-ui-{version}.js"));
 
@@ -21,10 +24,8 @@ namespace Demo
             bundles.Add(new ScriptBundle("~/bundles/jquerylayout").Include(
                         "~/Scripts/jquery.layout.min.js"));
 
-            // Use the development version of Modernizr to develop with and learn from. Then, when you're
-            // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
-            bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
-                        "~/Scripts/modernizr-*"));
+            bundles.Add(new ScriptBundle("~/Views/Demo/Default/Script/js").Include(
+                "~/Views/Demo/Default/Script/Default.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css"));
 
@@ -43,6 +44,9 @@ namespace Demo
                         "~/Content/themes/base/jquery.ui.datepicker.css",
                         "~/Content/themes/base/jquery.ui.progressbar.css",
                         "~/Content/themes/base/jquery.ui.theme.css"));
+
+            bundles.Add(new StyleBundle("~/Views/Demo/Default/Style/css").Include(
+                "~/Views/Demo/Default/Style/Default.css"));
         }
     }
 }

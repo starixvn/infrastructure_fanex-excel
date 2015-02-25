@@ -81,6 +81,9 @@ namespace Fanex.Excel.Models
         [JsonProperty("showPager")]
         public bool ShowPager { get; set; }
 
+        [JsonProperty("showTree")]
+        public bool ShowTree { get; set; }
+
         [JsonProperty("customPager")]
         public bool CustomPager { get; set; }
 
