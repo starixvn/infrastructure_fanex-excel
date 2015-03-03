@@ -29,6 +29,11 @@ namespace Fanex.Excel.Enums
         /// <summary>
         /// The One Line Blue Style.
         /// </summary>
-        OneLineBlue
+        OneLineBlue,
+
+        /// <summary>
+        /// The Two Line Blue and subtitle Style.
+        /// </summary>
+        TwoLineBlueAndSub
     }
 }

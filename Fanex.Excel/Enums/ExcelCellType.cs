@@ -112,6 +112,11 @@ namespace Fanex.Excel.Enums
         /// <summary>
         /// The footer information.
         /// </summary>
-        FooterInformation
+        FooterInformation,
+
+        /// <summary>
+        /// The exchange information.
+        /// </summary>
+        Exchange
     }
 }

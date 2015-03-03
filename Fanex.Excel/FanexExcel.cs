@@ -494,6 +494,9 @@ namespace Fanex.Excel
                 case Enums.TitleType.OneLineBlue:
                     this.RenderOneLineBlueTitleRow();
                     break;
+                case Enums.TitleType.TwoLineBlueAndSub:
+                    this.RenderTwoLineBlueAndSubTitleRow();
+                    break;
                 default:
                     this.RenderNormalTitleRow();
                     break;
@@ -540,6 +543,48 @@ namespace Fanex.Excel
         }
 
         /// <summary>
+        /// Renders the two line blue title row.
+        /// </summary>
+        private void RenderTwoLineBlueAndSubTitleRow()
+        {
+            for (int j = 0; j < 2; j++)
+            {
+                var currentRow = this._workSheet.CreateRow(this._startRow++);
+                for (int i = this._startCol; i < this._columnCount; i++)
+                {
+                    var currentCell = currentRow.CreateCell(i);
+                    currentCell.CellStyle = this._headerStyles.Center;
+                    currentCell.SetCellValue(this._gridOptions.TitleInfoText);
+                }
+            }
+
+            this._workSheet.AddMergedRegion(new CellRangeAddress(this._startRow - 2, this._startRow - 1, this._startCol, this._gridOptions.Columns.Count - 1));
+
+            if (this._gridOptions.SubtitleRowNum == 0)
+            {
+                this._gridOptions.SubtitleRowNum = 2;
+            }
+
+            for (int j = 0; j < this._gridOptions.SubtitleRowNum; j++)
+            {
+                var currentRow = this._workSheet.CreateRow(this._startRow++);
+                for (int i = this._startCol; i < this._columnCount; i++)
+                {
+                    var currentCell = currentRow.CreateCell(i);
+                    currentCell.CellStyle = this._headerStyles.Left;
+                    currentCell.CellStyle.WrapText = true;
+                    currentCell.SetCellValue(this._gridOptions.SubtitleInfoText);
+                }
+            }
+
+            this._workSheet.AddMergedRegion(new CellRangeAddress(
+                this._startRow - this._gridOptions.SubtitleRowNum,
+                this._startRow - 1,
+                this._startCol,
+                this._gridOptions.Columns.Count - 1));
+        }
+
+        /// <summary>
         /// Renders the one line blue title row.
         /// </summary>
         private void RenderOneLineBlueTitleRow()
@@ -577,7 +622,7 @@ namespace Fanex.Excel
                     {
                         currentRow = this._workSheet.CreateRow(this._startRow++);
                         var subDataRow = currentDataRow.SubRows[j];
-                        this.RenderRow(subDataRow, currentRow, subDataRow.Columns.Count);
+                        this.RenderRow(subDataRow, currentRow, this._gridOptions.Columns.Count);
                     }
                 }
 
@@ -601,15 +646,15 @@ namespace Fanex.Excel
             int col = this._startCol;
             for (int i = 0; i < numberColumns; i++)
             {
-                var currentDataCell = currentDataRow.Columns[i];
-                var refHeader = currentDataCell.ReferenceHeaderColumn() ?? this._gridOptions.GetHeaderColumnByName(currentDataCell.Name);
-                if (refHeader != null && refHeader.HiddenColumn)
+                var curentCell = CreateOrGetCell(currentRow, i + this._startCol);
+                if (curentCell != null && Extensions.Extensions.IsMergedCell(curentCell))
                 {
                     continue;
                 }
 
-                var curentCell = CreateOrGetCell(currentRow, col++);
-                if (curentCell != null && Extensions.Extensions.IsMergedCell(curentCell))
+                var currentDataCell = currentDataRow.Columns[col++];
+                var refHeader = currentDataCell.ReferenceHeaderColumn() ?? this._gridOptions.GetHeaderColumnByName(currentDataCell.Name);
+                if (refHeader != null && refHeader.HiddenColumn)
                 {
                     continue;
                 }
