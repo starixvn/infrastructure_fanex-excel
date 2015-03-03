@@ -22,7 +22,7 @@ namespace Fanex.Excel.Models
             this.Width = isGroupHeader ? 0 : 150;
             this.HeaderAlign = "center";
             this.CellAlignment = HAlignment.Null;
-            this.THCssClass = string.Empty;
+            this.ThClass = string.Empty;
             this.IsBold = false;
             this.Sort = false;
             this.ShowCollapseExpand = false;
@@ -190,6 +190,8 @@ namespace Fanex.Excel.Models
 
         public bool AllowTruncate { get; set; }
 
+        public string ThClass { get; set; }
+
         public bool ShouldSerializeFormatNumber()
         {
             return this.FormatNumber != null && !string.IsNullOrEmpty(this.FormatNumber);
@@ -235,6 +237,11 @@ namespace Fanex.Excel.Models
             return !string.IsNullOrEmpty(this.SortType);
         }
 
+        public bool ShouldSerializeThClass()
+        {
+            return this.ThClass != null && !string.IsNullOrEmpty(this.ThClass);
+        }
+
         /// <summary>
         /// Clones this instance.
         /// </summary>
@@ -253,6 +260,7 @@ namespace Fanex.Excel.Models
             clone.SortDirection = this.SortDirection;
             clone.SortType = this.SortType;
             clone.ShowCollapseExpand = this.ShowCollapseExpand;
+            clone.ThClass = this.ThClass;
             return clone;
         }
     }

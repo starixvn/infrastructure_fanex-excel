@@ -54,6 +54,12 @@ namespace Fanex.Excel.Models
 
         public string TitleInfoText { get; set; }
 
+        [JsonIgnore]
+        public string SubtitleInfoText { get; set; }
+
+        [JsonIgnore]
+        public int SubtitleRowNum { get; set; }
+
         [JsonProperty("showFooter")]
         public bool ShowFooter { get; set; }
 
