@@ -622,7 +622,7 @@ namespace Fanex.Excel
                     {
                         currentRow = this._workSheet.CreateRow(this._startRow++);
                         var subDataRow = currentDataRow.SubRows[j];
-                        this.RenderRow(subDataRow, currentRow, subDataRow.Columns.Count);
+                        this.RenderRow(subDataRow, currentRow, this._gridOptions.Columns.Count);
                     }
                 }
 
@@ -646,15 +646,15 @@ namespace Fanex.Excel
             int col = this._startCol;
             for (int i = 0; i < numberColumns; i++)
             {
-                var currentDataCell = currentDataRow.Columns[i];
-                var refHeader = currentDataCell.ReferenceHeaderColumn() ?? this._gridOptions.GetHeaderColumnByName(currentDataCell.Name);
-                if (refHeader != null && refHeader.HiddenColumn)
+                var curentCell = CreateOrGetCell(currentRow, i + this._startCol);
+                if (curentCell != null && Extensions.Extensions.IsMergedCell(curentCell))
                 {
                     continue;
                 }
 
-                var curentCell = CreateOrGetCell(currentRow, col++);
-                if (curentCell != null && Extensions.Extensions.IsMergedCell(curentCell))
+                var currentDataCell = currentDataRow.Columns[col++];
+                var refHeader = currentDataCell.ReferenceHeaderColumn() ?? this._gridOptions.GetHeaderColumnByName(currentDataCell.Name);
+                if (refHeader != null && refHeader.HiddenColumn)
                 {
                     continue;
                 }

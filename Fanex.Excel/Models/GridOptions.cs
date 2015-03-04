@@ -106,8 +106,7 @@ namespace Fanex.Excel.Models
         public int HeaderColumnHeight { get; set; }
 
         [JsonIgnore]
-        // Default row height of Fanex Grid is 25 & Excel is 255 so the ratio is 255 / 25 = 10.2
-        public int HeaderColumnHeightExcel { get { return (int)(this.HeaderColumnHeight * 10.2); } }
+        public int HeaderColumnHeightExcel { get { return (int)(this.HeaderColumnHeight * 13.5); } }
 
         [JsonProperty("bodyRowHeight")]
         public int BodyRowHeight { get; set; }
@@ -116,8 +115,7 @@ namespace Fanex.Excel.Models
         public bool BodyRowHeightAutofit { get; set; }
 
         [JsonIgnore]
-        // Default row height of Fanex Grid is 25 & Excel is 255 so the ratio is 255 / 25 = 10.2
-        public int BodyRowHeightExcel { get { return (int)(this.BodyRowHeight * 10.2); } }
+        public int BodyRowHeightExcel { get { return (int)(this.BodyRowHeight * 13.5); } }
 
         public bool ShouldSerializePagerOption()
         {

@@ -16,7 +16,7 @@ namespace Fanex.Excel.Repositories.CustomColors
     {
         public const string HexString = "";
         public const short Index = 37;
-        private static short[] _triplet = new short[3] { 255, 217, 97 };
+        private static short[] _triplet = new short[3] { 60, 94, 165 };
 
         public TitleColor()
             : base()
