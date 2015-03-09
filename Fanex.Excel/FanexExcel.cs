@@ -615,17 +615,6 @@ namespace Fanex.Excel
                 var currentDataRow = this._gridOptions.BodyRows[i];
                 this.RenderRow(currentDataRow, currentRow, this._gridOptions.Columns.Count);
 
-                if (currentDataRow.SubRows != null && currentDataRow.SubRows.Count > 0)
-                {
-                    int numberSubRows = currentDataRow.SubRows.Count;
-                    for (int j = 0; j < numberSubRows; j++)
-                    {
-                        currentRow = this._workSheet.CreateRow(this._startRow++);
-                        var subDataRow = currentDataRow.SubRows[j];
-                        this.RenderRow(subDataRow, currentRow, this._gridOptions.Columns.Count);
-                    }
-                }
-
                 if (this._gridOptions.BodyRowHeightAutofit)
                 {
                 }
@@ -664,6 +653,17 @@ namespace Fanex.Excel
                         curentCell,
                         currentDataCell,
                         currentDataRow.RowType);
+            }
+
+            if (currentDataRow.SubRows != null && currentDataRow.SubRows.Count > 0)
+            {
+                int numberSubRows = currentDataRow.SubRows.Count;
+                for (int j = 0; j < numberSubRows; j++)
+                {
+                    currentRow = this._workSheet.CreateRow(this._startRow++);
+                    var subDataRow = currentDataRow.SubRows[j];
+                    this.RenderRow(subDataRow, currentRow, this._gridOptions.Columns.Count);
+                }
             }
         }
 
