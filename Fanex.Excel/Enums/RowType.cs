@@ -29,8 +29,28 @@ namespace Fanex.Excel.Enums
         SubTotal,
 
         /// <summary>
-        /// The Parent Row.
+        /// The Parent Row Level one.
         /// </summary>
-        Parent
+        ParentLevelOne,
+
+        /// <summary>
+        /// The Parent Row Level two.
+        /// </summary>
+        ParentLevelTwo,
+
+        /// <summary>
+        /// The Parent Row Level three.
+        /// </summary>
+        ParentLevelThree,
+
+        /// <summary>
+        /// The Parent Row Level four.
+        /// </summary>
+        ParentLevelFour,
+
+        /// <summary>
+        /// The Parent Row Level five.
+        /// </summary>
+        ParentLevelFive
     }
 }

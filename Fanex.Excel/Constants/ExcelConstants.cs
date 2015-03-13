@@ -45,7 +45,7 @@ namespace Fanex.Excel.Constants
 
         public const string PercentageparenthesisNegative = "0.00%;(0.00%)";
 
-        public const string DateTimemMmddyyyy = "mm/dd/yyyy";
+        public const string DateTimemmddyyyy = "mm/dd/yyyy";
 
         public const string ThereIsNoData = "There is no data.";
 
@@ -59,6 +59,14 @@ namespace Fanex.Excel.Constants
 
         public static Color SubTotalRowColor = Color.FromArgb(194, 217, 236);
 
-        public static Color ParentRowColor = Color.FromArgb(194, 217, 236);
+        public static Color ParentRowLevelOneColor = Color.FromArgb(194, 217, 236);
+
+        public static Color ParentRowLevelTwoColor = Color.FromArgb(212, 237, 251);
+
+        public static Color ParentRowLevelThreeColor = Color.FromArgb(235, 253, 255);
+
+        public static Color ParentRowLevelFourColor = Color.FromArgb(204, 255, 255);
+
+        public static Color ParentRowLevelFiveColor = Color.FromArgb(204, 255, 255);
     }
 }

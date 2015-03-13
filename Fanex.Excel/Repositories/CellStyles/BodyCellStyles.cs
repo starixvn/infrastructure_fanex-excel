@@ -13,6 +13,9 @@ namespace Fanex.Excel.Repositories.CellStyles
     using Fanex.Excel.Repositories.CellStyles.Body.DoubleRedPositiveStyles;
     using Fanex.Excel.Repositories.CellStyles.Body.DoubleStyles;
     using Fanex.Excel.Repositories.CellStyles.Body.GeneralStyles;
+    using Fanex.Excel.Repositories.CellStyles.Body.IntegerRedNegativeStyles;
+    using Fanex.Excel.Repositories.CellStyles.Body.IntegerRedparenthesisNegativeStyles;
+    using Fanex.Excel.Repositories.CellStyles.Body.IntegerRedPositiveStyles;
     using Fanex.Excel.Repositories.CellStyles.Body.IntegerStyles;
     using Fanex.Excel.Repositories.CellStyles.Body.PercentageRedNegativeStyles;
     using Fanex.Excel.Repositories.CellStyles.Body.PercentageRedparenthesisNegativeStyles;
@@ -144,17 +147,16 @@ namespace Fanex.Excel.Repositories.CellStyles
                 case ExcelCellType.DoubleRedPositive:
                 case ExcelCellType.DoubleRedNegative:
                 case ExcelCellType.DoubleRedParenthesisNegative:
-                    return this.GetDoubleCellStyle(cellType, rowType, isBold);
+                    return this.GetDoubleCellStyle(horizonAlign, cellType, rowType, isBold);
                 case ExcelCellType.Percentage:
                 case ExcelCellType.PercentageRedPositive:
                 case ExcelCellType.PercentageRedNegative:
                 case ExcelCellType.PercentageRedparenthesisNegative:
-                    return this.GetPercentageCellStyle(cellType, rowType, isBold);
+                    return this.GetPercentageCellStyle(horizonAlign, cellType, rowType, isBold);
                 case ExcelCellType.DateTimeMMDDYYYY:
-                    var dateTimeStyle = isBold ? this.DateTimeStyleBold : this.DateTimeStyle;
-                    return dateTimeStyle.GetCellStyle(rowType);
-                default:
-                    return this.GetGeneralCellStyle(horizonAlign, rowType, isBold);
+                    return this.GetDateTimeCellStyle(horizonAlign, rowType, isBold);
+                default: 
+                    return this.GetGeneralCellStyle(horizonAlign,rowType,isBold);
             }
         }
 
@@ -170,17 +172,7 @@ namespace Fanex.Excel.Repositories.CellStyles
         public ICellStyle GetGeneralCellStyle(HAlignment horizonAlign, RowType rowType, bool isBold = false)
         {
             var generalStyle = isBold || rowType == RowType.SubTotal ? this.GeneralBold : this.General;
-            switch (horizonAlign)
-            {
-                case HAlignment.Left:
-                    return generalStyle.Left.GetCellStyle(rowType);
-                case HAlignment.Right:
-                    return generalStyle.Right.GetCellStyle(rowType);
-                case HAlignment.Center:
-                    return generalStyle.Center.GetCellStyle(rowType);
-                default:
-                    return generalStyle.Left.GetCellStyle(rowType);
-            }
+            return generalStyle.GetCellStyle(rowType, horizonAlign);
         }
 
         /// <summary>
@@ -199,16 +191,16 @@ namespace Fanex.Excel.Repositories.CellStyles
             {
                 case Enums.ExcelCellType.Integer:
                     var integerStyle = isBold || rowType == RowType.SubTotal ? this.IntegerBold : this.Integer;
-                    return integerStyle.GetCellStyle(horizonAlign, rowType);
+                    return integerStyle.GetCellStyle(rowType, horizonAlign);
                 case Enums.ExcelCellType.IntegerRedPositive:
                     var integerRedPositiveStyle = isBold || rowType == RowType.SubTotal ? this.IntegerRedPositiveBold : this.IntegerRedPositive;
-                    return integerRedPositiveStyle.GetCellStyle(rowType);
+                    return integerRedPositiveStyle.GetCellStyle(rowType, horizonAlign);
                 case Enums.ExcelCellType.IntegerRedNegative:
                     var integerRedNegativeStyle = isBold || rowType == RowType.SubTotal ? this.IntegerRedNegativeBold : this.IntegerRedNegative;
-                    return integerRedNegativeStyle.GetCellStyle(rowType);
+                    return integerRedNegativeStyle.GetCellStyle(rowType, horizonAlign);
                 case Enums.ExcelCellType.IntegerRedparenthesisNegative:
                     var integerRedparenthesisNegativeStyle = isBold || rowType == RowType.SubTotal ? this.IntegerRedparenthesisNegativeBold : this.IntegerRedparenthesisNegative;
-                    return integerRedparenthesisNegativeStyle.GetCellStyle(rowType);
+                    return integerRedparenthesisNegativeStyle.GetCellStyle(rowType, horizonAlign);
                 default:
                     return null;
             }
@@ -223,22 +215,22 @@ namespace Fanex.Excel.Repositories.CellStyles
         /// <returns>
         /// Double Cell Style.
         /// </returns>
-        private ICellStyle GetDoubleCellStyle(Enums.ExcelCellType cellType, RowType rowType, bool isBold)
+        private ICellStyle GetDoubleCellStyle(HAlignment horizonAlign, Enums.ExcelCellType cellType, RowType rowType, bool isBold)
         {
             switch (cellType)
             {
                 case Enums.ExcelCellType.Double:
                     var doubleStyle = isBold || rowType == RowType.SubTotal ? this.DoubleBold : this.Double;
-                    return doubleStyle.GetCellStyle(rowType);
+                    return doubleStyle.GetCellStyle(rowType, horizonAlign);
                 case Enums.ExcelCellType.DoubleRedPositive:
                     var doubleRedPositiveStyle = isBold || rowType == RowType.SubTotal ? this.DoubleRedPositiveBold : this.DoubleRedPositive;
-                    return doubleRedPositiveStyle.GetCellStyle(rowType);
+                    return doubleRedPositiveStyle.GetCellStyle(rowType, horizonAlign);
                 case Enums.ExcelCellType.DoubleRedNegative:
                     var doubleRedNegativeStyle = isBold || rowType == RowType.SubTotal ? this.DoubleRedNegativeBold : this.DoubleRedNegative;
-                    return doubleRedNegativeStyle.GetCellStyle(rowType);
+                    return doubleRedNegativeStyle.GetCellStyle(rowType, horizonAlign);
                 case Enums.ExcelCellType.DoubleRedParenthesisNegative:
                     var doubleRedparenthesisNegativeStyle = isBold || rowType == RowType.SubTotal ? this.DoubleRedparenthesisNegativeBold : this.DoubleRedparenthesisNegative;
-                    return doubleRedparenthesisNegativeStyle.GetCellStyle(rowType);
+                    return doubleRedparenthesisNegativeStyle.GetCellStyle(rowType, horizonAlign);
                 default:
                     return null;
             }
@@ -253,27 +245,42 @@ namespace Fanex.Excel.Repositories.CellStyles
         /// <returns>
         /// Percentage Cell Style.
         /// </returns>
-        private ICellStyle GetPercentageCellStyle(Enums.ExcelCellType cellType, RowType rowType, bool isBold)
+        private ICellStyle GetPercentageCellStyle(HAlignment horizonAlign, Enums.ExcelCellType cellType, RowType rowType, bool isBold)
         {
             switch (cellType)
             {
                 case Enums.ExcelCellType.Percentage:
                     var percentageStyle = isBold || rowType == RowType.SubTotal ? this.PercentageBold : this.Percentage;
-                    return percentageStyle.GetCellStyle(rowType);
+                    return percentageStyle.GetCellStyle(rowType, horizonAlign);
                 case Enums.ExcelCellType.PercentageRedPositive:
                     var percentageRedPositiveStyle = isBold || rowType == RowType.SubTotal ? this.PercentageRedPositiveBold : this.PercentageRedPositive;
-                    return percentageRedPositiveStyle.GetCellStyle(rowType);
+                    return percentageRedPositiveStyle.GetCellStyle(rowType, horizonAlign);
                 case Enums.ExcelCellType.PercentageRedNegative:
                     var percentageRedNegativeStyle = isBold || rowType == RowType.SubTotal ? this.PercentageRedNegativeBold : this.PercentageRedNegative;
-                    return percentageRedNegativeStyle.GetCellStyle(rowType);
+                    return percentageRedNegativeStyle.GetCellStyle(rowType, horizonAlign);
                 case Enums.ExcelCellType.PercentageRedparenthesisNegative:
                     var percentageRedparenthesisNegativeStyle = isBold || rowType == RowType.SubTotal ?
                         this.PercentageRedparenthesisNegativeBold :
                         this.PercentageRedparenthesisNegative;
-                    return percentageRedparenthesisNegativeStyle.GetCellStyle(rowType);
+                    return percentageRedparenthesisNegativeStyle.GetCellStyle(rowType, horizonAlign);
                 default:
                     return null;
             }
+        }
+
+        /// <summary>
+        /// Gets the date time cell style.
+        /// </summary>
+        /// <param name="cellType">Type of the cell.</param>
+        /// <param name="rowType">Type of the row.</param>
+        /// <param name="isBold">If set to <c>true</c> [is bold].</param>
+        /// <returns>
+        /// Date time Cell Style.
+        /// </returns>
+        private ICellStyle GetDateTimeCellStyle(HAlignment horizonAlign, RowType rowType, bool isBold)
+        {
+            var dateTimeStyle = isBold || rowType == RowType.SubTotal ? this.DateTimeStyleBold : this.DateTimeStyle;
+            return dateTimeStyle.GetCellStyle(rowType, horizonAlign);
         }
 
         private void CreateFont()

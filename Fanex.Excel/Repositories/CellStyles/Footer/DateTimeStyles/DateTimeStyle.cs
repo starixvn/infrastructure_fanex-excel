@@ -22,14 +22,14 @@ namespace Fanex.Excel.Repositories.CellStyles.Footer.DateTimeStyles
             : base(workbook)
         {
             this.Style = this.CreateCellStyle(
-                ExcelConstants.DateTimemMmddyyyy,
+                ExcelConstants.DateTimemmddyyyy,
                 this.Workbook.GetType().Equals(typeof(HSSFWorkbook)) ? (IColor)new GrandTotalRowColor() : (IColor)(new XSSFColor(ExcelConstants.FooterBackgroundColor)),
                 font,
                 HorizontalAlignment.Center,
                 VerticalAlignment.Top);
 
             this.UpperStyle = this.CreateCellStyle(
-                ExcelConstants.DateTimemMmddyyyy,
+                ExcelConstants.DateTimemmddyyyy,
                 this.Workbook.GetType().Equals(typeof(HSSFWorkbook)) ? (IColor)new GrandTotalRowColor() : (IColor)(new XSSFColor(ExcelConstants.FooterBackgroundColor)),
                 font,
                 HorizontalAlignment.Center,

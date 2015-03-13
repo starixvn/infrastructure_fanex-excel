@@ -35,6 +35,14 @@ namespace Fanex.Excel.Repositories.CellStyles
 
         protected IDataFormat DataFormat { get; set; }
 
+        public ICellStyle Style { get; set; }
+
+        public ICellStyle LeftStyle { get; set; }
+
+        public ICellStyle RightStyle { get; set; }
+
+        public ICellStyle CenterStyle { get; set; }
+
         /// <summary>
         /// Creates the cell style.
         /// </summary>
@@ -110,23 +118,18 @@ namespace Fanex.Excel.Repositories.CellStyles
         /// </summary>
         /// <param name="horizonAlign">The horizon align.</param>
         /// <returns>The value of HorizontalAlignment.</returns>
-        protected HorizontalAlignment GetHorizontalAlignment(HAlignment horizonAlign)
+        public ICellStyle GetCellStyleByHAlign(HAlignment horizonAlign)
         {
-            if (horizonAlign == HAlignment.Left)
-            {
-                return HorizontalAlignment.Left;
-            }
-            else if (horizonAlign == HAlignment.Center)
-            {
-                return HorizontalAlignment.Center;
-            }
-            else if (horizonAlign == HAlignment.Right)
-            {
-                return HorizontalAlignment.Right;
-            }
-            else
-            {
-                return HorizontalAlignment.Left;
+            switch (horizonAlign)
+            { 
+                case HAlignment.Left:
+                    return this.LeftStyle;
+                case HAlignment.Right:
+                    return this.RightStyle;
+                case HAlignment.Center:
+                    return this.CenterStyle;
+                default:
+                    return this.Style;
             }
         }
 

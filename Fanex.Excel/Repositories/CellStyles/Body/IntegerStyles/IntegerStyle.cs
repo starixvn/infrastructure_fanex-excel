@@ -7,56 +7,25 @@
 namespace Fanex.Excel.Repositories.CellStyles.Body.IntegerStyles
 {
     using Fanex.Excel.Enums;
-    using Fanex.Excel.Repositories.CellStyles.Body.IntegerStyles.OddEvenStyles;
+    using Fanex.Excel.Repositories.CellStyles.Body.IntegerStyles.RowTypeStyles;
     using NPOI.SS.UserModel;
 
     /// <summary>
     /// TODO: Update summary.
     /// </summary>
-    public class IntegerStyle : BaseCellStyles
+    public class IntegerStyle : BodyRowBaseStyle
     {
         public IntegerStyle(IWorkbook workbook, IFont font)
-            : base(workbook)
+            : base(workbook, font)
         {
             this.Odd = new OddStyle(workbook, font);
             this.Even = new EvenStyle(workbook, font);
             this.SubTotal = new SubTotalStyle(workbook, font);
-            this.Parent = new ParentStyle(workbook, font);
-        }
-
-        public OddStyle Odd { get; set; }
-
-        public EvenStyle Even { get; set; }
-
-        public SubTotalStyle SubTotal { get; set; }
-
-        public ParentStyle Parent { get; set; }
-
-        /// <summary>
-        /// Gets the cell style.
-        /// </summary>
-        /// <param name="horizonAlign">The horizon align.</param>
-        /// <param name="rowType">Type of the row.</param>
-        /// <returns>
-        /// Cell Style Object.
-        /// </returns>
-        public ICellStyle GetCellStyle(HAlignment horizonAlign, RowType rowType)
-        {
-            HorizontalAlignment horizontalAlignment = this.GetHorizontalAlignment(horizonAlign);
-
-            switch (rowType)
-            {
-                case RowType.Normal:
-                    return this.Odd.GetStyle(horizontalAlignment);
-                case RowType.Even:
-                    return this.Even.GetStyle(horizontalAlignment);
-                case RowType.SubTotal:
-                    return this.SubTotal.GetStyle(horizontalAlignment);
-                case RowType.Parent:
-                    return this.Parent.GetStyle(horizontalAlignment);
-                default:
-                    return this.Odd.GetStyle(horizontalAlignment);
-            }
+            this.ParentLevelOne = new ParentLevelOneStyle(workbook, font);
+            this.ParentLevelTwo = new ParentLevelTwoStyle(workbook, font);
+            this.ParentLevelThree = new ParentLevelThreeStyle(workbook, font);
+            this.ParentLevelFour = new ParentLevelFourStyle(workbook, font);
+            this.ParentLevelFive = new ParentLevelFiveStyle(workbook, font);
         }
     }
 }

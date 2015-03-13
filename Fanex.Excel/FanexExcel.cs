@@ -292,7 +292,7 @@ namespace Fanex.Excel
             }
 
             var cellStyle = this._bodyStyles.GetCellStyle(
-                header.CustomCellType,
+                cell.CustomCellType == ExcelCellType.Null ? header.CustomCellType : cell.CustomCellType,
                 cell.CellAlignment != Enums.HAlignment.Null ? cell.CellAlignment : header.CellAlignment,
                 rowType,
                 cell.Bold ? cell.Bold : header.IsBold);
@@ -438,6 +438,11 @@ namespace Fanex.Excel
                 this.SetColorAtIndex(EvenRowColor.Index, this._isUseCustomColor ? this.GetColorTriplet(this.CustomColor.BodyEvenBackGroundColor, EvenRowColor.Triplet) : EvenRowColor.Triplet);
                 this.SetColorAtIndex(SubTotalRowColor.Index, this._isUseCustomColor ? this.GetColorTriplet(this.CustomColor.BodySubTotalBackGroundColor, SubTotalRowColor.Triplet) : SubTotalRowColor.Triplet);
                 this.SetColorAtIndex(GrandTotalRowColor.Index, this._isUseCustomColor ? this.GetColorTriplet(this.CustomColor.FooterBackgroundColor, GrandTotalRowColor.Triplet) : GrandTotalRowColor.Triplet);
+                this.SetColorAtIndex(ParentLevelOneColor.Index, this._isUseCustomColor ? this.GetColorTriplet(this.CustomColor.BodyParentLevelOneBackGroundColor, ParentLevelOneColor.Triplet) : ParentLevelOneColor.Triplet);
+                this.SetColorAtIndex(ParentLevelTwoColor.Index, this._isUseCustomColor ? this.GetColorTriplet(this.CustomColor.BodyParentLevelTwoBackGroundColor, ParentLevelTwoColor.Triplet) : ParentLevelTwoColor.Triplet);
+                this.SetColorAtIndex(ParentLevelThreeColor.Index, this._isUseCustomColor ? this.GetColorTriplet(this.CustomColor.BodyParentLevelThreeBackGroundColor, ParentLevelThreeColor.Triplet) : ParentLevelThreeColor.Triplet);
+                this.SetColorAtIndex(ParentLevelFourColor.Index, this._isUseCustomColor ? this.GetColorTriplet(this.CustomColor.BodyParentLevelFourBackGroundColor, ParentLevelFourColor.Triplet) : ParentLevelFourColor.Triplet);
+                this.SetColorAtIndex(ParentLevelFiveColor.Index, this._isUseCustomColor ? this.GetColorTriplet(this.CustomColor.BodyParentLevelFiveBackGroundColor, ParentLevelFiveColor.Triplet) : ParentLevelFiveColor.Triplet);
                 this.SetColorAtIndex(RevenueLicenseeColor.Index, RevenueLicenseeColor.Triplet);
                 this.SetColorAtIndex(NoteInformationColor.Index, NoteInformationColor.Triplet);
             }
@@ -449,7 +454,11 @@ namespace Fanex.Excel
                 ExcelConstants.FooterBackgroundColor = this.GetColor(this.CustomColor.FooterBackgroundColor, ExcelConstants.FooterBackgroundColor);
                 ExcelConstants.EvenRowColor = this.GetColor(this.CustomColor.BodyEvenBackGroundColor, ExcelConstants.EvenRowColor);
                 ExcelConstants.SubTotalRowColor = this.GetColor(this.CustomColor.BodySubTotalBackGroundColor, ExcelConstants.SubTotalRowColor);
-                ExcelConstants.ParentRowColor = this.GetColor(this.CustomColor.BodyParentLevelOneBackGroundColor, ExcelConstants.ParentRowColor);
+                ExcelConstants.ParentRowLevelOneColor = this.GetColor(this.CustomColor.BodyParentLevelOneBackGroundColor, ExcelConstants.ParentRowLevelOneColor);
+                ExcelConstants.ParentRowLevelTwoColor = this.GetColor(this.CustomColor.BodyParentLevelTwoBackGroundColor, ExcelConstants.ParentRowLevelTwoColor);
+                ExcelConstants.ParentRowLevelThreeColor = this.GetColor(this.CustomColor.BodyParentLevelThreeBackGroundColor, ExcelConstants.ParentRowLevelThreeColor);
+                ExcelConstants.ParentRowLevelFourColor = this.GetColor(this.CustomColor.BodyParentLevelFourBackGroundColor, ExcelConstants.ParentRowLevelFourColor);
+                ExcelConstants.ParentRowLevelFiveColor = this.GetColor(this.CustomColor.BodyParentLevelFiveBackGroundColor, ExcelConstants.ParentRowLevelFiveColor);
             }
         }
 
@@ -615,9 +624,6 @@ namespace Fanex.Excel
                 var currentDataRow = this._gridOptions.BodyRows[i];
                 this.RenderRow(currentDataRow, currentRow, this._gridOptions.Columns.Count);
 
-                if (this._gridOptions.BodyRowHeightAutofit)
-                {
-                }
             }
         }
 
@@ -627,7 +633,7 @@ namespace Fanex.Excel
         /// <param name="currentDataRow">The current data row.</param>
         /// <param name="currentRow">The current row.</param>
         /// <param name="numberColumns">The number columns.</param>
-        private void RenderRow(GridDataRow currentDataRow, IRow currentRow, int numberColumns)
+        private void RenderRow(GridDataRow currentDataRow, IRow currentRow, int numberColumns, int parentLevel = -1)
         {
             //// If this row is Data Row (is normal or even row only) then increase body row cunt.
             //// In case of this row is Subtotal, Parent or higher level data Row so do not increase body row count.

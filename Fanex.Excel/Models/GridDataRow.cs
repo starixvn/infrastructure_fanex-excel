@@ -81,7 +81,7 @@ namespace Fanex.Excel.Models
             {
                 this._currentColumnsIndex += column.MergeColNumber - 1;
             }
-                
+
             this._currentColumnsIndex++;
             this.Columns.Add(column);
         }
@@ -164,6 +164,16 @@ namespace Fanex.Excel.Models
         public bool ShouldSerializeSubRows()
         {
             return this.SubRows.Count > 0;
+        }
+
+        public bool IsParentRow()
+        {
+            return this.SubRows.Count > 0;
+        }
+
+        public int ParentLevel()
+        {
+            return this.ParentRow == null ? 1 : this.ParentRow.ParentLevel() + 1;
         }
     }
 }

@@ -41,6 +41,21 @@ namespace Fanex.Excel.Models
         public Color FooterBackgroundColor { get; set; }
         public Color FooterFontColor { get; set; }
 
+        public Color ParentLevelOneBackGroundColor { get; set; }
+        public Color ParentLevelOneFontColor { get; set; }
+
+        public Color ParentLevelTwoBackGroundColor { get; set; }
+        public Color ParentLevelTwoFontColor { get; set; }
+
+        public Color ParentLevelThreeBackGroundColor { get; set; }
+        public Color ParentLevelThreeFontColor { get; set; }
+
+        public Color ParentLevelFourBackGroundColor { get; set; }
+        public Color ParentLevelFourFontColor { get; set; }
+
+        public Color ParentLevelFiveBackGroundColor { get; set; }
+        public Color ParentLevelFiveFontColor { get; set; }
+
         public ExcelColor()
         {
             this.TitleBackgroundColor = Color.Transparent;
@@ -63,6 +78,9 @@ namespace Fanex.Excel.Models
             this.BodySubTotalFontColor  = Color.Transparent;
             this.FooterBackgroundColor  = Color.Transparent;
             this.FooterFontColor  = Color.Transparent;
+            this.ParentLevelOneBackGroundColor = Color.Transparent;
+            this.ParentLevelOneFontColor = Color.Transparent;
+
         }
     }
 }
