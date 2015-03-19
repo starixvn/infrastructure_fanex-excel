@@ -52,6 +52,9 @@ namespace Fanex.Excel.Models
         [JsonProperty("showTitle")]
         public bool ShowTitle { get; set; }
 
+        [JsonProperty("totalItems")]
+        public int TotalItems { get; set; }
+
         public string TitleInfoText { get; set; }
 
         [JsonIgnore]
@@ -170,6 +173,7 @@ namespace Fanex.Excel.Models
         {
             GridOptions clone = new GridOptions();
             clone.ShowTitle = this.ShowTitle;
+            clone.TotalItems = this.TotalItems;
             clone.TitleInfoText = this.TitleInfoText;
             clone.ShowFooter = this.ShowFooter;
             clone.NoDataText = this.NoDataText;
