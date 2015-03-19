@@ -683,6 +683,10 @@ namespace Fanex.Excel
             {
                 cell.SetCellValue((int)value);
             }
+            else if (type.Equals(typeof(long)))
+            {
+                cell.SetCellValue((long)value);
+            }
             else if (type.Equals(typeof(double)))
             {
                 cell.SetCellValue((double)value);

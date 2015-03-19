@@ -240,6 +240,7 @@ namespace Fanex.Excel.Models
             return type.Equals(typeof(bool))
                 || type.Equals(typeof(string))
                 || type.Equals(typeof(int))
+                || type.Equals(typeof(long))
                 || type.Equals(typeof(double))
                 || type.Equals(typeof(decimal))
                 || type.Equals(typeof(DateTime))
