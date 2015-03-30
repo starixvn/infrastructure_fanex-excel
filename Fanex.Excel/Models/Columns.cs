@@ -36,6 +36,7 @@ namespace Fanex.Excel.Models
             this.CustomCellType = ExcelCellType.Null;
             this.WrapText = false;
             this.HiddenColumn = false;
+            this.Indention = (short)0;
         }
 
         public Columns(int columnIndex, string name, object value, HAlignment cellAlignment = HAlignment.Right)
@@ -152,6 +153,9 @@ namespace Fanex.Excel.Models
         [JsonIgnore]
         public bool HiddenColumn { get; set; }
 
+        [JsonIgnore]
+        public short Indention { get; set; }
+
         public bool ShouldSerializeMergeRowNumber()
         {
             return MergeRowNumber > 1;
@@ -215,6 +219,7 @@ namespace Fanex.Excel.Models
             clone.RichTextString = this.RichTextString;
             clone.WrapText = this.WrapText;
             clone.HiddenColumn = this.HiddenColumn;
+            clone.Indention = this.Indention;
             int startIndexCount = this.StartIndex.Count;
             int endIndexCount = this.EndIndex.Count;
             int textFontCount = this.TextFont.Count;

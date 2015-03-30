@@ -30,6 +30,7 @@ namespace Fanex.Excel.Models
             this.RowType = Enums.RowType.Normal;
             this.FilterIndex = new Dictionary<string, object>();
             this._cssClass = string.Empty;
+            this.IsEven = false;
         }
 
         [JsonIgnore]
@@ -66,6 +67,9 @@ namespace Fanex.Excel.Models
 
         [JsonIgnore]
         public RowType RowType { get; set; }
+
+        [JsonIgnore]
+        public bool IsEven { get; set; }
 
         public List<GridDataRow> SubRows { get; set; }
 

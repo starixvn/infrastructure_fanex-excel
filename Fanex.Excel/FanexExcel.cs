@@ -207,6 +207,11 @@ namespace Fanex.Excel
                 int cellColIndex = this._startCol;
                 for (int j = 0; j < headerDataColumnCount; j++)
                 {
+                    if (this._gridOptions.Columns[j].HiddenColumn)
+                    {
+                        continue;
+                    }
+
                     var headerCell = headerRow.CreateCell(cellColIndex++);
                     headerCell.CellStyle = this._headerStyles.GetHeaderStyle(headerDataRow.Columns[j].HeaderAlign);
                     this.SetCellValue(
@@ -292,13 +297,24 @@ namespace Fanex.Excel
             }
 
             var cellStyle = this._bodyStyles.GetCellStyle(
-                cell.CustomCellType == ExcelCellType.Null ? header.CustomCellType : cell.CustomCellType,
+                cell.CustomCellType != ExcelCellType.Null ? cell.CustomCellType : header.CustomCellType,
                 cell.CellAlignment != Enums.HAlignment.Null ? cell.CellAlignment : header.CellAlignment,
                 rowType,
                 cell.Bold ? cell.Bold : header.IsBold);
-
             cellStyle.WrapText = header.WrapText;
-            currentCell.CellStyle = cellStyle;
+
+            if (cell.Indention != 0)
+            {
+                var cloneCellStyle = this.WorkBook.CreateCellStyle();
+                cloneCellStyle.CloneStyleFrom(cellStyle);
+                cloneCellStyle.Indention = cell.Indention;
+                currentCell.CellStyle = cloneCellStyle;
+            }
+            else
+            {
+                currentCell.CellStyle = cellStyle;
+            }
+
             this.SetCellValue(currentCell, cell.DisplayValue != null ? cell.DisplayValue : cell.Value);
 
             if (cell.MergeRowNumber > 1)
@@ -314,7 +330,7 @@ namespace Fanex.Excel
             {
                 for (int i = 1; i <= cell.MergeColNumber - 1; i++)
                 {
-                    var mergedCell = currentRow.CreateCell(cell.ColumnIndex + i);
+                    var mergedCell = currentRow.CreateCell(currentCell.ColumnIndex + i);
                     mergedCell.CellStyle = cellStyle;
                 }
 
@@ -365,10 +381,29 @@ namespace Fanex.Excel
                 var footerDataCell = footerDataRow.Columns[i];
                 var header = this._gridOptions.Columns[footerDataCell.ColumnIndex];
                 var footerCell = footerRow.CreateCell(colIndex++);
-                footerCell.CellStyle = this._footerStyles.GetCellStyle(
+
+                var cellStyle = this._footerStyles.GetCellStyle(
                     footerDataCell.CustomCellType != Enums.ExcelCellType.Null ? footerDataCell.CustomCellType : header.CustomCellType,
                     footerDataCell.CellAlignment == Enums.HAlignment.Null ? header.CellAlignment : footerDataCell.CellAlignment,
                     isFirstFooterRow);
+
+                if (footerDataCell.Indention != 0)
+                {
+                    var cloneCellStyle = this.WorkBook.CreateCellStyle();
+                    cloneCellStyle.CloneStyleFrom(cellStyle);
+                    cloneCellStyle.Indention = footerDataCell.Indention;
+                    footerCell.CellStyle = cloneCellStyle;
+                }
+                else
+                {
+                    footerCell.CellStyle = cellStyle;
+                }
+
+                if (header.HiddenColumn && footerDataCell.MergeColNumber > 1)
+                {
+                    footerDataCell.MergeColNumber -= 1;
+                }
+
                 if (mergeColNumber > 0)
                 {
                     mergeColNumber--;
@@ -382,7 +417,7 @@ namespace Fanex.Excel
                     continue;
                 }
 
-                this.SetCellValue(footerCell, footerDataCell.Value);
+                this.SetCellValue(footerCell, footerDataCell.DisplayValue != null ? footerDataCell.DisplayValue : footerDataCell.Value);
                 mergeColNumber = footerDataCell.MergeColNumber != 0 ? footerDataCell.MergeColNumber - 1 : 0;
                 if (footerDataCell.MergeColNumber != 0)
                 {
@@ -448,7 +483,7 @@ namespace Fanex.Excel
                 this.SetColorAtIndex(ParentLevelFourColor.Index, this._isUseCustomColor ? this.GetColorTriplet(this.CustomColor.BodyParentLevelFourBackGroundColor, ParentLevelFourColor.Triplet) : ParentLevelFourColor.Triplet);
                 this.SetColorAtIndex(ParentLevelFiveColor.Index, this._isUseCustomColor ? this.GetColorTriplet(this.CustomColor.BodyParentLevelFiveBackGroundColor, ParentLevelFiveColor.Triplet) : ParentLevelFiveColor.Triplet);
                 this.SetColorAtIndex(RevenueLicenseeColor.Index, RevenueLicenseeColor.Triplet);
-                this.SetColorAtIndex(NoteInformationColor.Index, NoteInformationColor.Triplet);
+                this.SetColorAtIndex(NoteInformationColor.Index, NoteInformationColor.Triplet); 
             }
 
             if (this._isUseCustomColor)
@@ -643,26 +678,52 @@ namespace Fanex.Excel
             //// In case of this row is Subtotal, Parent or higher level data Row so do not increase body row count.
             this._currentBodyRowIndex += currentDataRow.RowType == RowType.Normal || currentDataRow.RowType == RowType.Even ? 1 : 0;
             int col = this._startCol;
+            int columnIndex = 0;
+            ICell curentCell;
+            Columns currentDataCell;
+            int numberColumnOfCurrentRow = currentDataRow.Columns.Count;
             for (int i = 0; i < numberColumns; i++)
             {
-                var curentCell = CreateOrGetCell(currentRow, i + this._startCol);
-                if (curentCell != null && Extensions.Extensions.IsMergedCell(curentCell))
+                if (i < numberColumnOfCurrentRow)
                 {
-                    continue;
+                    currentDataCell = currentDataRow.Columns[i];
+                    var refHeader = currentDataCell.ReferenceHeaderColumn() ?? this._gridOptions.GetHeaderColumnByName(currentDataCell.Name);
+
+                    if (refHeader != null && refHeader.HiddenColumn)
+                    {
+                        if (currentDataCell.MergeColNumber > 1)
+                        {
+                            currentDataCell.MergeColNumber -= 1;
+                            curentCell = CreateOrGetCell(currentRow, columnIndex);
+                            this.RenderBodyCell(
+                                currentRow,
+                                curentCell,
+                                currentDataCell,
+                                currentDataRow.RowType);
+                            columnIndex += currentDataCell.MergeColNumber;
+                        }
+
+                        col++;
+                        continue;
+                    }
                 }
 
-                var currentDataCell = currentDataRow.Columns[col++];
-                var refHeader = currentDataCell.ReferenceHeaderColumn() ?? this._gridOptions.GetHeaderColumnByName(currentDataCell.Name);
-                if (refHeader != null && refHeader.HiddenColumn)
+                if (col < numberColumnOfCurrentRow)
                 {
-                    continue;
-                }
+                    curentCell = CreateOrGetCell(currentRow, columnIndex++);
+                    if (curentCell != null && Extensions.Extensions.IsMergedCell(curentCell))
+                    {
+                        continue;
+                    }
 
-                this.RenderBodyCell(
-                        currentRow,
-                        curentCell,
-                        currentDataCell,
-                        currentDataRow.RowType);
+                    currentDataCell = currentDataRow.Columns[col++];
+                    currentDataCell.MergeColNumber = currentDataCell.MergeColNumber > _visibleColumnCount ? _visibleColumnCount : currentDataCell.MergeColNumber;
+                    this.RenderBodyCell(
+                            currentRow,
+                            curentCell,
+                            currentDataCell,
+                            currentDataRow.RowType);
+                }
             }
 
             if (currentDataRow.SubRows != null && currentDataRow.SubRows.Count > 0)
