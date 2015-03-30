@@ -29,12 +29,6 @@ namespace Fanex.Excel.Repositories.CellStyles
             this.Font = font;
         }
 
-        protected IWorkbook Workbook { get; set; }
-
-        protected IFont Font { get; set; }
-
-        protected IDataFormat DataFormat { get; set; }
-
         public ICellStyle Style { get; set; }
 
         public ICellStyle LeftStyle { get; set; }
@@ -42,6 +36,32 @@ namespace Fanex.Excel.Repositories.CellStyles
         public ICellStyle RightStyle { get; set; }
 
         public ICellStyle CenterStyle { get; set; }
+
+        protected IWorkbook Workbook { get; set; }
+
+        protected IFont Font { get; set; }
+
+        protected IDataFormat DataFormat { get; set; }
+
+        /// <summary>
+        /// Gets the horizontal alignment.
+        /// </summary>
+        /// <param name="horizonAlign">The horizon align.</param>
+        /// <returns>The value of HorizontalAlignment.</returns>
+        public ICellStyle GetCellStyleByHAlign(HAlignment horizonAlign)
+        {
+            switch (horizonAlign)
+            {
+                case HAlignment.Left:
+                    return this.LeftStyle;
+                case HAlignment.Right:
+                    return this.RightStyle;
+                case HAlignment.Center:
+                    return this.CenterStyle;
+                default:
+                    return this.Style;
+            }
+        }
 
         /// <summary>
         /// Creates the cell style.
@@ -111,26 +131,6 @@ namespace Fanex.Excel.Repositories.CellStyles
             cellStyle.VerticalAlignment = valignment;
             this.SetCellBorder(cellStyle);
             return cellStyle;
-        }
-
-        /// <summary>
-        /// Gets the horizontal alignment.
-        /// </summary>
-        /// <param name="horizonAlign">The horizon align.</param>
-        /// <returns>The value of HorizontalAlignment.</returns>
-        public ICellStyle GetCellStyleByHAlign(HAlignment horizonAlign)
-        {
-            switch (horizonAlign)
-            { 
-                case HAlignment.Left:
-                    return this.LeftStyle;
-                case HAlignment.Right:
-                    return this.RightStyle;
-                case HAlignment.Center:
-                    return this.CenterStyle;
-                default:
-                    return this.Style;
-            }
         }
 
         private void SetCellBorder(ICellStyle cellStyle)

@@ -9,7 +9,9 @@ namespace Fanex.Excel
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Drawing;
     using System.IO;
+    using Fanex.Excel.Constants;
     using Fanex.Excel.Enums;
     using Fanex.Excel.Extensions;
     using Fanex.Excel.Models;
@@ -19,8 +21,6 @@ namespace Fanex.Excel
     using NPOI.SS.UserModel;
     using NPOI.SS.Util;
     using NPOI.XSSF.UserModel;
-    using System.Drawing;
-    using Fanex.Excel.Constants;
 
     /// <summary>
     /// TODO: Update summary.
@@ -55,6 +55,8 @@ namespace Fanex.Excel
 
         private int _visibleColumnCount;
 
+        private bool _isUseCustomColor;
+
         public FanexExcel(GridOptions gridOptions, ExcelColor customColor = null)
         {
             this._listGridOptions = new List<GridOptions>();
@@ -73,8 +75,6 @@ namespace Fanex.Excel
             this._isUseCustomColor = customColor != null;
             this.RegisterCustomColor();
         }
-
-        private bool _isUseCustomColor;
 
         public ExcelColor CustomColor { get; set; }
 
@@ -411,6 +411,9 @@ namespace Fanex.Excel
             }
         }
 
+        /// <summary>
+        /// Detects the hidden column.
+        /// </summary>
         private void DetectHiddenColumn()
         {
             if (this._gridOptions.HiddenColumns != null && this._gridOptions.HiddenColumns.Count > 0)
@@ -429,6 +432,7 @@ namespace Fanex.Excel
         /// <summary>
         /// Registers the color of the custom.
         /// </summary>
+        [SuppressMessage("StyleCop.CSharp.Nexcel.NexcelCustomRules", "SP2100:CodeLineMustNotBeLongerThan", Justification = "OK")]
         private void RegisterCustomColor()
         {
             if (this._workbook.GetType().Equals(typeof(HSSFWorkbook)))
@@ -623,7 +627,6 @@ namespace Fanex.Excel
                 currentRow.Height = (short)this._gridOptions.BodyRowHeightExcel;
                 var currentDataRow = this._gridOptions.BodyRows[i];
                 this.RenderRow(currentDataRow, currentRow, this._gridOptions.Columns.Count);
-
             }
         }
 
@@ -633,6 +636,7 @@ namespace Fanex.Excel
         /// <param name="currentDataRow">The current data row.</param>
         /// <param name="currentRow">The current row.</param>
         /// <param name="numberColumns">The number columns.</param>
+        /// <param name="parentLevel">The parent level.</param>
         private void RenderRow(GridDataRow currentDataRow, IRow currentRow, int numberColumns, int parentLevel = -1)
         {
             //// If this row is Data Row (is normal or even row only) then increase body row cunt.

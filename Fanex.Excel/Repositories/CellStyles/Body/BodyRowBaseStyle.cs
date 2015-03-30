@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="PercentageStyle.cs" company="Nexcel Solutions Vietnam">
+// <copyright file="BodyRowBaseStyle.cs" company="Nexcel Solutions Vietnam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -39,7 +39,10 @@ namespace Fanex.Excel.Repositories.CellStyles.Body
         /// Gets the cell style.
         /// </summary>
         /// <param name="rowType">Type of the row.</param>
-        /// <returns>Cell Style Object.</returns>
+        /// <param name="align">The align.</param>
+        /// <returns>
+        /// Cell Style Object.
+        /// </returns>
         public ICellStyle GetCellStyle(RowType rowType, HAlignment align = HAlignment.Null)
         {
             switch (rowType)

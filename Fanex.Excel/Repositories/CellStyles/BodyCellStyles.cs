@@ -155,8 +155,8 @@ namespace Fanex.Excel.Repositories.CellStyles
                     return this.GetPercentageCellStyle(horizonAlign, cellType, rowType, isBold);
                 case ExcelCellType.DateTimeMMDDYYYY:
                     return this.GetDateTimeCellStyle(horizonAlign, rowType, isBold);
-                default: 
-                    return this.GetGeneralCellStyle(horizonAlign,rowType,isBold);
+                default:
+                    return this.GetGeneralCellStyle(horizonAlign, rowType, isBold);
             }
         }
 
@@ -209,6 +209,7 @@ namespace Fanex.Excel.Repositories.CellStyles
         /// <summary>
         /// Gets the double cell style.
         /// </summary>
+        /// <param name="horizonAlign">The horizon align.</param>
         /// <param name="cellType">Type of the cell.</param>
         /// <param name="rowType">Type of the row.</param>
         /// <param name="isBold">If set to <c>true</c> [is bold].</param>
@@ -239,6 +240,7 @@ namespace Fanex.Excel.Repositories.CellStyles
         /// <summary>
         /// Gets the percentage cell style.
         /// </summary>
+        /// <param name="horizonAlign">The horizon align.</param>
         /// <param name="cellType">Type of the cell.</param>
         /// <param name="rowType">Type of the row.</param>
         /// <param name="isBold">If set to <c>true</c> [is bold].</param>
@@ -271,7 +273,7 @@ namespace Fanex.Excel.Repositories.CellStyles
         /// <summary>
         /// Gets the date time cell style.
         /// </summary>
-        /// <param name="cellType">Type of the cell.</param>
+        /// <param name="horizonAlign">The horizon align.</param>
         /// <param name="rowType">Type of the row.</param>
         /// <param name="isBold">If set to <c>true</c> [is bold].</param>
         /// <returns>

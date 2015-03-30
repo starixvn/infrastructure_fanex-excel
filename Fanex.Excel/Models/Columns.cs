@@ -170,7 +170,10 @@ namespace Fanex.Excel.Models
         /// <summary>
         /// Gets the reference header column.
         /// </summary>
-        /// <returns>Header Columns object.</returns>
+        /// <param name="root">The parent object.</param>
+        /// <returns>
+        /// Header Columns object.
+        /// </returns>
         public HeaderColumns ReferenceHeaderColumn(GridDataRow root = null)
         {
             if (root != null)

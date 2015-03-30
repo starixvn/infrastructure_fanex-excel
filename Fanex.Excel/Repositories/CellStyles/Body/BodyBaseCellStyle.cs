@@ -6,9 +6,12 @@
     using NPOI.SS.UserModel;
     using NPOI.XSSF.UserModel;
 
+    /// <summary>
+    /// Body Base Cell Style.
+    /// </summary>
     public class BodyBaseCellStyle : BaseCellStyles
     {
-        public BodyBaseCellStyle(IWorkbook workbook, IFont font, string dataFormat,HSSFColor hssfColor, XSSFColor xssfColor)
+        public BodyBaseCellStyle(IWorkbook workbook, IFont font, string dataFormat, HSSFColor hssfColor, XSSFColor xssfColor)
             : base(workbook)
         {
             this.Style = this.CreateCellStyle(
@@ -38,7 +41,6 @@
                 font,
                 HorizontalAlignment.Center,
                 VerticalAlignment.Top);
-        
         }
     }
 }

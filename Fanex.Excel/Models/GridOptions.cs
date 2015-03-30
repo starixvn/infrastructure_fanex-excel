@@ -8,6 +8,7 @@ namespace Fanex.Excel.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using Fanex.Excel.Constants;
     using Fanex.Excel.Enums;
     using Newtonsoft.Json;
@@ -109,7 +110,13 @@ namespace Fanex.Excel.Models
         public int HeaderColumnHeight { get; set; }
 
         [JsonIgnore]
-        public int HeaderColumnHeightExcel { get { return (int)(this.HeaderColumnHeight * 13.5); } }
+        public int HeaderColumnHeightExcel 
+        { 
+            get 
+            { 
+                return (int)(this.HeaderColumnHeight * 13.5); 
+            } 
+        }
 
         [JsonProperty("bodyRowHeight")]
         public int BodyRowHeight { get; set; }
@@ -118,7 +125,13 @@ namespace Fanex.Excel.Models
         public bool BodyRowHeightAutofit { get; set; }
 
         [JsonIgnore]
-        public int BodyRowHeightExcel { get { return (int)(this.BodyRowHeight * 13.5); } }
+        public int BodyRowHeightExcel 
+        { 
+            get 
+            { 
+                return (int)(this.BodyRowHeight * 13.5); 
+            } 
+        }
 
         public bool ShouldSerializePagerOption()
         {
@@ -169,6 +182,7 @@ namespace Fanex.Excel.Models
         /// </summary>
         /// <param name="isCloneBody">If set to <c>true</c> [is clone body].</param>
         /// <returns>Grid Options object.</returns>
+        [SuppressMessage("StyleCop.CSharp.Nexcel.NexcelCustomRules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. This is ok")]
         public GridOptions Clone(bool isCloneBody = false)
         {
             GridOptions clone = new GridOptions();
@@ -226,6 +240,11 @@ namespace Fanex.Excel.Models
             return clone;
         }
 
+        /// <summary>
+        /// Gets the name of the header column by.
+        /// </summary>
+        /// <param name="headerName">Name of the header.</param>
+        /// <returns>Header Column.</returns>
         public HeaderColumns GetHeaderColumnByName(string headerName)
         {
             foreach (var header in this.Columns)
