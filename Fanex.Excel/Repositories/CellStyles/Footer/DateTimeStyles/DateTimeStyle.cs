@@ -39,8 +39,6 @@ namespace Fanex.Excel.Repositories.CellStyles.Footer.DateTimeStyles
             this.UpperStyle.TopBorderColor = HSSFColor.Orange.Index;
         }
 
-        public ICellStyle Style { get; set; }
-
         public ICellStyle UpperStyle { get; set; }
     }
 }

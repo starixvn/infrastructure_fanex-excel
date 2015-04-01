@@ -202,7 +202,7 @@ namespace Fanex.Excel
             {
                 var headerDataRow = this._gridOptions.GroupHeaderRows[i];
                 var headerDataColumnCount = headerDataRow.Columns.Count;
-                var headerRow = this._workSheet.CreateRow(this._startRow++);
+                var headerRow = this.CreateOrGetRow(this._workSheet, this._startRow++);
                 headerRow.Height = (short)this._gridOptions.HeaderColumnHeightExcel;
                 int cellColIndex = this._startCol;
                 for (int j = 0; j < headerDataColumnCount; j++)
@@ -212,41 +212,110 @@ namespace Fanex.Excel
                         continue;
                     }
 
-                    var headerCell = headerRow.CreateCell(cellColIndex++);
-                    headerCell.CellStyle = this._headerStyles.GetHeaderStyle(headerDataRow.Columns[j].HeaderAlign);
+                    var headerCell = this.CreateOrGetCell(headerRow, cellColIndex++);
+                    var headerCellStyle = this._headerStyles.GetHeaderStyle(headerDataRow.Columns[j].HeaderAlign);
+                    headerCell.CellStyle = headerCellStyle;
                     this.SetCellValue(
                         headerCell,
                         headerDataRow.Columns[j].DisplayValue != null ? headerDataRow.Columns[j].DisplayValue : headerDataRow.Columns[j].HeaderText);
-
                     if (headerDataRow.Columns[j].MergeColNumber != 0 && headerDataRow.Columns[j].MergeRowNumber == 0)
                     {
-                        this._workSheet.AddMergedRegion(new CellRangeAddress(
-                            headerCell.RowIndex,
-                            headerCell.RowIndex,
-                            headerCell.ColumnIndex,
-                            headerCell.ColumnIndex + headerDataRow.Columns[j].MergeColNumber - 1));
+                        RenderMergeRegionForMergeColumnOnly(headerDataRow, headerRow, j, headerCell, headerCellStyle);
+
                         cellColIndex = headerCell.ColumnIndex + headerDataRow.Columns[j].MergeColNumber;
                     }
 
                     if (headerDataRow.Columns[j].MergeRowNumber != 0 && headerDataRow.Columns[j].MergeColNumber == 0)
                     {
-                        this._workSheet.AddMergedRegion(new CellRangeAddress(
-                            headerCell.RowIndex,
-                            headerCell.RowIndex + headerDataRow.Columns[j].MergeRowNumber - 1,
-                            headerCell.ColumnIndex,
-                            headerCell.ColumnIndex));
+                        RenderMergeRegionForMergeRowOnly(headerDataRow, j, headerCell, headerCellStyle);
                     }
 
                     if (headerDataRow.Columns[j].MergeRowNumber != 0 && headerDataRow.Columns[j].MergeColNumber != 0)
                     {
-                        this._workSheet.AddMergedRegion(new CellRangeAddress(
-                            headerCell.RowIndex,
-                            headerCell.RowIndex + headerDataRow.Columns[j].MergeRowNumber - 1,
-                            headerCell.ColumnIndex,
-                            headerCell.ColumnIndex + headerDataRow.Columns[j].MergeColNumber - 1));
+                        RenderMergeRegionForMergeRowAndColumn(headerDataRow, j, headerCell, headerCellStyle);
+
                         cellColIndex = headerCell.ColumnIndex + headerDataRow.Columns[j].MergeColNumber;
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Renders the merge region for merge row and column.
+        /// </summary>
+        /// <param name="headerDataRow">The header data row.</param>
+        /// <param name="dataColIndex">Index of the data col.</param>
+        /// <param name="headerCell">The header cell.</param>
+        /// <param name="headerCellStyle">The header cell style.</param>
+        protected void RenderMergeRegionForMergeRowAndColumn(GroupHeaderRows headerDataRow, int dataColIndex, ICell headerCell, ICellStyle headerCellStyle)
+        {
+            this._workSheet.AddMergedRegion(new CellRangeAddress(
+                   headerCell.RowIndex,
+                   headerCell.RowIndex + headerDataRow.Columns[dataColIndex].MergeRowNumber - 1,
+                   headerCell.ColumnIndex,
+                   headerCell.ColumnIndex + headerDataRow.Columns[dataColIndex].MergeColNumber - 1));
+
+            int currentMergeColIndex = headerCell.ColumnIndex;
+            int endMergeColIndex = currentMergeColIndex + headerDataRow.Columns[dataColIndex].MergeColNumber;
+            int currentMergeRowIndex = headerCell.RowIndex;
+            int endMergeRowIndex = currentMergeRowIndex + headerDataRow.Columns[dataColIndex].MergeRowNumber;
+            for (int k = currentMergeRowIndex; k < endMergeRowIndex; k++)
+            {
+                var currentGroupHeaderRow = this.CreateOrGetRow(this._workSheet, k);
+                for (int l = currentMergeColIndex; l < endMergeColIndex; l++)
+                {
+                    this.CreateOrGetCell(currentGroupHeaderRow, l).CellStyle = headerCellStyle;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Renders the merge region for merge row only.
+        /// </summary>
+        /// <param name="headerDataRow">The header data row.</param>
+        /// <param name="dataColIndex">Index of the data col.</param>
+        /// <param name="headerCell">The header cell.</param>
+        /// <param name="headerCellStyle">The header cell style.</param>
+        protected void RenderMergeRegionForMergeRowOnly(GroupHeaderRows headerDataRow, int dataColIndex, ICell headerCell, ICellStyle headerCellStyle)
+        {
+            this._workSheet.AddMergedRegion(new CellRangeAddress(
+                headerCell.RowIndex,
+                headerCell.RowIndex + headerDataRow.Columns[dataColIndex].MergeRowNumber - 1,
+                headerCell.ColumnIndex,
+                headerCell.ColumnIndex));
+            int currentMergeRowIndex = headerCell.RowIndex;
+            int endMergeRowIndex = headerCell.RowIndex + headerDataRow.Columns[dataColIndex].MergeRowNumber;
+            for (int k = currentMergeRowIndex; k < endMergeRowIndex; k++)
+            {
+                this.CreateOrGetCell(this.CreateOrGetRow(this._workSheet, k), headerCell.ColumnIndex).CellStyle = headerCellStyle;
+            }
+        }
+
+        /// <summary>
+        /// Renders the merge region for merge column only.
+        /// </summary>
+        /// <param name="headerDataRow">The header data row.</param>
+        /// <param name="headerRow">The header row.</param>
+        /// <param name="dataColIndex">Index of the data col.</param>
+        /// <param name="headerCell">The header cell.</param>
+        /// <param name="headerCellStyle">The header cell style.</param>
+        protected void RenderMergeRegionForMergeColumnOnly(
+            GroupHeaderRows headerDataRow, 
+            IRow headerRow, 
+            int dataColIndex, 
+            ICell headerCell, 
+            ICellStyle headerCellStyle)
+        {
+            this._workSheet.AddMergedRegion(new CellRangeAddress(
+                headerCell.RowIndex,
+                headerCell.RowIndex,
+                headerCell.ColumnIndex,
+                headerCell.ColumnIndex + headerDataRow.Columns[dataColIndex].MergeColNumber - 1));
+            int currentColIndex = headerCell.ColumnIndex;
+            int endMergeColIndex = currentColIndex + headerDataRow.Columns[dataColIndex].MergeColNumber;
+            for (int k = currentColIndex + 1; k < endMergeColIndex; k++)
+            {
+                this.CreateOrGetCell(headerRow, k).CellStyle = headerCellStyle;
             }
         }
 
@@ -255,7 +324,7 @@ namespace Fanex.Excel
         /// </summary>
         protected virtual void RenderHeaderRow()
         {
-            var currentRow = this._workSheet.CreateRow(this._startRow++);
+            var currentRow = this.CreateOrGetRow(this._workSheet, this._startRow++);
             currentRow.Height = (short)this._gridOptions.HeaderColumnHeightExcel;
             int col = this._startCol;
             for (int i = this._startCol; i < this._columnCount; i++)
@@ -263,7 +332,7 @@ namespace Fanex.Excel
                 var headerCell = this._gridOptions.Columns[i];
                 if (!headerCell.HiddenColumn)
                 {
-                    var currentCell = currentRow.CreateCell(col);
+                    var currentCell = this.CreateOrGetCell(currentRow, col);
                     currentCell.CellStyle = this._headerStyles.GetHeaderStyle(headerCell.HeaderAlign);
                     this.SetCellValue(currentCell, headerCell.DisplayValue != null ? headerCell.DisplayValue : headerCell.HeaderText);
                     this._workSheet.SetColumnWidth(col, headerCell.WidthExcel);
@@ -288,12 +357,9 @@ namespace Fanex.Excel
         protected virtual void RenderBodyCell(IRow currentRow, ICell currentCell, Columns cell, RowType rowType)
         {
             var header = cell.ReferenceHeaderColumn() ?? this._gridOptions.GetHeaderColumnByName(cell.Name);
-            if (this._gridOptions.ShowDistinctRow)
+            if (this._gridOptions.ShowDistinctRow && (rowType == RowType.Normal && this._currentBodyRowIndex % 2 != 0))
             {
-                if (rowType == RowType.Normal && this._currentBodyRowIndex % 2 != 0)
-                {
-                    rowType = RowType.Even;
-                }
+                rowType = RowType.Even;
             }
 
             var cellStyle = this._bodyStyles.GetCellStyle(
@@ -302,7 +368,6 @@ namespace Fanex.Excel
                 rowType,
                 cell.Bold ? cell.Bold : header.IsBold);
             cellStyle.WrapText = header.WrapText;
-
             if (cell.Indention != 0)
             {
                 var cloneCellStyle = this.WorkBook.CreateCellStyle();
@@ -316,29 +381,57 @@ namespace Fanex.Excel
             }
 
             this.SetCellValue(currentCell, cell.DisplayValue != null ? cell.DisplayValue : cell.Value);
-
             if (cell.MergeRowNumber > 1)
             {
-                this._workSheet.AddMergedRegion(new CellRangeAddress(
-                    currentCell.RowIndex,
-                    currentCell.RowIndex + cell.MergeRowNumber - 1,
-                    currentCell.ColumnIndex,
-                    currentCell.ColumnIndex));
+                RenderMergeRowBodyCell(currentCell, cell, cellStyle);
             }
 
             if (cell.MergeColNumber > 1)
             {
-                for (int i = 1; i <= cell.MergeColNumber - 1; i++)
-                {
-                    var mergedCell = currentRow.CreateCell(currentCell.ColumnIndex + i);
-                    mergedCell.CellStyle = cellStyle;
-                }
+                RenderMergeColBodyCell(currentRow, currentCell, cell, cellStyle);
+            }
+        }
 
-                this._workSheet.AddMergedRegion(new CellRangeAddress(
-                    currentCell.RowIndex,
-                    currentCell.RowIndex,
-                    currentCell.ColumnIndex,
-                    currentCell.ColumnIndex + cell.MergeColNumber - 1));
+        /// <summary>
+        /// Renders the merge column body cell.
+        /// </summary>
+        /// <param name="currentRow">The current row.</param>
+        /// <param name="currentCell">The current cell.</param>
+        /// <param name="cell">The cell data.</param>
+        /// <param name="cellStyle">The cell style.</param>
+        protected void RenderMergeColBodyCell(IRow currentRow, ICell currentCell, Columns cell, ICellStyle cellStyle)
+        {
+            this._workSheet.AddMergedRegion(new CellRangeAddress(
+                currentCell.RowIndex,
+                currentCell.RowIndex,
+                currentCell.ColumnIndex,
+                currentCell.ColumnIndex + cell.MergeColNumber - 1));
+            for (int i = 1; i <= cell.MergeColNumber - 1; i++)
+            {
+                var mergedCell = this.CreateOrGetCell(currentRow, currentCell.ColumnIndex + i);
+                mergedCell.CellStyle = cellStyle;
+            }
+        }
+
+        /// <summary>
+        /// Renders the merge row body cell.
+        /// </summary>
+        /// <param name="currentCell">The current cell.</param>
+        /// <param name="cell">The cell data.</param>
+        /// <param name="cellStyle">The cell style.</param>
+        protected void RenderMergeRowBodyCell(ICell currentCell, Columns cell, ICellStyle cellStyle)
+        {
+            this._workSheet.AddMergedRegion(new CellRangeAddress(
+                currentCell.RowIndex,
+                currentCell.RowIndex + cell.MergeRowNumber - 1,
+                currentCell.ColumnIndex,
+                currentCell.ColumnIndex));
+            int currentMergeRowIndex = currentCell.RowIndex;
+            int endMergeRowIndex = currentCell.RowIndex + cell.MergeRowNumber;
+            for (int i = currentMergeRowIndex + 1; i < endMergeRowIndex; i++)
+            {
+                var mergeCell = this.CreateOrGetCell(this.CreateOrGetRow(this._workSheet, i), currentCell.ColumnIndex);
+                mergeCell.CellStyle = cellStyle;
             }
         }
 
@@ -353,7 +446,7 @@ namespace Fanex.Excel
                 for (int i = 0; i < footerColumnCount; i++)
                 {
                     var footerDataRow = this._gridOptions.FooterRows[i];
-                    var footerExcelRow = this._workSheet.CreateRow(this._startRow++);
+                    var footerExcelRow = this.CreateOrGetRow(this._workSheet, this._startRow++);
                     footerExcelRow.Height = (short)this._gridOptions.BodyRowHeightExcel;
                     this.RenderFooterRow(footerExcelRow, footerDataRow, this._gridOptions.ShowFooterLineBreak && i == 0);
                 }
@@ -380,7 +473,7 @@ namespace Fanex.Excel
             {
                 var footerDataCell = footerDataRow.Columns[i];
                 var header = this._gridOptions.Columns[footerDataCell.ColumnIndex];
-                var footerCell = footerRow.CreateCell(colIndex++);
+                var footerCell = this.CreateOrGetCell(footerRow, colIndex++);
 
                 var cellStyle = this._footerStyles.GetCellStyle(
                     footerDataCell.CustomCellType != Enums.ExcelCellType.Null ? footerDataCell.CustomCellType : header.CustomCellType,
@@ -440,7 +533,7 @@ namespace Fanex.Excel
 
             while (mergeColNumber > 0)
             {
-                var footerCell = footerRow.CreateCell(colIndex++);
+                var footerCell = this.CreateOrGetCell(footerRow, colIndex++);
                 footerCell.CellStyle = this._footerStyles.GetCellStyle(Enums.ExcelCellType.General, Enums.HAlignment.Left, false);
                 mergeColNumber--;
             }
@@ -483,7 +576,7 @@ namespace Fanex.Excel
                 this.SetColorAtIndex(ParentLevelFourColor.Index, this._isUseCustomColor ? this.GetColorTriplet(this.CustomColor.BodyParentLevelFourBackGroundColor, ParentLevelFourColor.Triplet) : ParentLevelFourColor.Triplet);
                 this.SetColorAtIndex(ParentLevelFiveColor.Index, this._isUseCustomColor ? this.GetColorTriplet(this.CustomColor.BodyParentLevelFiveBackGroundColor, ParentLevelFiveColor.Triplet) : ParentLevelFiveColor.Triplet);
                 this.SetColorAtIndex(RevenueLicenseeColor.Index, RevenueLicenseeColor.Triplet);
-                this.SetColorAtIndex(NoteInformationColor.Index, NoteInformationColor.Triplet); 
+                this.SetColorAtIndex(NoteInformationColor.Index, NoteInformationColor.Triplet);
             }
 
             if (this._isUseCustomColor)
@@ -558,11 +651,11 @@ namespace Fanex.Excel
         /// </summary>
         private void RenderNormalTitleRow()
         {
-            var currentRow = this._workSheet.CreateRow(this._startRow++);
+            var currentRow = this.CreateOrGetRow(this._workSheet, this._startRow++);
             int i = this._startCol;
             for (; i < this._visibleColumnCount; i++)
             {
-                var currentCell = currentRow.CreateCell(i);
+                var currentCell = this.CreateOrGetCell(currentRow, i);
                 currentCell.CellStyle = this._headerStyles.TitleLeft;
                 currentCell.SetCellValue(this._gridOptions.TitleInfoText);
             }
@@ -578,10 +671,10 @@ namespace Fanex.Excel
             int i = this._startCol;
             for (int j = 0; j < 2; j++)
             {
-                var currentRow = this._workSheet.CreateRow(this._startRow++);
+                var currentRow = this.CreateOrGetRow(this._workSheet, this._startRow++);
                 for (; i < this._visibleColumnCount; i++)
                 {
-                    var currentCell = currentRow.CreateCell(i);
+                    var currentCell = this.CreateOrGetCell(currentRow, i);
                     currentCell.CellStyle = this._headerStyles.TitleCenter;
                     currentCell.SetCellValue(this._gridOptions.TitleInfoText);
                 }
@@ -597,10 +690,10 @@ namespace Fanex.Excel
         {
             for (int j = 0; j < 2; j++)
             {
-                var currentRow = this._workSheet.CreateRow(this._startRow++);
+                var currentRow = this.CreateOrGetRow(this._workSheet, this._startRow++);
                 for (int i = this._startCol; i < this._columnCount; i++)
                 {
-                    var currentCell = currentRow.CreateCell(i);
+                    var currentCell = this.CreateOrGetCell(currentRow, i);
                     currentCell.CellStyle = this._headerStyles.Center;
                     currentCell.SetCellValue(this._gridOptions.TitleInfoText);
                 }
@@ -615,10 +708,10 @@ namespace Fanex.Excel
 
             for (int j = 0; j < this._gridOptions.SubtitleRowNum; j++)
             {
-                var currentRow = this._workSheet.CreateRow(this._startRow++);
+                var currentRow = this.CreateOrGetRow(this._workSheet, this._startRow++);
                 for (int i = this._startCol; i < this._columnCount; i++)
                 {
-                    var currentCell = currentRow.CreateCell(i);
+                    var currentCell = this.CreateOrGetCell(currentRow, i);
                     currentCell.CellStyle = this._headerStyles.Left;
                     currentCell.CellStyle.WrapText = true;
                     currentCell.SetCellValue(this._gridOptions.SubtitleInfoText);
@@ -637,11 +730,11 @@ namespace Fanex.Excel
         /// </summary>
         private void RenderOneLineBlueTitleRow()
         {
-            var currentRow = this._workSheet.CreateRow(this._startRow++);
+            var currentRow = this.CreateOrGetRow(this._workSheet, this._startRow++);
             int i = this._startCol;
             for (; i < this._visibleColumnCount; i++)
             {
-                var currentCell = currentRow.CreateCell(i);
+                var currentCell = this.CreateOrGetCell(currentRow, i);
                 currentCell.CellStyle = this._headerStyles.TitleLeft;
                 currentCell.SetCellValue(this._gridOptions.TitleInfoText);
             }
@@ -658,7 +751,7 @@ namespace Fanex.Excel
             this._currentBodyRowIndex = 0;
             for (int i = 0; i < rowCount; i++)
             {
-                var currentRow = this._workSheet.CreateRow(this._startRow++);
+                var currentRow = this.CreateOrGetRow(this._workSheet, this._startRow++);
                 currentRow.Height = (short)this._gridOptions.BodyRowHeightExcel;
                 var currentDataRow = this._gridOptions.BodyRows[i];
                 this.RenderRow(currentDataRow, currentRow, this._gridOptions.Columns.Count);
@@ -667,6 +760,8 @@ namespace Fanex.Excel
 
         /// <summary>
         /// Renders the row.
+        /// If this row is Data Row (is normal or even row only) then increase body row cunt.
+        /// In case of this row is Subtotal, Parent or higher level data Row so do not increase body row count.
         /// </summary>
         /// <param name="currentDataRow">The current data row.</param>
         /// <param name="currentRow">The current row.</param>
@@ -674,33 +769,23 @@ namespace Fanex.Excel
         /// <param name="parentLevel">The parent level.</param>
         private void RenderRow(GridDataRow currentDataRow, IRow currentRow, int numberColumns, int parentLevel = -1)
         {
-            //// If this row is Data Row (is normal or even row only) then increase body row cunt.
-            //// In case of this row is Subtotal, Parent or higher level data Row so do not increase body row count.
             this._currentBodyRowIndex += currentDataRow.RowType == RowType.Normal || currentDataRow.RowType == RowType.Even ? 1 : 0;
-            int col = this._startCol;
-            int columnIndex = 0;
-            ICell curentCell;
+            int col = this._startCol, columnIndex = 0, numberColumnOfCurrentRow = currentDataRow.Columns.Count;
+            ICell curentCell; 
             Columns currentDataCell;
-            int numberColumnOfCurrentRow = currentDataRow.Columns.Count;
             for (int i = 0; i < numberColumns; i++)
             {
                 if (i < numberColumnOfCurrentRow)
                 {
                     currentDataCell = currentDataRow.Columns[i];
                     var refHeader = currentDataCell.ReferenceHeaderColumn() ?? this._gridOptions.GetHeaderColumnByName(currentDataCell.Name);
-
                     if (refHeader != null && refHeader.HiddenColumn)
                     {
                         if (currentDataCell.MergeColNumber > 1)
                         {
-                            currentDataCell.MergeColNumber -= 1;
                             curentCell = CreateOrGetCell(currentRow, columnIndex);
-                            this.RenderBodyCell(
-                                currentRow,
-                                curentCell,
-                                currentDataCell,
-                                currentDataRow.RowType);
-                            columnIndex += currentDataCell.MergeColNumber;
+                            this.RenderBodyCell(currentRow, curentCell, currentDataCell, currentDataRow.RowType);
+                            columnIndex += --currentDataCell.MergeColNumber;
                         }
 
                         col++;
@@ -718,11 +803,7 @@ namespace Fanex.Excel
 
                     currentDataCell = currentDataRow.Columns[col++];
                     currentDataCell.MergeColNumber = currentDataCell.MergeColNumber > _visibleColumnCount ? _visibleColumnCount : currentDataCell.MergeColNumber;
-                    this.RenderBodyCell(
-                            currentRow,
-                            curentCell,
-                            currentDataCell,
-                            currentDataRow.RowType);
+                    this.RenderBodyCell(currentRow, curentCell, currentDataCell, currentDataRow.RowType);
                 }
             }
 
@@ -731,7 +812,7 @@ namespace Fanex.Excel
                 int numberSubRows = currentDataRow.SubRows.Count;
                 for (int j = 0; j < numberSubRows; j++)
                 {
-                    currentRow = this._workSheet.CreateRow(this._startRow++);
+                    currentRow = this.CreateOrGetRow(this._workSheet, this._startRow++);
                     var subDataRow = currentDataRow.SubRows[j];
                     this.RenderRow(subDataRow, currentRow, this._gridOptions.Columns.Count);
                 }
@@ -795,6 +876,29 @@ namespace Fanex.Excel
             }
 
             return row.CreateCell(cellIndex);
+        }
+
+        /// <summary>
+        /// Creates the or get row.
+        /// </summary>
+        /// <param name="worksheet">The worksheet.</param>
+        /// <param name="rowIndex">Index of the row.</param>
+        /// <returns>Current Row.</returns>
+        private IRow CreateOrGetRow(ISheet worksheet, int rowIndex)
+        {
+            if (worksheet == null)
+            {
+                return null;
+            }
+
+            if (worksheet.GetRow(rowIndex) == null)
+            {
+                return worksheet.CreateRow(rowIndex);
+            }
+            else
+            {
+                return worksheet.GetRow(rowIndex);
+            }
         }
     }
 }

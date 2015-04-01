@@ -28,7 +28,5 @@ namespace Fanex.Excel.Repositories.CellStyles.Footer.GeneralStyles.InfomationSty
                 HorizontalAlignment.Left,
                 VerticalAlignment.Top);
         }
-
-        public ICellStyle Style { get; set; }
     }
 }

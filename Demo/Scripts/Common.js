@@ -2,6 +2,7 @@
 /* File Created: November 12, 2012 */
 $(document).ready(function () {
     Common.initialize();
+
 });
 
 var FormatConstant = {

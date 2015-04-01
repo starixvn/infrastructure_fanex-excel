@@ -7,10 +7,12 @@
 namespace Fanex.Excel.Constants
 {
     using System.Drawing;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Excel Constants.
     /// </summary>
+    [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Reviewed.")]
     public static class ExcelConstants
     {
         public const string General = "General";

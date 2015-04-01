@@ -21,7 +21,7 @@ namespace Demo.Controllers
 
         public ActionResult Index()
         {
-            return View("~//Views//Demo//Default.cshtml");
+            return View("~//Views//Demo//Default//Index.cshtml");
         }
 
         public ActionResult ExportExcel()

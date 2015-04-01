@@ -24,9 +24,6 @@ namespace Demo
             bundles.Add(new ScriptBundle("~/bundles/jquerylayout").Include(
                         "~/Scripts/jquery.layout.min.js"));
 
-            bundles.Add(new ScriptBundle("~/Views/Demo/Default/Script/js").Include(
-                "~/Views/Demo/Default/Script/Default.js"));
-
             bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css"));
 
             bundles.Add(new StyleBundle("~/Content/jquerylayout").Include("~/Content/jquery.ui.layout.css"));
@@ -45,8 +42,17 @@ namespace Demo
                         "~/Content/themes/base/jquery.ui.progressbar.css",
                         "~/Content/themes/base/jquery.ui.theme.css"));
 
+
+            bundles.Add(new ScriptBundle("~/Views/Demo/Default/Script/js").Include(
+                "~/Views/Demo/Default/Script/Default.js"));
             bundles.Add(new StyleBundle("~/Views/Demo/Default/Style/css").Include(
                 "~/Views/Demo/Default/Style/Default.css"));
+
+            bundles.Add(new ScriptBundle("~/Views/Demo/MergeRow/Script/js").Include(
+                "~/Views/Demo/MergeRow/Script/Default.js"));
+            bundles.Add(new StyleBundle("~/Views/Demo/MergeRow/Style/css").Include(
+                "~/Views/Demo/MergeRow/Style/Default.css"));
+
         }
     }
 }

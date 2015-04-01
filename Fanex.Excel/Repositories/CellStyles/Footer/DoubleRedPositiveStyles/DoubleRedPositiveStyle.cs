@@ -58,8 +58,6 @@ namespace Fanex.Excel.Repositories.CellStyles.Footer.DoubleRedPositiveStyles
             this.UppderNoteInformationStyle.TopBorderColor = HSSFColor.Orange.Index;
         }
 
-        public ICellStyle Style { get; set; }
-
         public ICellStyle UpperStyle { get; set; }
 
         public ICellStyle NoteInformationStyle { get; set; }
