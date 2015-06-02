@@ -46,6 +46,7 @@ namespace Fanex.Excel.Repositories.CellStyles
             this.PercentageRedNegative = new PercentageRedNegativeStyle(workbook, this._footerFont);
             this.PercentageRedparenthesisNegative = new PercentageRedparenthesisNegativeStyle(workbook, this._footerFont);
             this.DateTimeStyle = new DateTimeStyle(workbook, this._footerFont);
+            this.DoubleParenthesisNegative = new DoubleParenthesisNegativeStyle(workbook, this._footerFont);
         }
 
         public GeneralStyle General { get; set; }
@@ -76,6 +77,8 @@ namespace Fanex.Excel.Repositories.CellStyles
 
         public DateTimeStyle DateTimeStyle { get; set; }
 
+        public DoubleParenthesisNegativeStyle DoubleParenthesisNegative { get; set; }
+
         /// <summary>
         /// Gets the cell style.
         /// </summary>
@@ -92,21 +95,27 @@ namespace Fanex.Excel.Repositories.CellStyles
                 case ExcelCellType.IntegerRedNegative:
                 case ExcelCellType.IntegerRedparenthesisNegative:
                     return this.GetIntegerCellStyle(cellType, isFirstFooterRow);
+
                 case ExcelCellType.Double:
                 case ExcelCellType.DoubleRedPositive:
                 case ExcelCellType.DoubleRedPositiveNoteInformation:
                 case ExcelCellType.DoubleRedNegative:
                 case ExcelCellType.DoubleRedParenthesisNegative:
+                case ExcelCellType.DoubleParenthesisNegative:
                     return this.GetDoubleCellStyle(cellType, isFirstFooterRow);
+
                 case ExcelCellType.Percentage:
                 case Enums.ExcelCellType.PercentageRedPositive:
                 case Enums.ExcelCellType.PercentageRedNegative:
                 case ExcelCellType.PercentageRedparenthesisNegative:
                     return this.GetPercentageCellStyle(cellType, isFirstFooterRow);
+
                 case ExcelCellType.DateTimeMMDDYYYY:
                     return isFirstFooterRow ? this.DateTimeStyle.UpperStyle : this.DateTimeStyle.Style;
+
                 case ExcelCellType.FooterInformation:
                     return this.General.Info.Style;
+
                 default:
                     return this.GetGeneralCellStyle(horizonAlign, isFirstFooterRow);
             }
@@ -124,10 +133,13 @@ namespace Fanex.Excel.Repositories.CellStyles
             {
                 case HAlignment.Left:
                     return isFirstFooterRow ? this.General.Left.UpperStyle : this.General.Left.Style;
+
                 case HAlignment.Right:
                     return isFirstFooterRow ? this.General.Right.UpperStyle : this.General.Right.Style;
+
                 case HAlignment.Center:
                     return isFirstFooterRow ? this.General.Center.UpperStyle : this.General.Center.Style;
+
                 default:
                     return isFirstFooterRow ? this.General.Left.UpperStyle : this.General.Left.Style;
             }
@@ -145,12 +157,16 @@ namespace Fanex.Excel.Repositories.CellStyles
             {
                 case Enums.ExcelCellType.Integer:
                     return isFirstFooterRow ? this.Integer.UpperStyle : this.Integer.Style;
+
                 case Enums.ExcelCellType.IntegerRedPositive:
                     return isFirstFooterRow ? this.IntegerRedPositive.UpperStyle : this.IntegerRedPositive.Style;
+
                 case Enums.ExcelCellType.IntegerRedNegative:
                     return isFirstFooterRow ? this.IntegerRedNegative.UpperStyle : this.IntegerRedNegative.Style;
+
                 case Enums.ExcelCellType.IntegerRedparenthesisNegative:
                     return isFirstFooterRow ? this.IntegerRedparenthesisNegative.UpperStyle : this.IntegerRedparenthesisNegative.Style;
+
                 default:
                     return null;
             }
@@ -168,14 +184,22 @@ namespace Fanex.Excel.Repositories.CellStyles
             {
                 case Enums.ExcelCellType.Double:
                     return isFirstFooterRow ? this.Double.UpperStyle : this.Double.Style;
+
                 case Enums.ExcelCellType.DoubleRedPositive:
                     return isFirstFooterRow ? this.DoubleRedPositive.UpperStyle : this.DoubleRedPositive.Style;
+
                 case Enums.ExcelCellType.DoubleRedPositiveNoteInformation:
                     return isFirstFooterRow ? this.DoubleRedPositive.UppderNoteInformationStyle : this.DoubleRedPositive.Style;
+
                 case Enums.ExcelCellType.DoubleRedNegative:
                     return isFirstFooterRow ? this.DoubleRedNegative.UpperStyle : this.DoubleRedNegative.Style;
+
                 case Enums.ExcelCellType.DoubleRedParenthesisNegative:
                     return isFirstFooterRow ? this.DoubleRedparenthesisNegative.UpperStyle : this.DoubleRedparenthesisNegative.Style;
+
+                case Enums.ExcelCellType.DoubleParenthesisNegative:
+                    return isFirstFooterRow ? this.DoubleParenthesisNegative.UpperStyle : this.DoubleParenthesisNegative.Style;
+
                 default:
                     return null;
             }
@@ -193,12 +217,16 @@ namespace Fanex.Excel.Repositories.CellStyles
             {
                 case Enums.ExcelCellType.Percentage:
                     return isFirstFooterRow ? this.Percentage.UpperStyle : this.Percentage.Style;
+
                 case Enums.ExcelCellType.PercentageRedPositive:
                     return isFirstFooterRow ? this.PercentageRedPositive.UpperStyle : this.PercentageRedPositive.Style;
+
                 case Enums.ExcelCellType.PercentageRedNegative:
                     return isFirstFooterRow ? this.PercentageRedNegative.UpperStyle : this.PercentageRedNegative.Style;
+
                 case Enums.ExcelCellType.PercentageRedparenthesisNegative:
                     return isFirstFooterRow ? this.PercentageRedparenthesisNegative.UpperStyle : this.PercentageRedparenthesisNegative.Style;
+
                 default:
                     return null;
             }

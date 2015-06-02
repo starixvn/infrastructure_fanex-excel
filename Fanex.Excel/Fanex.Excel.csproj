@@ -103,7 +103,7 @@
     <Compile Include="Repositories\CellStyles\Body\DateTimeStyles\RowTypeStyles\ParentLevelTwoStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\DateTimeStyles\RowTypeStyles\ParentLevelOneStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\DateTimeStyles\RowTypeStyles\SubTotalStyle.cs" />
-    <Compile Include="Repositories\CellStyles\Body\DoubleParenthesisNegativeStyles\DoubleRedParenthesisNegativeStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Body\DoubleParenthesisNegativeStyles\DoubleParenthesisNegativeStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\DoubleParenthesisNegativeStyles\RowTypeStyles\EvenStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\DoubleParenthesisNegativeStyles\RowTypeStyles\ParentLevelFiveStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\DoubleParenthesisNegativeStyles\RowTypeStyles\OddStyle.cs" />
@@ -233,6 +233,7 @@
     <Compile Include="Repositories\CellStyles\Body\PercentageStyles\RowTypeStyles\ParentLevelThreeStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\PercentageStyles\RowTypeStyles\ParentLevelTwoStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\PercentageStyles\RowTypeStyles\SubTotalStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\DoubleParenthesisNegativeStyles\DoubleRedparenthesisNegativeStyle.cs" />
     <Compile Include="Repositories\CellStyles\IFooterCellStyles.cs" />
     <Compile Include="Repositories\CellStyles\IHeaderCellStyles.cs" />
     <Compile Include="Repositories\CellStyles\IBodyCellStyles.cs" />

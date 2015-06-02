@@ -8,6 +8,7 @@ namespace Fanex.Excel.Repositories.CellStyles
 {
     using Fanex.Excel.Enums;
     using Fanex.Excel.Repositories.CellStyles.Body.DateTimeStyles;
+    using Fanex.Excel.Repositories.CellStyles.Body.DoubleParenthesisNegativeStyles;
     using Fanex.Excel.Repositories.CellStyles.Body.DoubleRedNegativeStyles;
     using Fanex.Excel.Repositories.CellStyles.Body.DoubleRedParenthesisNegativeStyles;
     using Fanex.Excel.Repositories.CellStyles.Body.DoubleRedPositiveStyles;
@@ -66,6 +67,9 @@ namespace Fanex.Excel.Repositories.CellStyles
             this.PercentageRedNegativeBold = new PercentageRedNegativeStyle(workbook, this._bodyBoldFont);
             this.PercentageRedparenthesisNegativeBold = new PercentageRedparenthesisNegativeStyle(workbook, this._bodyBoldFont);
             this.DateTimeStyleBold = new DateTimeStyle(workbook, this._bodyBoldFont);
+
+            this.DoubleParenthesisNegative = new DoubleParenthesisNegativeStyle(workbook, this._bodyFont);
+            this.DoubleParenthesisNegativeBold = new DoubleParenthesisNegativeStyle(workbook, this._bodyBoldFont);
         }
 
         public GeneralStyle General { get; set; }
@@ -124,6 +128,10 @@ namespace Fanex.Excel.Repositories.CellStyles
 
         public DateTimeStyle DateTimeStyleBold { get; set; }
 
+        public DoubleParenthesisNegativeStyle DoubleParenthesisNegative { get; set; }
+
+        public DoubleParenthesisNegativeStyle DoubleParenthesisNegativeBold { get; set; }
+
         /// <summary>
         /// Gets the cell style.
         /// </summary>
@@ -147,6 +155,7 @@ namespace Fanex.Excel.Repositories.CellStyles
                 case ExcelCellType.DoubleRedPositive:
                 case ExcelCellType.DoubleRedNegative:
                 case ExcelCellType.DoubleRedParenthesisNegative:
+                case ExcelCellType.DoubleParenthesisNegative:
                     return this.GetDoubleCellStyle(horizonAlign, cellType, rowType, isBold);
                 case ExcelCellType.Percentage:
                 case ExcelCellType.PercentageRedPositive:
@@ -232,6 +241,10 @@ namespace Fanex.Excel.Repositories.CellStyles
                 case Enums.ExcelCellType.DoubleRedParenthesisNegative:
                     var doubleRedparenthesisNegativeStyle = isBold || rowType == RowType.SubTotal ? this.DoubleRedparenthesisNegativeBold : this.DoubleRedparenthesisNegative;
                     return doubleRedparenthesisNegativeStyle.GetCellStyle(rowType, horizonAlign);
+                case Enums.ExcelCellType.DoubleParenthesisNegative:
+                    var doubleParenthesisNegativeStyle = isBold || rowType == RowType.SubTotal ? this.DoubleParenthesisNegativeBold : this.DoubleParenthesisNegative;
+                    return doubleParenthesisNegativeStyle.GetCellStyle(rowType, horizonAlign);
+
                 default:
                     return null;
             }
