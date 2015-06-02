@@ -1,10 +1,4 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="DoubleRedparenthesisNegativeStyle.cs" company="Nexcel Solutions Vietnam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// -----------------------------------------------------------------------
-
-namespace Fanex.Excel.Repositories.CellStyles.Body.DoubleParenthesisNegativeStyles
+﻿namespace Fanex.Excel.Repositories.CellStyles.Body.DoubleParenthesisNegativeStyles
 {
     using Fanex.Excel.Repositories.CellStyles.Body.DoubleParenthesisNegativeStyles.RowTypeStyles;
     using NPOI.SS.UserModel;
@@ -12,9 +6,9 @@ namespace Fanex.Excel.Repositories.CellStyles.Body.DoubleParenthesisNegativeStyl
     /// <summary>
     /// TODO: Update summary.
     /// </summary>
-    public class DoubleRedparenthesisNegativeStyle : BodyRowBaseStyle
+    public class DoubleParenthesisNegativeStyle : BodyRowBaseStyle
     {
-        public DoubleRedparenthesisNegativeStyle(IWorkbook workbook, IFont font)
+        public DoubleParenthesisNegativeStyle(IWorkbook workbook, IFont font)
             : base(workbook, font)
         {
             this.Odd = new OddStyle(workbook, font);

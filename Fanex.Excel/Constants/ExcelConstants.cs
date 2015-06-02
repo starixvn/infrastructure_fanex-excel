@@ -6,8 +6,8 @@
 
 namespace Fanex.Excel.Constants
 {
-    using System.Drawing;
     using System.Diagnostics.CodeAnalysis;
+    using System.Drawing;
 
     /// <summary>
     /// Excel Constants.
