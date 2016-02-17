@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using Fanex.Excel.Models;
-using Fanex.Excel;
-using Demo.Extensions;
+﻿using Demo.Extensions;
 using Demo.Services;
+using Fanex.Excel;
+using System.Web.Mvc;
 
 namespace Demo.Controllers
 {
@@ -29,6 +24,11 @@ namespace Demo.Controllers
             FanexExcel result = new FanexExcel(this._service.GenerateData());
             DemoExtension.ResponseStreamExcel(result.ToExcel2003(), "Excel");
             return new EmptyResult();
+        }
+
+        public JsonNetResult Generate()
+        {
+            return new JsonNetResult(this._service.GenerateData());
         }
     }
 }

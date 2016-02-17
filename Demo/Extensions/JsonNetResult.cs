@@ -4,7 +4,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace Fanex.Excel.Extensions
+namespace Demo.Extensions
 {
     using System;
     using System.Text;

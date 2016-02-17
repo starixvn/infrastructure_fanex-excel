@@ -4,4 +4,8 @@ $(document).ready(function () {
     $('#ExportExcel').click(function () {
         Common.downloadFile(window.rootUrl + "Default/ExportExcel");
     });
+
+    $('#Generate').click(function () {
+        Common.utility.CallAjax(this, window.rootUrl + "Default/Generate", null, function (result) { }, function (err) { alert(err); });
+    });
 });
