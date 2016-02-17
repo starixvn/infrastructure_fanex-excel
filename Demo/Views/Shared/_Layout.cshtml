@@ -6,6 +6,7 @@
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <meta name="viewport" content="width=device-width" />
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/bundles/fanexGrid/css")
     
     @RenderSection("styles", required: false)
 </head>
@@ -14,6 +15,7 @@
 </body>
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/common")
+@Scripts.Render("~/bundles/fanexGrid/js")
 @RenderSection("scripts", required: false)
 <script type="text/javascript">
     window.rootUrl = '@Url.Content("~")';

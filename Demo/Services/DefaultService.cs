@@ -15,12 +15,13 @@ namespace Demo.Services
         {
             this.GenerateHeader();
             this.GenerateBody();
+            this._gridOptions.ShowTree = true;
             return this._gridOptions;
         }
 
         private void GenerateHeader()
         {
-            this._gridOptions.CreateColumns(new HeaderColumns() { Name = "Col1", HeaderText = "Header Column 1" });
+            this._gridOptions.CreateColumns(new HeaderColumns() { Name = "Col1", HeaderText = "Header Column 1", ShowCollapseExpand = true });
             this._gridOptions.CreateColumns(new HeaderColumns() { Name = "Col2", HeaderText = "Header Column 2", CellAlignment = HAlignment.Center });
             this._gridOptions.CreateColumns(new HeaderColumns() { Name = "Col3", HeaderText = "Header Column 3", CellAlignment = HAlignment.Left });
             this._gridOptions.CreateColumns(new HeaderColumns() { Name = "Col4", HeaderText = "Header Column 4", CellAlignment = HAlignment.Center });

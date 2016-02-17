@@ -42,6 +42,12 @@ namespace Demo
                         "~/Content/themes/base/jquery.ui.progressbar.css",
                         "~/Content/themes/base/jquery.ui.theme.css"));
 
+            bundles.Add(new ScriptBundle("~/bundles/fanexGrid/js").Include(
+               "~/Scripts/ThirdParties/Numeral/numeral.min.js",
+               "~/Scripts/Fanex.Grid.js",
+               "~/Scripts/ThirdParties/Numeral/languages.min.js"));
+            bundles.Add(new StyleBundle("~/bundles/fanexGrid/css").Include(
+                "~/Scripts/Fanex.Grid.css"));
 
             bundles.Add(new ScriptBundle("~/Views/Demo/Default/Script/js").Include(
                 "~/Views/Demo/Default/Script/Default.js"));

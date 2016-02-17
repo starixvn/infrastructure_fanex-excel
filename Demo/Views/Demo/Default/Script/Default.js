@@ -6,6 +6,14 @@ $(document).ready(function () {
     });
 
     $('#Generate').click(function () {
-        Common.utility.CallAjax(this, window.rootUrl + "Default/Generate", null, function (result) { }, function (err) { alert(err); });
+        Common.utility.CallAjax(this,
+            window.rootUrl + "Default/Generate",
+            null,
+            function (result) {
+                $('#gridId').fanexGrid(result);
+            },
+            function (err) {
+                alert(err);
+            });
     });
 });

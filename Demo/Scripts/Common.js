@@ -87,21 +87,11 @@ var Common = function ($) {
                     beforeSend: function () {
                     },
                     success: function (rs) {
-                        if (!isKeepingMessage) {
-                            AccReport.popUp.hide();
-                        }
-
                         if (successFunction && typeof (successFunction) == 'function') {
                             successFunction.call(reportHandler, rs);
                         }
                     },
                     error: function (jqXHR, event, ajaxSettings) {
-                        if (jqXHR.status &&
-                            jqXHR.status == AccReportData.Constants.HtmlErrorCode.SystemError) {
-                            var r = jQuery.parseJSON(jqXHR.responseText);
-                            AccReport.popUp.show(r.message);
-                        }
-
                         if (errorFunction && typeof (errorFunction) == 'function') {
                             errorFunction.call(reportHandler);
                         }
