@@ -29,14 +29,12 @@ namespace Fanex.Excel.Repositories.CustomColors
             set { ParentLevelTwoColor._triplet = value; }
         }
 
-        public override short GetIndex()
+        public override short Indexed
         {
-            return Index;
-        }
-
-        public override short[] GetTriplet()
-        {
-            return _triplet;
+            get
+            {
+                return Index;
+            }
         }
     }
 }
