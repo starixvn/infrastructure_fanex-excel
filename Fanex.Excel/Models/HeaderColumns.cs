@@ -6,9 +6,9 @@
 
 namespace Fanex.Excel.Models
 {
-    using System;
     using Fanex.Excel.Enums;
     using Newtonsoft.Json;
+    using System;
 
     /// <summary>
     /// Header Columns.
@@ -16,7 +16,12 @@ namespace Fanex.Excel.Models
     [Serializable]
     public class HeaderColumns : Columns, IHeaderColumns
     {
-        public HeaderColumns(bool isGroupHeader = false)
+        public HeaderColumns()
+            : this(false)
+        {
+
+        }
+        public HeaderColumns(bool isGroupHeader)
             : base(0)
         {
             this.Width = isGroupHeader ? 0 : 150;

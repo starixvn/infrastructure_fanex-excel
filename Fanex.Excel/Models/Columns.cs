@@ -6,11 +6,11 @@
 
 namespace Fanex.Excel.Models
 {
-    using System;
-    using System.Collections.Generic;
     using Fanex.Excel.Enums;
     using Newtonsoft.Json;
     using NPOI.SS.UserModel;
+    using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// The Columns.
@@ -23,7 +23,12 @@ namespace Fanex.Excel.Models
         [JsonIgnore]
         private bool _bold;
 
-        public Columns(int columnIndex = 0)
+        public Columns()
+            : this(0)
+        {
+
+        }
+        public Columns(int columnIndex)
         {
             this.ColumnIndex = columnIndex;
             this._bold = false;
@@ -64,18 +69,25 @@ namespace Fanex.Excel.Models
 
             set
             {
-                if (!CheckValidValueType(value.GetType()))
+                if (value == null)
                 {
-                    throw new InvalidOperationException("\"" + value.GetType().FullName + "\" is not a valid NPOI CellType.");
-                }
-
-                if (value.GetType() == typeof(decimal))
-                {
-                    this._value = Convert.ToDouble(value);
+                    _value = null;
                 }
                 else
                 {
-                    this._value = value;
+                    if (!CheckValidValueType(value.GetType()))
+                    {
+                        throw new InvalidOperationException("\"" + value.GetType().FullName + "\" is not a valid NPOI CellType.");
+                    }
+
+                    if (value.GetType() == typeof(decimal))
+                    {
+                        this._value = Convert.ToDouble(value);
+                    }
+                    else
+                    {
+                        this._value = value;
+                    }
                 }
             }
         }
