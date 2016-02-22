@@ -21,7 +21,7 @@ namespace Fanex.Excel
     using NPOI.SS.UserModel;
     using NPOI.SS.Util;
     using NPOI.XSSF.UserModel;
-
+    using NPOI.HSSF.Util;
     /// <summary>
     /// TODO: Update summary.
     /// </summary>
@@ -147,10 +147,10 @@ namespace Fanex.Excel
             this._footerStyles = new FooterCellStyles(this._workbook);
             this._headerStyles = new HeaderCellStyles(this._workbook);
             this._bodyStyles = new BodyCellStyles(this._workbook);
-
             foreach (GridOptions gridOptions in this._listGridOptions)
             {
                 this._gridOptions = gridOptions;
+                this.RegisterCustomHSSFCellStyles();
                 this.DetectHiddenColumn();
                 this._columnCount = this._gridOptions.Columns.Count;
                 this._visibleColumnCount = this._gridOptions.Columns.Count - this._gridOptions.HiddenColumns.Count;
@@ -213,7 +213,16 @@ namespace Fanex.Excel
                     }
 
                     var headerCell = this.CreateOrGetCell(headerRow, cellColIndex++);
-                    var headerCellStyle = this._headerStyles.GetHeaderStyle(headerDataRow.Columns[j].HeaderAlign);
+                    ICellStyle headerCellStyle;
+                    if (headerDataRow.Columns[j].CustomExcelCellStyleIndex > 0)
+                    {
+                        headerCellStyle = this.GetCustomHSSFCellStyles(headerDataRow.Columns[j].CustomExcelCellStyleIndex);
+                    }
+                    else
+                    {
+                        headerCellStyle = this._headerStyles.GetHeaderStyle(headerDataRow.Columns[j].HeaderAlign);
+                    }
+
                     headerCell.CellStyle = headerCellStyle;
                     this.SetCellValue(
                         headerCell,
@@ -332,8 +341,18 @@ namespace Fanex.Excel
                 var headerCell = this._gridOptions.Columns[i];
                 if (!headerCell.HiddenColumn)
                 {
+                    ICellStyle headerCellStyle;
+                    if (headerCell.CustomExcelCellStyleIndex >= 0)
+                    {
+                        headerCellStyle = this.GetCustomHSSFCellStyles(headerCell.CustomExcelCellStyleIndex);
+                    }
+                    else
+                    {
+                        headerCellStyle = this._headerStyles.GetHeaderStyle(headerCell.HeaderAlign);
+                    }
+
                     var currentCell = this.CreateOrGetCell(currentRow, col);
-                    currentCell.CellStyle = this._headerStyles.GetHeaderStyle(headerCell.HeaderAlign);
+                    currentCell.CellStyle = headerCellStyle;
                     this.SetCellValue(currentCell, headerCell.DisplayValue != null ? headerCell.DisplayValue : headerCell.HeaderText);
                     this._workSheet.SetColumnWidth(col, headerCell.WidthExcel);
                     col++;
@@ -362,12 +381,21 @@ namespace Fanex.Excel
                 rowType = RowType.Even;
             }
 
-            var cellStyle = this._bodyStyles.GetCellStyle(
+            ICellStyle cellStyle;
+            if (cell.CustomExcelCellStyleIndex >= 0)
+            {
+                cellStyle = this._gridOptions.CustomExcelHSSFCellStyles[cell.CustomExcelCellStyleIndex];
+            }
+            else
+            {
+                cellStyle = this._bodyStyles.GetCellStyle(
                 cell.CustomCellType != ExcelCellType.Null ? cell.CustomCellType : header.CustomCellType,
                 cell.CellAlignment != Enums.HAlignment.Null ? cell.CellAlignment : header.CellAlignment,
                 rowType,
                 cell.Bold ? cell.Bold : header.IsBold);
-            cellStyle.WrapText = header.WrapText;
+                cellStyle.WrapText = header.WrapText;
+            }
+            
             if (cell.Indention != 0)
             {
                 var cloneCellStyle = this.WorkBook.CreateCellStyle();
@@ -475,10 +503,29 @@ namespace Fanex.Excel
                 var header = this._gridOptions.Columns[footerDataCell.ColumnIndex];
                 var footerCell = this.CreateOrGetCell(footerRow, colIndex++);
 
-                var cellStyle = this._footerStyles.GetCellStyle(
+                ICellStyle cellStyle;
+
+                if (footerDataCell.CustomExcelCellStyleIndex >= 0)
+                {
+                    if (isFirstFooterRow)
+                    {
+                        cellStyle = this.WorkBook.CreateCellStyle();
+                        cellStyle.CloneStyleFrom(this._gridOptions.CustomExcelHSSFCellStyles[footerDataCell.CustomExcelCellStyleIndex]);
+                        cellStyle.BorderTop = BorderStyle.Thin;
+                        cellStyle.TopBorderColor = HSSFColor.Black.Index;
+                    }
+                    else
+                    {
+                        cellStyle = this._gridOptions.CustomExcelHSSFCellStyles[footerDataCell.CustomExcelCellStyleIndex];
+                    }
+                }
+                else
+                {
+                    cellStyle = this._footerStyles.GetCellStyle(
                     footerDataCell.CustomCellType != Enums.ExcelCellType.Null ? footerDataCell.CustomCellType : header.CustomCellType,
                     footerDataCell.CellAlignment == Enums.HAlignment.Null ? header.CellAlignment : footerDataCell.CellAlignment,
                     isFirstFooterRow);
+                }
 
                 if (footerDataCell.Indention != 0)
                 {
@@ -557,6 +604,19 @@ namespace Fanex.Excel
             }
         }
 
+        private void RegisterCustomHSSFCellStyles()
+        {
+            if (this._gridOptions.CustomExcelCellStyles != null)
+            {
+                this._gridOptions.CustomExcelHSSFCellStyles = new List<ICellStyle>();
+                for (int i = 0; i < this._gridOptions.CustomExcelCellStyles.Count; i++)
+                {
+                    this._gridOptions.CustomExcelHSSFCellStyles.Add(
+                        this._gridOptions.CustomExcelCellStyles[i].ToNPOICellStyle(this.WorkBook));
+                }
+            }
+        }
+
         /// <summary>
         /// Registers the color of the custom.
         /// </summary>
@@ -621,11 +681,6 @@ namespace Fanex.Excel
             {
                 this.RenderFooterRows();
             }
-        }
-
-        private void RenderFreezePane()
-        {
-            this._workSheet.CreateFreezePane(this._gridOptions.NumberOfFrozenColumn, this._gridOptions.FreezeHeader ? this._startRow : 0);
         }
 
         /// <summary>
@@ -904,6 +959,28 @@ namespace Fanex.Excel
             else
             {
                 return worksheet.GetRow(rowIndex);
+            }
+        }
+
+        private void RenderFreezePane()
+        {
+            this._workSheet.CreateFreezePane(this._gridOptions.NumberOfFrozenColumn, this._gridOptions.FreezeHeader ? this._startRow : 0);
+        }
+
+        private ICellStyle GetDefaultCellStyle()
+        {
+            return this.WorkBook.GetCellStyleAt(0);
+        }
+
+        private ICellStyle GetCustomHSSFCellStyles(int index)
+        {
+            try
+            {
+                return this._gridOptions.CustomExcelHSSFCellStyles[index];
+            }
+            catch 
+            {
+                return this.GetDefaultCellStyle();
             }
         }
     }

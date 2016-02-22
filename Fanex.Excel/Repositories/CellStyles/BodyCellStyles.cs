@@ -313,6 +313,7 @@ namespace Fanex.Excel.Repositories.CellStyles
             this._bodyBoldFont.FontHeightInPoints = 8;
             this._bodyBoldFont.Color = HSSFColor.Black.Index;
             this._bodyBoldFont.Boldweight = (short)FontBoldWeight.Bold;
+            
         }
     }
 }

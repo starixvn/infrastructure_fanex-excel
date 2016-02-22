@@ -12,10 +12,10 @@ namespace Fanex.Excel.Models
     using Fanex.Excel.Constants;
     using Fanex.Excel.Enums;
     using Newtonsoft.Json;
-
-    /// <summary>
-    /// TODO: Update summary.
-    /// </summary>
+    using NPOI.HSSF.UserModel;
+    using NPOI.SS.UserModel;    /// <summary>
+                                /// TODO: Update summary.
+                                /// </summary>
     [Serializable]
     public class GridOptions
     {
@@ -136,6 +136,12 @@ namespace Fanex.Excel.Models
                 return (int)(this.BodyRowHeight * 13.5); 
             } 
         }
+
+        [JsonIgnore]
+        public List<CustomExcelCellStyle> CustomExcelCellStyles { get; set; }
+
+        [JsonIgnore]
+        internal List<ICellStyle> CustomExcelHSSFCellStyles { get; set; }
 
         public bool ShouldSerializePagerOption()
         {

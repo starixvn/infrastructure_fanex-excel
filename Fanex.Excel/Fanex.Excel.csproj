@@ -80,6 +80,7 @@
     <Compile Include="Models\Columns.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="Models\CustomExcelCellStyle.cs" />
     <Compile Include="Models\ExcelColor.cs" />
     <Compile Include="Models\IGridDataRow.cs" />
     <Compile Include="Models\IHeaderColumns.cs" />

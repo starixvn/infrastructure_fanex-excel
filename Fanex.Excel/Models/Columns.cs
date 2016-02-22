@@ -6,11 +6,11 @@
 
 namespace Fanex.Excel.Models
 {
+    using System;
+    using System.Collections.Generic;
     using Fanex.Excel.Enums;
     using Newtonsoft.Json;
     using NPOI.SS.UserModel;
-    using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// The Columns.
@@ -28,7 +28,8 @@ namespace Fanex.Excel.Models
         {
 
         }
-        public Columns(int columnIndex)
+
+        public Columns(int columnIndex = 0)
         {
             this.ColumnIndex = columnIndex;
             this._bold = false;
@@ -42,6 +43,7 @@ namespace Fanex.Excel.Models
             this.WrapText = false;
             this.HiddenColumn = false;
             this.Indention = (short)0;
+            this.CustomExcelCellStyleIndex = -1;
         }
 
         public Columns(int columnIndex, string name, object value, HAlignment cellAlignment = HAlignment.Right)
@@ -69,25 +71,18 @@ namespace Fanex.Excel.Models
 
             set
             {
-                if (value == null)
+                if (!CheckValidValueType(value.GetType()))
                 {
-                    _value = null;
+                    throw new InvalidOperationException("\"" + value.GetType().FullName + "\" is not a valid NPOI CellType.");
+                }
+
+                if (value.GetType() == typeof(decimal))
+                {
+                    this._value = Convert.ToDouble(value);
                 }
                 else
                 {
-                    if (!CheckValidValueType(value.GetType()))
-                    {
-                        throw new InvalidOperationException("\"" + value.GetType().FullName + "\" is not a valid NPOI CellType.");
-                    }
-
-                    if (value.GetType() == typeof(decimal))
-                    {
-                        this._value = Convert.ToDouble(value);
-                    }
-                    else
-                    {
-                        this._value = value;
-                    }
+                    this._value = value;
                 }
             }
         }
@@ -158,6 +153,9 @@ namespace Fanex.Excel.Models
 
         [JsonIgnore]
         public ExcelCellType CustomCellType { get; set; }
+
+        [JsonIgnore]
+        public int CustomExcelCellStyleIndex { get; set; }
 
         [JsonIgnore]
         public bool WrapText { get; set; }
