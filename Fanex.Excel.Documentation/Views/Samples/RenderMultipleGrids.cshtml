@@ -1,0 +1,183 @@
+﻿@{
+    ViewBag.Title = "Render Multiple Grid";
+}
+
+@section css
+{
+    <style type="text/css" id="css-source">
+         body
+         {
+             overflow: auto;
+         }
+    </style>
+}
+
+@section sampleRender
+{
+    <div>
+        <input type="button" value="Show/Hide Grid 1" onclick="toggleGrid('gridId1');" />
+        <input type="button" value="Show/Hide Grid 2" onclick="toggleGrid('gridId2');" />
+        <input type="button" value="Show/Hide Grid 3" onclick="toggleGrid('gridId3');" />
+        <input type="button" value="Show/Hide Grid 4" onclick="toggleGrid('gridId4');" />
+        <input type="button" value="Show/Hide Grid 5" onclick="toggleGrid('gridId5');" />
+    </div>
+    <div id="gridId1Container" class="display-none-1">
+        <div id="gridId1" class="freegrid  content-grid">
+        </div>
+    </div>
+    <div id="gridId2Container">
+        <div id="gridId2" class="freegrid  content-grid">
+        </div>
+    </div>
+    <div id="gridId3Container">
+        <div id="gridId3" class="freegrid  content-grid">
+        </div>
+    </div>
+    <div id="gridId4Container">
+        <div id="gridId4" class="freegrid  content-grid">
+        </div>
+    </div>
+    <div id="gridId5Container">
+        <div id="gridId5" class="freegrid  content-grid">
+        </div>
+    </div>
+}
+
+@section htmlSource
+{
+    <pre class="brush: html">
+        <div>
+            <input type="button" value="Show/Hide Grid 1" onclick="toggleGrid('gridId1');" />
+            <input type="button" value="Show/Hide Grid 2" onclick="toggleGrid('gridId2');" />
+            <input type="button" value="Show/Hide Grid 3" onclick="toggleGrid('gridId3');" />
+            <input type="button" value="Show/Hide Grid 4" onclick="toggleGrid('gridId4');" />
+            <input type="button" value="Show/Hide Grid 5" onclick="toggleGrid('gridId5');" />
+        </div>
+        <div id="gridId1Container" class="display-none-1">
+            <div id="gridId1" class="freegrid  content-grid">
+            </div>
+        </div>
+        <div id="gridId2Container">
+            <div id="gridId2" class="freegrid  content-grid">
+            </div>
+        </div>
+        <div id="gridId3Container">
+            <div id="gridId3" class="freegrid  content-grid">
+            </div>
+        </div>
+        <div id="gridId4Container">
+            <div id="gridId4" class="freegrid  content-grid">
+            </div>
+        </div>
+        <div id="gridId5Container">
+            <div id="gridId5" class="freegrid  content-grid">
+            </div>
+        </div>
+    </pre>
+}
+
+
+@section scripts
+{
+    <script type="text/javascript" id="javascript-source">
+        function generateData(numberRows, autoHeight) {
+            var rows = [];
+            for (var index = 0; index < numberRows; index++) {
+                var row = {
+                    Columns: [
+                            { Name: "No", Value: index },
+                            { Name: "Text1", Value: parseFloat((Math.random() > 0.5 ? (Math.random() * 500).toFixed(3) : (Math.random() * 500 * -1).toFixed(3))) },
+                            { Name: "Number1", Value: parseFloat((Math.random() * 20000).toFixed(4)) },
+                            { Name: "Number2", Value: parseFloat((Math.random() * 100).toFixed(2)) },
+                            { Name: "Number3", Value: parseFloat((Math.random() * 500).toFixed(3)) },
+                            { Name: "Text2", Value: Math.random().toString(36).substring(7) },
+                            { Name: "Text3", Value: Math.random().toString(36).substring(8) },
+                            { Name: "Text4", Value: Math.random().toString(36).substring(9) },
+                            { Name: "Number4", Value: parseFloat((Math.random() * 1000).toFixed(3)) },
+                            { Name: "Number5", Value: parseFloat((index % 2 == 0 ? (Math.random() * 500).toFixed(3) : (Math.random() * 500 * -1).toFixed(3))) }
+                    ],
+                    CssClass: 'custom-css-class',
+                    CustomAttr: '',
+                    SubRows: ''
+                };
+                if (autoHeight) {
+                    row.RowHeight = Math.random() * 100;
+                }
+                rows.push(row);
+            }
+            return rows;
+        }
+
+        function toggleGrid(gridId) {
+            $('#' + gridId).toggle().parent().toggle();
+        }
+
+        var gridOptions =
+            {
+                columns: [
+                    { HeaderText: "Header 1", Width: 60, Name: "No", HeaderAlign: "center", CellAlign: "center", CustomAttr: "title='demo title'" },
+                    { HeaderText: "Header 2", Width: 70, Name: "Text1", HeaderAlign: "center", CellAlign: "right" },
+                    { HeaderText: "Header 3", Width: 100, Name: "Number1", HeaderAlign: "center", CellAlign: "right" },
+                    { HeaderText: "Header 4", Width: 100, Name: "Number2", HeaderAlign: "center", CellAlign: "right" },
+                    { HeaderText: "Header 5", Width: 160, Name: "Number3", HeaderAlign: "center", CellAlign: "right" },
+                    { HeaderText: "Header 6", Width: 110, Name: "Text2" },
+                    { HeaderText: "Header 7", Width: 120, Name: "Text3" },
+                    { HeaderText: "Header 8", Width: 150, Name: "Text4" },
+                    { HeaderText: "Header 9", Width: 90, Name: "Number4", HeaderAlign: "center", CellAlign: "right" },
+                    { HeaderText: "Header 10", Width: 120, Name: "Number5", HeaderAlign: "center", CellAlign: "right" }
+                ],
+                bodyRows: generateData(100),
+                fullHeight: false,
+                showTitle: true,
+                titleInfo:
+                {
+                    text: "Gird Title ",
+                    showExcelButton: true,
+                    exportExcelFunction: function () {
+                        alert("Export Excel Button Clicked");
+                    }
+                }
+            };
+        function clone(obj) {
+            var target = {};
+            for (var i in obj) {
+                if (obj.hasOwnProperty(i)) {
+                    target[i] = obj[i];
+                }
+            }
+            return target;
+        };
+
+        $(function () {
+
+            var gridOptions1 = clone(gridOptions);
+            gridOptions1.gridHeight = 600;
+            gridOptions1.titleInfo = clone(gridOptions.titleInfo);
+            gridOptions1.titleInfo.text += '1';
+            var gridOptions2 = clone(gridOptions);
+            gridOptions2.gridHeight = 700;
+            gridOptions2.titleInfo = clone(gridOptions.titleInfo);
+            gridOptions2.titleInfo.text += '2';
+            var gridOptions3 = clone(gridOptions);
+            gridOptions3.gridHeight = 800;
+            gridOptions3.titleInfo = clone(gridOptions.titleInfo);
+            gridOptions3.titleInfo.text += '3';
+            var gridOptions4 = clone(gridOptions);
+            gridOptions4.gridHeight = 900;
+            gridOptions4.titleInfo = clone(gridOptions.titleInfo);
+            gridOptions4.titleInfo.text += '4';
+            var gridOptions5 = clone(gridOptions);
+            gridOptions5.gridHeight = 500;
+            gridOptions5.titleInfo = clone(gridOptions.titleInfo);
+            gridOptions5.titleInfo.text += '5';
+
+
+            var gridId1 = $("#gridId1").fanexGrid(gridOptions1);
+            var gridId2 = $("#gridId2").fanexGrid(gridOptions2);
+            var gridId3 = $("#gridId3").fanexGrid(gridOptions3);
+            var gridId4 = $("#gridId4").fanexGrid(gridOptions4);
+            var gridId5 = $("#gridId5").fanexGrid(gridOptions5);
+
+        });
+    </script>
+}

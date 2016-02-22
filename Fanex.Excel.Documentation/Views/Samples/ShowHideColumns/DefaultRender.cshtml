@@ -1,0 +1,126 @@
+﻿@{
+    ViewBag.Title = "Default Render";
+    Layout = "~/Views/Shared/_SampleLayout.cshtml";
+}
+
+@section javascriptSource
+{
+    <pre class="brush: javascript; highlight: [31, 32]" id="javascript-destination"></pre>
+}
+
+@section scripts
+{
+    <script type="text/javascript" id="javascript-source">
+        //// Setup Grid options
+        var gridOptions =
+            {
+                customizeHeader: true,
+                groupHeaderRows: [
+                         {
+                             Columns: [
+                                    { HeaderText: "Group Header 1", Name: "No", MergeColNumber: 2 },
+                                    { HeaderText: "Header 3", Name: "Number1", MergeRowNumber: 2 },
+                                    { HeaderText: "Header 4", Name: "Number2", MergeRowNumber: 2 },
+                                    { HeaderText: "Group Header 2", Name: "Number3", MergeColNumber: 5 },
+                                    { HeaderText: "Header 10", Name: "Number5", MergeRowNumber: 2 }
+                             ]
+                         }
+                ],
+                columns: [
+                    { HeaderText: "Header 1", Width: 60, Name: "No", HeaderAlign: "center", CellAlign: "center", CustomAttr: "title='demo title'" },
+                    { HeaderText: "Header 2", Width: 70, Name: "Text1", HeaderAlign: "center", CellAlign: "right" },
+                    { HeaderText: "Header 3", Width: 100, Name: "Number1", HeaderAlign: "center", CellAlign: "right" },
+                    { HeaderText: "Header 4", Width: 100, Name: "Number2", HeaderAlign: "center", CellAlign: "right" },
+                    { HeaderText: "Header 5", Width: 160, Name: "Number3", HeaderAlign: "center", CellAlign: "right" },
+                    { HeaderText: "Header 6", Width: 110, Name: "Text2" },
+                    { HeaderText: "Header 7", Width: 120, Name: "Text3" },
+                    { HeaderText: "Header 8", Width: 150, Name: "Text4" },
+                    { HeaderText: "Header 9", Width: 90, Name: "Number4", HeaderAlign: "center", CellAlign: "right" },
+                    { HeaderText: "Header 10", Width: 120, Name: "Number5", HeaderAlign: "center", CellAlign: "right" }
+                ],
+                bodyRows: [],
+                gridExpandHeight: 100,
+                showFooter: true,
+                hiddenColumns: [1, 3, 7],
+                //numberOfFrozenColumn: 3,
+                enableHiddenColumns: false, //// Default should show hidden columns or not
+                //showNoDataOnFrozen: true
+            };
+
+        //// Create sample data
+        function generateData(numberRows, autoHeight) {
+            var rows = [];
+            for (var index = 0; index < numberRows; index++) {
+                var row = {
+                    Columns: [
+                            { Name: "No", Value: index },
+                            { Name: "Text1", Value: parseFloat((Math.random() > 0.5 ? (Math.random() * 500).toFixed(3) : (Math.random() * 500 * -1).toFixed(3))) },
+                            { Name: "Number1", Value: parseFloat((Math.random() * 20000).toFixed(4)) },
+                            { Name: "Number2", Value: parseFloat((Math.random() * 100).toFixed(2)) },
+                            { Name: "Number3", Value: parseFloat((Math.random() * 500).toFixed(3)) },
+                            { Name: "Text2", Value: Math.random().toString(36).substring(7) },
+                            { Name: "Text3", Value: Math.random().toString(36).substring(8) },
+                            { Name: "Text4", Value: Math.random().toString(36).substring(9) },
+                            { Name: "Number4", Value: parseFloat((Math.random() * 1000).toFixed(3)) },
+                            { Name: "Number5", Value: parseFloat((index % 2 == 0 ? (Math.random() * 500).toFixed(3) : (Math.random() * 500 * -1).toFixed(3))) }
+                    ]
+                };
+                rows.push(row);
+            }
+
+            return rows;
+        }
+
+        var footerRows = [
+                  {
+                      Columns: [
+                        { Value: "Total", Name: "No", MergeColNumber: 2, MergeRowNumber: 3 },
+                        { Value: "Footer 3", Name: "Number1" },
+                        { Value: "Footer 4", Name: "Number2" },
+                        { Value: "Footer 5", Name: "Number3" },
+                        { Value: "Footer 2", Name: "Text2" },
+                        { Value: "Footer 6", Name: "Text3" },
+                        { Value: "Footer 8", Name: "Text4" },
+                        { Value: "Footer 9", Name: "Number4" },
+                        { Value: "Footer 10", Name: "Number5" }
+                      ]
+                  },
+                  {
+                      Columns: [
+                        { Value: "Footer 3", Name: "Number1", PrevRowsColMergeNumber: 2 },
+                        { Value: "Footer 4", Name: "Number2" },
+                        { Value: "Footer 5", Name: "Number3" },
+                        { Value: "Footer 2", Name: "Text2" },
+                        { Value: "Footer 6", Name: "Text3" },
+                        { Value: "Footer 8", Name: "Text4" },
+                        { Value: "Footer 9", Name: "Number4" },
+                        { Value: "Footer 10", Name: "Number5" }
+                      ]
+                  },
+                  {
+                      Columns: [
+                        { Value: "Footer 3", Name: "Number1", PrevRowsColMergeNumber: 2 },
+                        { Value: "Footer 4", Name: "Number2" },
+                        { Value: "Footer 5", Name: "Number3" },
+                        { Value: "Footer 2", Name: "Text2" },
+                        { Value: "Footer 6", Name: "Text3" },
+                        { Value: "Footer 8", Name: "Text4" },
+                        { Value: "Footer 9", Name: "Number4" },
+                        { Value: "Footer 10", Name: "Number5" }
+                      ]
+                  }
+        ];
+
+        
+        $(function () {
+            gridOptions.footerRows = footerRows;
+            //// Render
+            $("#gridId").fanexGrid(gridOptions);
+        });
+    </script>
+
+}
+
+
+
+

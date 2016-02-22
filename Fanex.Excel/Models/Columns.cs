@@ -124,7 +124,7 @@ namespace Fanex.Excel.Models
         public string CssClass { get; set; }
 
         [JsonProperty("CustomAttr")]
-        public string CustomAttributes { get; set; }
+        public Dictionary<string, string> CustomAttributes { get; set; }
 
         [JsonIgnore]
         public HAlignment CellAlignment { get; set; }

@@ -1,0 +1,42 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Part10 - Multiple Language – Globalization";
+}
+
+<div class="col-sm-12">
+    <p>
+        Following previous tutorials, we understood about how to use Fanex.Grid and render technique. In this post, i will introduce to you how we can handle multiple languages in Fanex.Grid.
+    </p>
+    <p>
+        First off all, we need to include all language files install from package http://nuget.nexcel.vn/packages/Fanex.Grid/
+    </p>
+    <p>
+        then refer to all file on “Language” directory.
+    </p>
+    <p>
+        Second, we just need to add property ‘language’, default value is ‘en-US’ if you don’t specific this property, other language can be 'zh-TW', ‘js-JP’, ‘zh-CN’, ‘zh-TW’, ‘vi-VN’, ‘ko-KR’. Seeing example below:
+    </p>
+
+    <pre class="brush: javascript">
+        var gridOptions =
+        {
+            ...
+            bodyRows: generateData(15000),
+            gridExpandHeight: 150,
+            numberOfFrozenColumn: 2,
+            showPager: true,
+            pagerOption: {     
+                itemsPerPage: 100,
+                currentPage: 0,
+                itemsPerPageArray: [50, 100, 500],
+                showDetail: true
+            },
+            language: 'zh-TW'
+        };
+    </pre>
+
+    <p>And, the result is</p>
+
+    <img width="100%" src="~/Content/Images/Part10-Multiple-Language.png" />
+</div>
+

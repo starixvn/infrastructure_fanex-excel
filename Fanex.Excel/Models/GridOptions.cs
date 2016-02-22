@@ -36,6 +36,7 @@ namespace Fanex.Excel.Models
             this.HeaderColumnHeight = 25;
             this.BodyRowHeight = 21;
             this.BodyRowHeightAutofit = false;
+            this.FreezeHeader = false;
         }
 
         [JsonProperty("groupHeaderRows")]
@@ -81,6 +82,9 @@ namespace Fanex.Excel.Models
 
         [JsonProperty("numberOfFrozenColumn")]
         public int NumberOfFrozenColumn { get; set; }
+
+        [JsonIgnore]
+        public bool FreezeHeader { get; set; }
 
         [JsonIgnore]
         public TitleType TitleType { get; set; }

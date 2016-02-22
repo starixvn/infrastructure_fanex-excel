@@ -25,7 +25,7 @@ namespace Fanex.Excel.Models
             : base(0)
         {
             this.Width = isGroupHeader ? 0 : 150;
-            this.HeaderAlign = "center";
+            this.HeaderAlignment = HAlignment.Center;
             this.CellAlignment = HAlignment.Null;
             this.ThClass = string.Empty;
             this.IsBold = false;
@@ -49,7 +49,7 @@ namespace Fanex.Excel.Models
             string name,
             int width,
             HAlignment cellAlignment,
-            string headerAlign,
+            HAlignment headerAlignment,
             ExcelCellType customCellType = ExcelCellType.Double)
             : this()
         {
@@ -57,7 +57,7 @@ namespace Fanex.Excel.Models
             this.Name = name;
             this.Width = width;
             this.CellAlignment = cellAlignment;
-            this.HeaderAlign = headerAlign;
+            this.HeaderAlignment = headerAlignment;
             this.CustomCellType = customCellType;
         }
 
@@ -82,7 +82,26 @@ namespace Fanex.Excel.Models
             }
         }
 
-        public string HeaderAlign { get; set; }
+        [JsonIgnore]
+        public HAlignment HeaderAlignment { get; set; }
+
+        public string HeaderAlign
+        {
+            get
+            {
+                switch (this.HeaderAlignment)
+                {
+                    case HAlignment.Left:
+                        return "left";
+                    case HAlignment.Right:
+                        return "right";
+                    case HAlignment.Center:
+                        return "center";
+                    default:
+                        return string.Empty;
+                }
+            }
+        }
 
         public string FormatNumber
         {
@@ -257,7 +276,7 @@ namespace Fanex.Excel.Models
             clone.HeaderText = this.HeaderText;
             clone.DisplayValue = this.DisplayValue;
             clone.Width = this.Width;
-            clone.HeaderAlign = this.HeaderAlign;
+            clone.HeaderAlignment = this.HeaderAlignment;
             clone.IsBold = this.IsBold;
             clone.THCssClass = this.THCssClass;
             clone.IsMergedColumn = this.IsMergedColumn;

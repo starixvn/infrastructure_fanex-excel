@@ -81,7 +81,7 @@ var Common = function ($) {
                 $.ajax({
                     type: "POST",
                     url: url,
-                    contentType: "application/json; charset=utf-8",
+                    contentType: "application/json",
                     dataType: "json",
                     data: requestParams ? JSON.stringify(requestParams) : null,
                     beforeSend: function () {

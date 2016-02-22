@@ -1,0 +1,166 @@
+﻿@{
+    ViewBag.Title = "Customized Cell";
+    Layout = "~/Views/Shared/_SampleLayout.cshtml";
+}
+
+@section css
+{
+    <style type="text/css" id="css-source">
+         .cell-content-class {
+             color: #0026ff;
+             font-weight: bold;
+         }
+    </style>
+}
+
+@section javascriptSource
+{
+    <pre class="brush: javascript; highlight: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 58, 60, 72, 74, 86, 88, 100, 102]" id="javascript-destination"></pre>
+}
+
+@section scripts
+{
+    <script type="text/javascript" id="javascript-source">
+        var complexObject =
+        {
+            property1: "custom property1",
+            property2: 2,
+            property3:
+            {
+                subProperty1: 1,
+                subProperty2: "sub-roperty 1"
+            }
+        };
+
+        var complexObject2 =
+        {
+            property1: "custom  property2",
+            property2: 3,
+            property3:
+            {
+                subProperty1: 1,
+                subProperty2: "sub-property 2"
+            }
+        };
+
+        function myCustomCellRender(currentCell)
+        {
+            if (currentCell.Value.property2 === 2)
+            {
+                return currentCell.Value.property1;
+            }
+
+            if (currentCell.Name === 'Number3')
+            {
+                return currentCell.Value.property3.subProperty2;
+            }
+
+            return "<span class='cell-content-class'>Custom Cell</span>";
+        }
+
+
+        //// Setup Grid options
+        var gridOptions =
+       {
+           customizeHeader: true,
+           groupHeaderRows: [
+                    {
+                        Columns: [
+                               { HeaderText: "Group Header 1", Name: "No", MergeColNumber: 2},
+                               { HeaderText: "Header 3", Name: "Number1", MergeRowNumber: 2},
+                               { HeaderText: "Header 4", Name: "Number2", MergeColNumber: 2 },
+                               { HeaderText: "Group Header 2", Name: "Text2", MergeColNumber: 3 },
+                               { HeaderText: "Header 10", Name: "Number4", MergeRowNumber: 2 },
+                               { HeaderText: "Header 10", Name: "Number5", MergeRowNumber: 2 }
+                        ]
+                    }
+           ],
+           columns: [
+               { HeaderText: "Header 1", Width: 60, Name: "No", HeaderAlign: "center", CellAlign: "center" },
+               { HeaderText: "Header 2", Width: 70, Name: "Text1", HeaderAlign: "center", CellAlign: "right" },
+               { HeaderText: "Header 3", Width: 100, Name: "Number1", HeaderAlign: "center", CellAlign: "right", CustomCellRender: myCustomCellRender },
+               { HeaderText: "Header 4", Width: 100, Name: "Number2", MergeHeaderColNumber: 2 },
+               { HeaderText: "Header 5", Width: 160, Name: "Number3", HeaderAlign: "center", CellAlign: "right", CustomCellRender: myCustomCellRender },
+               { HeaderText: "Header 6", Width: 110, Name: "Text2", MergeHeaderColNumber: 3},
+               { HeaderText: "Header 7", Width: 120, Name: "Text3" },
+               { HeaderText: "Header 8", Width: 150, Name: "Text4" },
+               { HeaderText: "Header 9", Width: 90, Name: "Number4", HeaderAlign: "center", CellAlign: "right" },
+               { HeaderText: "Header 10", Width: 120, Name: "Number5", HeaderAlign: "center", CellAlign: "right" }
+           ],
+           bodyRows: [
+               {
+                   Columns: [
+                      { Name: "No", Value: 1 },
+                      { Name: "Text1", Value: "Body 1" },
+                      { Name: "Number1", Value: complexObject },
+                      { Name: "Number2", Value: 2 },
+                      { Name: "Number3", Value: complexObject },
+                      { Name: "Text2", Value: "Body 2"},
+                      { Name: "Text3", Value: "Body 3" },
+                      { Name: "Text4", Value: "Body 4" },
+                      { Name: "Number4", Value: 4},
+                      { Name: "Number5", Value: 5 }
+                   ]
+               },
+               {
+                   Columns: [
+                       { Name: "No", Value: 2 },
+                       { Name: "Text1", Value: "Body 1" },
+                       { Name: "Number1", Value: complexObject2 },
+                       { Name: "Number2", Value: 2 },
+                       { Name: "Number3", Value: complexObject2 },
+                       { Name: "Text2", Value: "Body 2" },
+                       { Name: "Text3", Value: "Body 3" },
+                       { Name: "Text4", Value: "Body 4" },
+                       { Name: "Number4", Value: 4 },
+                       { Name: "Number5", Value: 5 }
+                   ]
+               },
+               {
+                   Columns: [
+                       { Name: "No", Value: 2 },
+                       { Name: "Text1", Value: "Body 1"},
+                       { Name: "Number1", Value: complexObject },
+                       { Name: "Number2", Value: 2 },
+                       { Name: "Number3", Value: complexObject2 },
+                       { Name: "Text2", Value: "Body 2" },
+                       { Name: "Text3", Value: "Body 3" },
+                       { Name: "Text4", Value: "Body 4" },
+                       { Name: "Number4", Value: 4 },
+                       { Name: "Number5", Value: 5 }
+                   ]
+               }
+           ],
+           gridExpandHeight: 120,
+           showFooter: true,
+           footerRows: [{
+               Columns: [
+                       { Name: "No", Value: "Total" },
+                       { Name: "Text1", Value: "Footer 1" },
+                       { Name: "Number1", Value: 1 },
+                       { Name: "Number2", Value: 2 },
+                       { Name: "Number3", Value: 3 },
+                       { Name: "Text2", Value: "Footer 2" },
+                       { Name: "Text3", Value: "Footer 3" },
+                       { Name: "Text4", Value: "Footer 4" },
+                       { Name: "Number4", Value: 4 },
+                       { Name: "Number5", Value: 5 }
+               ]
+           }]
+       };
+
+        $(function () {
+            //// Render
+            $("#gridId").fanexGrid(gridOptions);
+        });
+    </script>
+
+}
+
+
+
+
+
+
+
+

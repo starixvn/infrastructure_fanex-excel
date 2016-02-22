@@ -1,0 +1,80 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Frequently Asked Questions";
+}
+
+<div class="container-fluid" id="right-container">
+    <div class="row">
+
+        <div class="col-sm-12" id="doc-content">
+            <ul class="rule-list">
+                <li><a href="#FAQ001" class="link-sub-title" code="FAQ001">FAQ001 Why does my grid render body column width difference with header column widht?</a></li>
+                <li><a href="#FAQ002" class="link-sub-title" code="FAQ002">FAQ002 How can I customize a row, header cell, body cell?</a></li>
+                <li><a href="#FAQ003" class="link-sub-title" code="FAQ003">FAQ003 How can I write a custom sort?</a></li>
+                <li><a href="#FAQ004" class="link-sub-title" code="FAQ004">FAQ004 How can I set default hide for columns?</a></li>
+                <li><a href="#FAQ005" class="link-sub-title" code="FAQ005">FAQ005 Why doesn't my body cell do format number, date time?</a></li>
+                <li><a href="#FAQ006" class="link-sub-title" code="FAQ006">FAQ006 Why doesn't my custom css affect?</a></li>
+                <li><a href="#FAQ007" class="link-sub-title" code="FAQ007">FAQ007 How can i load remote data when using custom paging?</a></li>
+                <li><a href="#FAQ008" class="link-sub-title" code="FAQ008">FAQ008 By default grid will expand to fill up the parent element, How can I fix grid width and height?</a></li>
+            </ul>
+            <ul class="rules unordered">
+                <li>
+                    <h2 class="sub-title" id="FAQ001"><span class="rule-item">FAQ001 </span> Why does my grid render body column width difference with header column widht?</h2>
+                    <p>
+                        <span class="text-info">Answer: </span> Please check carefully these things below:
+                        <ul>
+                            <li>Check whether the order of "columns" property in grid option should be the same with the order of "Columns" in bodyRows, it's required the same.</li>
+                            <li>Check whether body cell data exceeds width or not. If yes, there are two solution for this case, you can add more widths or set "AllowTruncate" on column options.</li>
+                        </ul>
+                    </p>
+                </li>
+                <li>
+                    <h2 class="sub-title" id="FAQ002"><span class="rule-item">FAQ002 </span> How can I customize a row, header cell, body cell?</h2>
+                    <p>
+                        <span class="text-info">Answer: </span> Please refer to this example @Html.ActionLink("Content Customized", "Index", "Samples", new { sampleName = "CustomizedContent/CustomizedCell" }, new { @target = "_blank" } )
+                    </p>
+                </li>
+                <li>
+                    <h2 class="sub-title" id="FAQ003"><span class="rule-item">FAQ003 </span> How can I write a custom sort?</h2>
+                    <p>
+                        <span class="text-info">Answer: </span> Please refer to this example @Html.ActionLink("Customized Sort Client Site", "Index", "Samples", new { sampleName = "Sort/CustomizedClientSide" }, new { @target = "_blank" })
+                    </p>
+                </li>
+                <li>
+                    <h2 class="sub-title" id="FAQ004"><span class="rule-item">FAQ004 </span> How can I set default hide for columns?</h2>
+                    <p>
+                        <span class="text-info">Answer: </span> Set property "hiddenColumns" of gridOptions to array of columns index. Eg: hiddenColumns: [0, 1, 3, 7]. You can refer to this sample @Html.ActionLink("Default Hidden Columns", "Index", "Samples", new { sampleName = "ShowHideColumns/DefaultRender" }, new { @target = "_blank" }) for more details.
+                    </p>
+                </li>
+                <li>
+                    <h2 class="sub-title" id="FAQ005"><span class="rule-item">FAQ005 </span> Why doesn't my body cell do format number, date time?</h2>
+                    <p>
+                        <span class="text-info">Answer: </span> Please check whether you includes <a href="http://numeraljs.com/" class="link-sub-title" target="_blank">numeraljs</a> (for formatting number) and <a href="http://momentjs.com/" class="link-sub-title" target="_blank">momentjs</a> (for formatting date time) or not.
+                    </p>
+                </li>
+                <li>
+                    <h2 class="sub-title" id="FAQ006"><span class="rule-item">FAQ006 </span> Why doesn't my custom css affect?</h2>
+                    <p>
+                        <span class="text-info">Answer: </span> Please check the ccs override path. Eg: .freegrid .grid-fixed-table td 
+                    </p>
+                </li>
+                <li>
+                    <h2 class="sub-title" id="FAQ007"><span class="rule-item">FAQ007 </span> How can i load remote data when using custom paging?</h2>
+                    <p>
+                        <span class="text-info">Answer: </span> Please refer to this example @Html.ActionLink("Server Side Pager", "Index", "Samples", new { sampleName = "Pager/ServerSidePager" }, new { @target = "_blank" }) 
+                    </p>
+                </li>
+                <li>
+                    <h2 class="sub-title" id="FAQ008"><span class="rule-item">FAQ008 </span> By default grid will expand to fill up the parent element, How can I fix grid width and height?</h2>
+                    <p>
+                        <span class="text-info">Answer: </span> Please refer to this example @Html.ActionLink("Fixed Width and Height", "Index", "Samples", new { sampleName = "CustomizedOptions/FixedWidthHeight" }, new { @target = "_blank" })
+                    </p>
+                </li>
+            </ul>
+        </div>
+
+        <div class="scroll-top">
+            <span class="mdi-editor-publish icon-scroll-top" id="back-top" style="display: none;"></span>
+        </div>
+    </div>
+</div>

@@ -615,11 +615,17 @@ namespace Fanex.Excel
             }
 
             this.RenderHeader();
+            this.RenderFreezePane();
             this.RenderBodyRow();
             if (this._gridOptions.ShowFooter)
             {
                 this.RenderFooterRows();
             }
+        }
+
+        private void RenderFreezePane()
+        {
+            this._workSheet.CreateFreezePane(this._gridOptions.NumberOfFrozenColumn, this._gridOptions.FreezeHeader ? this._startRow : 0);
         }
 
         /// <summary>

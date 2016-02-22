@@ -1,0 +1,123 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Fanex Grid in a nutshell";
+}
+<div class="col-sm-12">
+    <h4> 1) Simple Example</h4>
+
+    <p>
+        We start the series of tutorial by very simple example. In this sample, we render grid using provided data. There are three steps to complete this example.
+    </p>
+    <p>
+        <b>First</b>, we need a container to for Fanex.Grid renders all content in it.
+    </p>
+
+<pre class="brush: javascript">
+    <div class="grid-boundary">
+    <div id="gridId" class="freegrid"></div>
+    </div>
+</pre>
+    <p>
+        The container must have id, this id must be unique for each container, and has "freegrid" class.
+    </p>
+    <p>
+        <b>Second</b>, we need a Grid option, which describes everything display on grid. Let’s see a simple example about Grid Option:
+    </p>
+
+<pre class="brush: javascript">
+//// Randomize Data
+function generateData(numberRows) {
+   var rows = [];
+   for (var index = 0; index < numberRows; index++) {
+     rows.push(
+       {
+            Columns: [
+                { Name: "No", Value: index * 2 },
+                { Name: "Text1", Value: (Math.random() > 0.5 ? (Math.random() * 500).toFixed(3) : (Math.random() * 500 * -1).toFixed(3)) },
+                { Name: "Number1", Value: (Math.random() * 20000).toFixed(4) },
+                { Name: "Number2", Value: (Math.random() * 100).toFixed(2) },
+                { Name: "Number3", Value: (Math.random() * 500).toFixed(3) },
+                { Name: "Text2", Value: Math.random().toString(36).substring(7) },
+                { Name: "Text3", Value: Math.random().toString(36).substring(8) },
+                { Name: "Text4", Value: Math.random().toString(36).substring(9) },
+                { Name: "Number4", Value: (Math.random() * 1000).toFixed(3) },
+                { Name: "Number5", Value: (index % 2 == 0 ? (Math.random() * 500).toFixed(3) : (Math.random() * 500 * -1).toFixed(3)) }
+           ]
+      }
+    );
+  }
+  return rows;
+}
+var gridOption = {
+   columns: [
+      { HeaderText: "Header 1", Width: 60, Name: "No", HeaderAlign: "center", CellAlign: "center"},
+      { HeaderText: "Header 2", Width: 70, Name: "Text1", HeaderAlign: "center", CellAlign: "right" },
+      { HeaderText: "Header 3", Width: 100, Name: "Number1", HeaderAlign: "center", CellAlign: "right" },
+      { HeaderText: "Header 4", Width: 100, Name: "Number2", HeaderAlign: "center", CellAlign: "right" },
+      { HeaderText: "Header 5", Width: 160, Name: "Number3", HeaderAlign: "center", CellAlign: "right" },
+      { HeaderText: "Header 6", Width: 110, Name: "Text2" },
+      { HeaderText: "Header 7", Width: 120, Name: "Text3" },
+      { HeaderText: "Header 8", Width: 150, Name: "Text4" },
+      { HeaderText: "Header 9", Width: 90, Name: "Number4", HeaderAlign: "center", CellAlign: "right" },
+      { HeaderText: "Header 10", Width: 120, Name: "Number5", HeaderAlign: "center", CellAlign: "right" }
+   ],
+   bodyRows: generateData(100)
+}
+</pre>
+    <p>
+        <text class="text-danger">The "columns" property, is an array, describes everything about Grid Columns</text> .Three required properties are Width, Name, and HeaderText. Name Property is primary key for each column, this property contains all general information about columns form header, body to footer. The order of Name Property should be consistent between Header Columns and Body Columns.
+    </p>
+    <p>
+        <text class="text-danger">The "bodyRows" property describes everything will display on the Grid body</text>, and each row has a list of column map one by one with column of "columns".
+        We can understand that is the way we bind data source to grid body. See image below for more details:
+    </p>
+    <p>
+        Note:
+    </p>
+    <ul>
+        <li>
+            <text class="text-danger">All Properties of DataSource will name follow to the Pascal Case Convention</text> (for binding easily from server code return JSON).
+        </li>
+        <li>
+            <text class="text-danger">All Grid Option will name follow to Camel Case Convention.</text>
+        </li>
+    </ul>
+    <p>
+        <img src="~/Content/Images/Part2Example1.png" />
+    </p>
+    <p>
+        <b>Last step</b>, We start to render by calling "fanexGrid" function with prepared grid option .
+    </p>
+
+<pre class="brush: javascript">
+    $("#gridId").fanexGrid(gridOption);
+</pre>
+    <p>
+        Ok, you did it, and the result is:
+    </p>
+    <p>
+        <img width="100%" src="~/Content/Images/Part2Example2.png" />
+    </p>
+    <p>
+        So we just created successfully a Grid using "Fanex.Grid".
+    </p>
+    <h4>
+        2) Understand two ways config Grid Height
+    </h4>
+    <p>
+        <b>a) Auto height</b>
+    </p>
+    <p>
+        To set Grid auto height, we declare <text class="text-danger">"gridExpandHeight"</text> , and set it equal with distance from top of current Window to top of Grid. The Fanex.Grid will auto calculate Grid height by take the Height of current Window and subtract to <text class="text-danger">"gridExpandHeight"</text> then auto re-size Grid, if <text class="text-danger">"gridExpandHeight"</text> greater than distance from top of current Window to top of Grid, Fanex.Grid auto expand bottom of Grid. See image below:
+    </p>
+    <p>
+        <img width="100%" src="~/Content/Images/Part2Example3.png" />
+    </p>
+    <p>
+        <b>b) Fixed Height:</b>
+    </p>
+    <p>
+        To use fixed height, we have to set <text class="text-danger">"fullHeight" property to "false"</text> and then set <text class="text-danger">"gridHeight" property to value</text> that we need. See example below:
+    </p>
+    <img width="100%" src="~/Content/Images/Part2Example4.png" />
+</div>

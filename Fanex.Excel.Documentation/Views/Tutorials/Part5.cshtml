@@ -1,0 +1,50 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Part5 - Frozen Columns";
+}
+
+<div class="col-sm-12">
+    <p>
+        Frozen columns is a very important function in Grid, It resolves the lacking of space in conputer screen. This tutorial shows how we can freeze columns in Grid.
+    </p>
+    <p>
+        In order to freeze column, we just declare <text class="text-danger">"numberOfFrozenColumn"</text> property, and <text class="text-danger">set how many column from the left that we want to freeze.</text>
+    </p>
+    <p>
+        In this example below, we set it to 2 columns from the left of Grid.
+    </p>
+
+    <pre class="brush: javascript">
+            var gridOptions =
+            {
+                customizeHeader: true,
+                groupHeaderRows: [
+                         {
+                             Columns: [
+                                    { HeaderText: "Group Header 1", Name: "No", MergeColNumber: 2},
+                                    { HeaderText: "Header 3", Name: "Number1", MergeRowNumber: 2},
+                                    { HeaderText: "Header 4", Name: "Number2", MergeRowNumber: 2},
+                                    { HeaderText: "Group Header 2", Name: "Number3", MergeColNumber: 5},
+                                    { HeaderText: "Header 10", Name: "Number5", MergeRowNumber: 2}
+                                ]
+                         }
+                ],
+                columns: [
+                    { HeaderText: "Header 1", Width: 60, Name: "No", HeaderAlign: "center", CellAlign: "center"},
+                    { HeaderText: "Header 2", Width: 70, Name: "Text1", HeaderAlign: "center", CellAlign: "right"},
+                    { HeaderText: "Header 3", Width: 100, Name: "Number1", HeaderAlign: "center", CellAlign: "right"},
+                    { HeaderText: "Header 4", Width: 100, Name: "Number2", HeaderAlign: "center", CellAlign: "right"},
+                    { HeaderText: "Header 5", Width: 160, Name: "Number3", HeaderAlign: "center", CellAlign: "right"},
+                    { HeaderText: "Header 6", Width: 110, Name: "Text2"},
+                    { HeaderText: "Header 7", Width: 120, Name: "Text3"},
+                    { HeaderText: "Header 8", Width: 150, Name: "Text4"},
+                    { HeaderText: "Header 9", Width: 90, Name: "Number4", HeaderAlign: "center", CellAlign: "right"},
+                    { HeaderText: "Header 10", Width: 120, Name: "Number5", HeaderAlign: "center", CellAlign: "right"}
+                ],
+                bodyRows: GenerateNormalData(100),
+                numberOfFrozenColumn: 2
+            };
+        </pre>
+    <p>And the result is:</p>
+    <img width="100%" src="~/Content/Images/Part6Example1.png" />
+</div>

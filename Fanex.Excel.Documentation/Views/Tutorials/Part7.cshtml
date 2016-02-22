@@ -1,0 +1,177 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Part7 - Paging";
+}
+
+<div class="col-sm-12">
+    <p>Like sorting, paging is a very important function in Grid. Fanex.Grid support paging by default, to use this function, we declare <text class="text-danger">"showPager" in Grid Option, and set that property to "true" </text> to tell Fanex.Grid that we want to show Pager. See example below for using Paging in Fanex Grid:</p>
+    <pre class="brush: javascript">
+        var gridOptions =
+    {
+        customizeHeader: true,
+        groupHeaderRows: [
+                 {
+                     Columns: [
+                            { HeaderText: "Group Header 1", Name: "No", MergeColNumber: 2 },
+                            { HeaderText: "Header 3", Name: "Number1", MergeRowNumber: 2 },
+                            { HeaderText: "Header 4", Name: "Number2", MergeRowNumber: 2 },
+                            { HeaderText: "Group Header 2", Name: "Number3", MergeColNumber: 5 },
+                            { HeaderText: "Header 10", Name: "Number5", MergeRowNumber: 2 }
+                        ]
+                 }
+        ],
+        columns: [
+            { HeaderText: "Header 1", Width: 80, Name: "No", HeaderAlign: "center", CellAlign: "center", Sort: true },
+            { HeaderText: "Header 2", Width: 80, Name: "Text1", HeaderAlign: "center", CellAlign: "right", Sort: true },
+            { HeaderText: "Header 3", Width: 100, Name: "Number1", HeaderAlign: "center", CellAlign: "right", Sort: true },
+            { HeaderText: "Header 4", Width: 100, Name: "Number2", HeaderAlign: "center", CellAlign: "right", Sort: true },
+            { HeaderText: "Header 5", Width: 160, Name: "Number3", HeaderAlign: "center", CellAlign: "right", Sort: true },
+            { HeaderText: "Header 6", Width: 110, Name: "Text2", Sort: true },
+            { HeaderText: "Header 7", Width: 120, Name: "Text3", Sort: true },
+            { HeaderText: "Header 8", Width: 150, Name: "Text4", Sort: true },
+            { HeaderText: "Header 9", Width: 90, Name: "Number4", HeaderAlign: "center", CellAlign: "right", Sort: true },
+            { HeaderText: "Header 10", Width: 120, Name: "Number5", HeaderAlign: "center", CellAlign: "right", Sort: true }
+        ],
+        bodyRows: generateData(100),
+        numberOfFrozenColumn: 2,
+        showPager: true,
+        pagerOption: {
+            itemsPerPage: 10,
+            maxItemsPerPage: 100,
+            currentPage: 0,
+            totalItem: 100,
+            startPerPage: 10,
+            pageStep: 10
+        }
+    };
+</pre>
+
+    <p>List of property of “pagerOption” was described in table below:</p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <strong>Name</strong>
+                </th>
+                <th><strong>Function</strong></th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            <tr>
+                <td>
+                    <p>itemsPerPage</p>
+                </td>
+                <td>
+                    <p>Number of items in a page</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>totalItem</p>
+                </td>
+                <td>
+                    <p>Total item of all pages, need this value for computing how many page to display</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>currentPage</p>
+                </td>
+                <td>
+                    <p>Current index of Page, start from 0</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>maxItemsPerPage</p>
+                </td>
+                <td>
+                    <p>Max value of combobox select item per page</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>startPerPage</p>
+                </td>
+                <td>
+                    <p>Min value of combobox select item per page</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>pageStep</p>
+                </td>
+                <td>
+                    <p>Step in combobox select item per page</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>itemsPerPageArray</p>
+                </td>
+                <td>
+                    <p>Array of combobox select item per page when we do not need to render it increase period, when this property is available, we have to remove “startPerPage” and “maxItemsPerPage” property.</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>pagerSelectCallBack</p>
+                </td>
+                <td>
+                    <p>Use this function for custom paging, in this function, we can call to server to get Data, then set correct page and re-render Grid</p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>If you want to customize pager, please set “customPager” property in gird option to true. Then render grid by your self in pagerSelectCallBac function.</p>
+
+    <p>We can see Paging Example below:</p>
+
+    <pre class="brush: javascript">
+        var gridOptions =
+        {
+            customizeHeader: true,
+            groupHeaderRows: [
+                     {
+                         Columns: [
+                                { HeaderText: "Group Header 1", Name: "No", MergeColNumber: 2 },
+                                { HeaderText: "Header 3", Name: "Number1", MergeRowNumber: 2 },
+                                { HeaderText: "Header 4", Name: "Number2", MergeRowNumber: 2 },
+                                { HeaderText: "Group Header 2", Name: "Number3", MergeColNumber: 5 },
+                                { HeaderText: "Header 10", Name: "Number5", MergeRowNumber: 2 }
+                            ]
+                     }
+            ],
+            columns: [
+                { HeaderText: "Header 1", Width: 80, Name: "No", HeaderAlign: "center", CellAlign: "center", Sort: true },
+                { HeaderText: "Header 2", Width: 80, Name: "Text1", HeaderAlign: "center", CellAlign: "right", Sort: true },
+                { HeaderText: "Header 3", Width: 100, Name: "Number1", HeaderAlign: "center", CellAlign: "right", Sort: true },
+                { HeaderText: "Header 4", Width: 100, Name: "Number2", HeaderAlign: "center", CellAlign: "right", Sort: true },
+                { HeaderText: "Header 5", Width: 160, Name: "Number3", HeaderAlign: "center", CellAlign: "right", Sort: true },
+                { HeaderText: "Header 6", Width: 110, Name: "Text2", Sort: true },
+                { HeaderText: "Header 7", Width: 120, Name: "Text3", Sort: true },
+                { HeaderText: "Header 8", Width: 150, Name: "Text4", Sort: true },
+                { HeaderText: "Header 9", Width: 90, Name: "Number4", HeaderAlign: "center", CellAlign: "right", Sort: true },
+                { HeaderText: "Header 10", Width: 120, Name: "Number5", HeaderAlign: "center", CellAlign: "right", Sort: true }
+            ],
+            bodyRows: GenerateNormalData(100),
+            numberOfFrozenColumn: 2,
+            showPager: true,
+            pagerOption: {
+                itemsPerPage: 10,
+                maxItemsPerPage: 100,
+                currentPage: 0,
+                totalItem: 100,
+                startPerPage: 10,
+                pageStep: 10
+            }
+        };
+    </pre>
+
+    <p>The result is:</p>
+
+    <img width="100%" src="~/Content/Images/Part8Example1.png" />
+</div>

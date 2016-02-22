@@ -1,6 +1,8 @@
 ﻿using Demo.Extensions;
 using Demo.Services;
 using Fanex.Excel;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace Demo.Controllers
@@ -26,9 +28,29 @@ namespace Demo.Controllers
             return new EmptyResult();
         }
 
-        public JsonNetResult Generate()
+        public ActionResult Generate()
         {
-            return new JsonNetResult(this._service.GenerateData());
+            var gridOptions = this._service.GenerateData();
+            gridOptions.BodyRows[0].Columns[0].CustomAttributes = new Dictionary<string, string>(){
+                { "UserName", "Agent01" },
+                { "CustID", "100945"}
+            };
+            var writer = new JsonTextWriter(HttpContext.Response.Output);
+            var serializer = JsonSerializer.Create();
+            serializer.Serialize(writer, gridOptions);
+            writer.Flush();
+            return null;
         }
+
+        //public JsonNetResult Generate()
+        //{
+        //    var gridOptions = this._service.GenerateData();
+        //    gridOptions.BodyRows[0].Columns[0].CustomAttributes = new Dictionary<string, string>(){
+        //        { "UserName", "Agent01" },
+        //        { "CustID", "100945"}
+        //    };
+
+        //    return new JsonNetResult(gridOptions);
+        //}
     }
 }

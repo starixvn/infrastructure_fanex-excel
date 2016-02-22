@@ -1,0 +1,65 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Part4 - Grid Footer";
+}
+
+<div class="col-sm-12">
+    <p>
+        In this tutorial, I will introduce to you how to render Footer of Fanex.Grid.
+    </p>
+    <p>
+        Like Gird header group, grid footer also has property <text class="text-danger">"showFooter"</text> it indicates that we want to show footer, and then we create list of footer rows. The footer row structure is same with body row structure.
+    </p>
+    <p>
+        See grid option below:
+    </p>
+
+    <pre class="brush: javascript">
+        var footerRows = [
+                      {
+                          Columns: [
+                            { Value: "Total", Name: "No", MergeColNumber: 2},
+                            { Value: "Footer 3", Name: "Number1"},
+                            { Value: "Footer 4", Name: "Number2", MergeRowNumber: 2},
+                            { Value: "Footer 5", Name: "Number3", MergeRowNumber: 2},
+                            { Value: "Footer Merge 6", Name: "Text2", MergeColNumber: 3, CellAlign: 'center'},
+                            { Value: "Footer 9", Name: "Number4"},
+                            { Value: "Footer 10", Name: "Number5"}
+                         ]
+                      },
+                    {
+                        Columns: [
+                        { Value: "Total 2", Name: "No", MergeColNumber: 3},
+                        { Value: "Footer 6", Name: "Text2"},
+                        { Value: "Footer 7", Name: "Text3"},
+                        { Value: "Footer 8", Name: "Text4"},
+                        { Value: "Footer Merge 9", Name: "Number4", MergeColNumber: 2}
+                     ]
+                    }
+                ];
+ 
+        var gridOptions =
+            {
+                columns: [
+                    { HeaderText: "Header 1", Width: 90, Name: "No", HeaderAlign: "center", CellAlign: "center"},
+                    { HeaderText: "Header 2", Width: 80, Name: "Text1", HeaderAlign: "center", CellAlign: "right"},
+                    { HeaderText: "Header 3", Width: 120, Name: "Number1", HeaderAlign: "center", CellAlign: "right"},
+                    { HeaderText: "Header 4", Width: 120, Name: "Number2", HeaderAlign: "center", CellAlign: "right"},
+                    { HeaderText: "Header 5", Width: 160, Name: "Number3", HeaderAlign: "center", CellAlign: "right"},
+                    { HeaderText: "Header 6", Width: 110, Name: "Text2"},
+                    { HeaderText: "Header 7", Width: 120, Name: "Text3"},
+                    { HeaderText: "Header 8", Width: 150, Name: "Text4"},
+                    { HeaderText: "Header 9", Width: 130, Name: "Number4", HeaderAlign: "center", CellAlign: "right"},
+                    { HeaderText: "Header 10", Width: 120, Name: "Number5", HeaderAlign: "center", CellAlign: "right"}
+                ],
+                bodyRows: generateData(100),
+                showFooter: true,
+                footerRows: footerRows
+            };
+        </pre>
+
+    <p>And the result is:</p>
+
+    <img width="100%" src="~/Content/Images/Part5Example1.png" />
+
+</div>

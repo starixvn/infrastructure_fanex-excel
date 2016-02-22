@@ -1,0 +1,121 @@
+﻿@{
+    ViewBag.Title = "Default Treeview";
+}
+
+@section javascriptSource
+{
+    <pre class="brush: javascript; highlight: [85, 100]" id="javascript-destination"></pre>
+}
+
+@section scripts
+{
+    <script type="text/javascript" id="javascript-source">
+        function generateData(numberRows, autoHeight) {
+            var rows = [];
+            for (var index = 0; index < numberRows; index++) {
+                var row = {
+                    Columns: [
+                            { Name: "No", Value: index },
+                            { Name: "Text1", Value: parseFloat((Math.random() > 0.5 ? (Math.random() * 500).toFixed(3) : (Math.random() * 500 * -1).toFixed(3))) },
+                            { Name: "Number1", Value: parseFloat((Math.random() * 20000).toFixed(4)) },
+                            { Name: "Number2", Value: parseFloat((Math.random() * 100).toFixed(2)) },
+                            { Name: "Number3", Value: parseFloat((Math.random() * 500).toFixed(3)) },
+                            { Name: "Text2", Value: Math.random().toString(36).substring(7) },
+                            { Name: "Text3", Value: Math.random().toString(36).substring(8) },
+                            { Name: "Text4", Value: Math.random().toString(36).substring(9) },
+                            { Name: "Number4", Value: parseFloat((Math.random() * 1000).toFixed(3)) },
+                            { Name: "Number5", Value: parseFloat((index % 2 == 0 ? (Math.random() * 500).toFixed(3) : (Math.random() * 500 * -1).toFixed(3))) }
+                    ],
+                    CssClass: 'custom-css-class',
+                    CustomAttr: '',
+                    SubRows: ''
+                };
+
+                if (autoHeight) {
+                    row.RowHeight = Math.random() * 100;
+                }
+
+                rows.push(row);
+            }
+
+            return rows;
+        }
+
+
+        function generateTreeData(numberParentRows) {
+            var rows = [];
+            for (var index = 0; index < numberParentRows; index++) {
+                var currentRow = {
+                    Columns: [
+                            { Name: "No", Value: 'Group - ' + index, MergeColNumber: 3 },
+                            { Name: "Number2", Value: 'Group - ' + index, MergeColNumber: 7 }
+                    ],
+                    SubRows: []
+                }
+
+                for (var j = 0; j < 5; j++) {
+                    var currentSubRow = {
+                        Columns: [
+                            { Name: "No", Value: 'Group - ' + index + ' - ' + j, MergeColNumber: 3 },
+                            { Name: "Number2", Value: 'Group - ' + index + ' - ' + j, MergeColNumber: 7 }
+                        ],
+                        SubRows: generateData(5),
+                        CssClass: 'sub-row-class'
+                    };
+
+                    currentRow.SubRows.push(currentSubRow);
+                }
+
+                if (index == 4) {
+                    currentRow.SubRows = [];
+                }
+
+                rows.push(currentRow);
+            }
+
+            return rows;
+        }
+
+        var gridOptions =
+        {
+            customizeHeader: true,
+            groupHeaderRows: [
+                     {
+                         Columns: [
+                                { HeaderText: "Group Header 1", Name: "No", MergeColNumber: 2 },
+                                { HeaderText: "Header 3", Name: "Number1", MergeRowNumber: 2 },
+                                { HeaderText: "Header 4", Name: "Number2", MergeRowNumber: 2 },
+                                { HeaderText: "Group Header 2", Name: "Number3", MergeColNumber: 5 },
+                                { HeaderText: "Header 10", Name: "Number5", MergeRowNumber: 2 }
+                         ]
+                     }
+            ],
+            columns: [
+                { HeaderText: "Header 1", Width: 60, Name: "No", HeaderAlign: "center", CellAlign: "left", ShowCollapseExpand: true },
+                { HeaderText: "Header 2", Width: 70, Name: "Text1", HeaderAlign: "center", CellAlign: "left" },
+                { HeaderText: "Header 3", Width: 100, Name: "Number1", HeaderAlign: "center", CellAlign: "right" },
+                { HeaderText: "Header 4", Width: 100, Name: "Number2", HeaderAlign: "center", CellAlign: "right" },
+                { HeaderText: "Header 5", Width: 160, Name: "Number3", HeaderAlign: "center", CellAlign: "right" },
+                { HeaderText: "Header 6", Width: 110, Name: "Text2" },
+                { HeaderText: "Header 7", Width: 120, Name: "Text3" },
+                { HeaderText: "Header 8", Width: 150, Name: "Text4" },
+                { HeaderText: "Header 9", Width: 90, Name: "Number4", HeaderAlign: "center", CellAlign: "right" },
+                { HeaderText: "Header 10", Width: 120, Name: "Number5", HeaderAlign: "center", CellAlign: "right" }
+            ],
+            bodyRows: generateTreeData(10),
+            gridExpandHeight: 170,
+            showTree: true,
+            showTitle: true,
+            titleInfo:
+                {
+                    text: "Demo Title",
+                    showCollapseExpandButton: true
+                },
+            numberOfFrozenColumn: 3
+        };
+
+        $(function () {
+            var currentGrid = $("#gridId").fanexGrid(gridOptions);
+        });
+    </script>
+}

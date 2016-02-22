@@ -1,0 +1,83 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Part9 - Tree View";
+}
+<div class="col-sm-12">
+    <p>Fanex.Grid support Grid tree-view or parent-child view, there are two steps to render this Grid.</p>
+
+    <p><b>First, prepare data</b>, like view of this case, the data will have multiple parent-child level. Each row will have SubRows, then SubRows can have SubRows respectively.</p>
+
+    <pre class="brush: javascript">
+        function generateTreeData(numberParentRows) {
+    var rows = [];
+    for (var index = 0; index < numberParentRows; index++) {
+        var currentRow = {
+            Columns: [
+                    { Name: "No", Value: 'Group - ' + index, MergeColNumber: 3 },
+                    { Name: "Number2", Value: 'Group - ' + index, MergeColNumber: 7 }
+                ],
+            SubRows: []
+        }
+        for (var j = 0; j < 5; j++) {
+            var currentSubRow = {
+                Columns: [
+                    { Name: "No", Value: 'Group - ' + index + ' - ' + j, MergeColNumber: 3 },
+                    { Name: "Number2", Value: 'Group - ' + index + ' - ' + j, MergeColNumber: 7 }
+                ],
+                SubRows: GenerateNormalData(5)
+            };
+            currentRow.SubRows.push(currentSubRow);
+        }
+        if (index == 4) {
+            currentRow.SubRows = [];
+ 
+        }
+        rows.push(currentRow);
+    }
+    return rows;
+}
+</pre>
+    <p><b>Second</b>, in Grid Option, we must declare <text class="text-danger">"showTree" property and set it to "true"</text> to tell Fanex.Grid that we want to display this Grid by Tree-view:</p>
+    <pre class="brush: javascript">
+        var gridOptions =
+        {
+            customizeHeader: true,
+            groupHeaderRows: [
+                     {
+                         Columns: [
+                                { HeaderText: "Group Header 1", Name: "No", MergeColNumber: 2 },
+                                { HeaderText: "Header 3", Name: "Number1", MergeRowNumber: 2 },
+                                { HeaderText: "Header 4", Name: "Number2", MergeRowNumber: 2 },
+                                { HeaderText: "Group Header 2", Name: "Number3", MergeColNumber: 5 },
+                                { HeaderText: "Header 10", Name: "Number5", MergeRowNumber: 2 }
+                            ]
+                     }
+            ],
+            columns: [
+                { HeaderText: "Header 1", Width: 60, Name: "No", HeaderAlign: "center", CellAlign: "left", ShowCollapseExpand: true },
+                { HeaderText: "Header 2", Width: 70, Name: "Text1", HeaderAlign: "center", CellAlign: "right" },
+                { HeaderText: "Header 3", Width: 100, Name: "Number1", HeaderAlign: "center", CellAlign: "right" },
+                { HeaderText: "Header 4", Width: 100, Name: "Number2", HeaderAlign: "center", CellAlign: "right" },
+                { HeaderText: "Header 5", Width: 160, Name: "Number3", HeaderAlign: "center", CellAlign: "right" },
+                { HeaderText: "Header 6", Width: 110, Name: "Text2" },
+                { HeaderText: "Header 7", Width: 120, Name: "Text3" },
+                { HeaderText: "Header 8", Width: 150, Name: "Text4" },
+                { HeaderText: "Header 9", Width: 90, Name: "Number4", HeaderAlign: "center", CellAlign: "right" },
+                { HeaderText: "Header 10", Width: 120, Name: "Number5", HeaderAlign: "center", CellAlign: "right" }
+            ],
+            bodyRows: generateTreeData(10),
+            showTree: true,
+            showTitle: true,
+            titleInfo:
+                {
+                    text: "Demo Title",
+                    showCollapseExpandButton: true
+                },
+            numberOfFrozenColumn: 3
+        };
+        </pre>
+
+    <p>And the result is:</p>
+
+    <img width="100%" src="~/Content/Images/Part10Example1.png" />
+</div>

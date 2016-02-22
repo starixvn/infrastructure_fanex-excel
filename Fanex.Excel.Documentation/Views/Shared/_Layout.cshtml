@@ -1,0 +1,108 @@
+﻿@{
+    List<MenuItem> menuList = ViewBag.MenuList as List<MenuItem>;
+    string selectedMenuName = ViewBag.SelectedMenuName as string;
+    bool isShowInIframe = ViewBag.IsShowInIframe ?? false;
+    bool isShowMenuLeft = menuList != null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fanex Grid Guidelines</title>
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    @Styles.Render("~/Content/bootstrapcss")
+    @Styles.Render("~/Content/materialdesigncss")
+    @Styles.Render("~/Content/style")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/highlightcss")
+    @RenderSection("css", required: false)
+</head>
+<body>
+    @Html.Partial("_TopMenu")
+    <div class="content" id="mainContent">
+        @if (isShowMenuLeft)
+        {
+            var isSelectedMenu = false;
+            var activeClassName = string.Empty;
+            
+            <div class="left-panel">
+                <ul class="list-unstyled">
+                    @foreach (var menu in menuList)
+                    {
+                        isSelectedMenu = selectedMenuName == menu.ViewName;
+                        activeClassName = isSelectedMenu ? "active" : string.Empty;
+                        
+                        <li>
+                            @if (menu.SubMenus != null)
+                            {
+                                <a class="withripple withrippl list-menu-header" data-hide-child="true" href="javascript:void(0);">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                    @menu.Name<div class="ripple-wrapper"></div>
+                                </a>
+                                <ul class="sub-menu list-unstyled" style="display:none;">
+                                    <li>
+                                        @foreach (var subMenu in menu.SubMenus)
+                                        {
+                                            var sampleName = menu.ViewName + "/" + subMenu.ViewName;
+                                            <a class="withripple withripple " href="@(Url.Content(subMenu.Url + sampleName))" @(isShowInIframe ? Html.Raw("target=sampleFrameContent").ToString() : string.Empty)>
+                                                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                                @subMenu.Name<div class="ripple-wrapper"></div>
+                                            </a>
+                                        }
+                                    </li>
+                                </ul>
+                            }
+                            else
+                            {
+                                <a class="withripple withripple @(activeClassName)" href="@(Url.Content(menu.Url + menu.ViewName))" @(isShowInIframe ? Html.Raw("target=sampleFrameContent").ToString() : string.Empty)>
+                                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                    @menu.Name<div class="ripple-wrapper"></div>
+                                </a>
+                            }
+                        </li>
+                    }
+
+                </ul>
+            </div>
+        }
+        <div class="right-panel @(isShowMenuLeft ? "show-left" : string.Empty)" id="right-panel">
+            <div class="container-fluid" id="right-container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h1 class="title">@ViewBag.Title</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    @RenderBody()
+                    <div class="scroll-top">
+                        <span class="mdi-editor-publish icon-scroll-top" id="back-top"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <p>Nexcel Solutions — For internal use only</p>
+    </footer>
+    @Html.Hidden("FrontEndGuidelinesRootUrl", Url.Content("~/"))
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/materialdesign")
+    @Scripts.Render("~/bundles/layoutjs")
+    @Scripts.Render("~/bundles/highlightjs")
+    
+    <script type="text/javascript">
+        $(function () {
+            try
+            {
+                $.material.init();
+            }
+            catch(e){};
+        });
+        SyntaxHighlighter.defaults['toolbar'] = false;
+        SyntaxHighlighter.all();
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "Auto Resize Full Width";
+}
+
+@section scripts
+{
+    <script type="text/javascript" id="javascript-source">
+        function generateShortData(numberRows) {
+            var rows = [];
+            for (var index = 0; index < numberRows; index++) {
+                rows.push(
+                    {
+                        Columns: [
+                            { Name: "No", Value: index * 2 },
+                            { Name: "Text1", Value: parseFloat((Math.random() > 0.5 ? (Math.random() * 500).toFixed(3) : (Math.random() * 500 * -1).toFixed(3))) },
+                            { Name: "Number1", Value: parseFloat((Math.random() * 20000).toFixed(4)) },
+                            { Name: "Number2", Value: parseFloat((Math.random() * 100).toFixed(2)) },
+                            { Name: "Number3", Value: parseFloat((Math.random() * 500).toFixed(3)) }
+                        ],
+                        CssClass: '',
+                        CustomAttr: '',
+                        SubRows: ''
+                    }
+                );
+            }
+            return rows;
+        }
+
+        var footerRows = [
+                  {
+                      Columns: [
+                        { Value: "Total", Name: "No", MergeColNumber: 2 },
+                        { Value: "Footer 3", Name: "Number1" },
+                        { Value: "Footer 4", Name: "Number2", MergeRowNumber: 2 },
+                        { Value: "Footer 5", Name: "Number3", MergeRowNumber: 2 },
+                        { Value: "Footer Merge 6", Name: "Text2", MergeColNumber: 3, CellAlign: 'center' },
+                        { Value: "Footer 9", Name: "Number4" },
+                        { Value: "Footer 10", Name: "Number5" }
+                      ]
+                  },
+                {
+                    Columns: [
+                    { Value: "Total 2", Name: "No", MergeColNumber: 3 },
+                    { Value: "Footer 6", Name: "Text2" },
+                    { Value: "Footer 7", Name: "Text3" },
+                    { Value: "Footer 8", Name: "Text4" },
+                    { Value: "Footer Merge 9", Name: "Number4", MergeColNumber: 2 }
+                    ]
+                }
+        ];
+        var bodyRows = generateShortData(20);
+        bodyRows[1].Columns[1].Value = '23232320032 asdas dasd asd asd asdasd as dasasdasd asd asd as dasd asd3232';
+        //bodyRows[1].Columns[5].Value = 'aasd asdsad sad asdasdasdasdasdasdas ';
+        var gridOptions =
+            {
+                customizeHeader: true,
+                groupHeaderRows: [
+                         {
+                             Columns: [
+                                    { HeaderText: "Group Header 1", Name: "No", MergeColNumber: 2 },
+                                    { HeaderText: "Header 3", Name: "Number1", MergeRowNumber: 2 },
+                                    { HeaderText: "Header 4", Name: "Number2", MergeRowNumber: 2 },
+                                    { HeaderText: "Group Header 2", Name: "Number3", MergeRowNumber: 2 }
+                             ]
+                         }
+                ],
+                columns: [
+                    {
+                        HeaderText: "Header 1", Width: 70, Name: "No", HeaderAlign: "center", CellAlign: "center",
+                        CalResizeFunction: function (value) {
+                            return value.toString().length * 20;
+                        }
+                    },
+                    { HeaderText: "Header 2", Width: 120, Name: "Text1", HeaderAlign: "center", CellAlign: "right", CanResize: true, MaxResizeWidth: 200, AllowTruncate: true },
+                    { HeaderText: "Header 3", Width: 120, Name: "Number1", HeaderAlign: "center", CellAlign: "right" },
+                    { HeaderText: "Header 4", Width: 70, Name: "Number2", HeaderAlign: "center", CellAlign: "right", CanResize: true, PixelsPerCharacter: 25, MaxResizeWidth: 150 },
+                    { HeaderText: "Header 5", Width: 70, Name: "Number3", HeaderAlign: "center", CellAlign: "right", CanResize: true, MaxResizeWidth: 200 }
+                ],
+                bodyRows: bodyRows,
+                gridExpandHeight: 150,
+                numberOfFrozenColumn: 3,
+                //autoFixFrozenRowHeight: true,
+                autoResizeColumn: true,
+                showPager: true,
+                pagerOption: {
+                    itemsPerPage: 100,
+                    currentPage: 0,
+                    itemsPerPageArray: [50, 100, 500],
+                    showDetail: true
+                },
+                showFooter: false,
+                footerRows: footerRows
+                //,pixelesPerCharacter: 7.8
+            };
+        $(function () {
+            var currentGrid = $("#gridId").fanexGrid(gridOptions);
+        });
+    </script>
+}

@@ -1,0 +1,96 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Header Grouping";
+}
+
+<div class="col-sm-12">
+    In this tutorial, I will introduce how we can group header. Let’s suppose that we need to build a Grid Header like that:
+
+    <p>
+        <img width="100%" src="~/Content/Images/Part4Example1.png" />
+    </p>
+
+    <b>First</b>, We have to analyze how many column we need to create. From above image, we see that have 10 columns need to create, so the <text class="text-danger">
+        "columns"
+    </text> property of Grid Option is:
+
+    <pre class="brush: javascript">
+        var gridOptions =
+        {
+            columns: [
+                { HeaderText: "Header 1", Width: 60, Name: "No", HeaderAlign: "center", CellAlign: "center"},
+                { HeaderText: "Header 2", Width: 70, Name: "Text1", HeaderAlign: "center", CellAlign: "right"},
+                { HeaderText: "Header 3", Width: 100, Name: "Number1", HeaderAlign: "center", CellAlign: "right"},
+                { HeaderText: "Header 4", Width: 100, Name: "Number2", HeaderAlign: "center", CellAlign: "right"},
+                { HeaderText: "Header 5", Width: 160, Name: "Number3", HeaderAlign: "center", CellAlign: "right"},
+                { HeaderText: "Header 6", Width: 110, Name: "Text2"},
+                { HeaderText: "Header 7", Width: 120, Name: "Text3"},
+                { HeaderText: "Header 8", Width: 150, Name: "Text4"},
+                { HeaderText: "Header 9", Width: 90, Name: "Number4", HeaderAlign: "center", CellAlign: "right"},
+                { HeaderText: "Header 10", Width: 120, Name: "Number5", HeaderAlign: "center", CellAlign: "right"}
+            ],
+            bodyRows: generateData(100)
+        };
+    </pre>
+
+    <p><b>Second</b>, look at image below:</p>
+
+    <p>
+        <img width="100%" src="~/Content/Images/Part4Example1b.png" />
+    </p>
+
+    <p>
+        Row 1st is described on "columns" property of Grid option above, and the <text class="text-danger">others rows higher than row 1st will be described in "groupHeaderRows" property</text>. In below example, we just want to add only one row over the row 1st:
+    </p>
+
+    <pre class="brush: javascript">
+        var gridOptions =
+        {
+            customizeHeader: true,
+            groupHeaderRows: [
+                     {
+                         Columns: [
+                                { HeaderText: "Group Header 1", Name: "No", MergeColNumber: 2},
+                                { HeaderText: "Header 3", Name: "Number1", MergeRowNumber: 2},
+                                { HeaderText: "Header 4", Name: "Number2", MergeRowNumber: 2},
+                                { HeaderText: "Group Header 2", Name: "Number3", MergeColNumber: 5},
+                                { HeaderText: "Header 10", Name: "Number5", MergeRowNumber: 2}
+                            ]
+                     }
+            ],
+            columns: [
+                { HeaderText: "Header 1", Width: 60, Name: "No", HeaderAlign: "center", CellAlign: "center"},
+                { HeaderText: "Header 2", Width: 70, Name: "Text1", HeaderAlign: "center", CellAlign: "right"},
+                { HeaderText: "Header 3", Width: 100, Name: "Number1", HeaderAlign: "center", CellAlign: "right"},
+                { HeaderText: "Header 4", Width: 100, Name: "Number2", HeaderAlign: "center", CellAlign: "right"},
+                { HeaderText: "Header 5", Width: 160, Name: "Number3", HeaderAlign: "center", CellAlign: "right"},
+                { HeaderText: "Header 6", Width: 110, Name: "Text2", MergeHeaderColNumber: 3},
+                { HeaderText: "Header 7", Width: 120, Name: "Text3"},
+                { HeaderText: "Header 8", Width: 150, Name: "Text4"},
+                { HeaderText: "Header 9", Width: 90, Name: "Number4", HeaderAlign: "center", CellAlign: "right"},
+                { HeaderText: "Header 10", Width: 120, Name: "Number5", HeaderAlign: "center", CellAlign: "right"}
+            ],
+            bodyRows: generateData(100),
+            gridExpandHeight: 150
+        };
+    </pre>
+
+    <p>
+        <text class="text-danger">
+            "customizeHeader" property set to "true"
+        </text> to tell Fanex.Grid that we have more than one header row, and then
+        <text class="text-danger">"groupHeaderRows" will contain others Header rows except first row</text>which was already declared in "columns" property. We noted that there are two column properties for merging are:
+    </p>
+    <ul>
+        <li><text class="text-danger">MergeColNumber</text> merge columns of row, act like attribute "colspan" of "td" element in table</li>
+        <li><text class="text-danger">MergeRowNumber</text> merge same column of many rows, act like attribute "rowspan" of "td" element in table</li>
+    </ul>
+
+    <p>
+        <b>Finally</b> the result is:
+</p>
+
+    <p>
+        <img width="100%" src="~/Content/Images/Part4Example2.png" />
+    </p>
+</div>

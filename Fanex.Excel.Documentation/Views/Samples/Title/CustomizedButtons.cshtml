@@ -1,0 +1,89 @@
+﻿
+@{
+    ViewBag.Title = "Customized Buttons";
+    Layout = "~/Views/Shared/_SampleLayout.cshtml";
+}
+
+@section css
+{
+    <style type="text/css" id="css-source">
+         .title-customized-button
+         {
+             width: 70px;
+             height: 18px;
+             line-height: 14px;
+         }
+    </style>
+}
+
+@section javascriptSource
+{
+    <pre class="brush: javascript; highlight: [41, 42, 46, 55]" id="javascript-destination"></pre>
+}
+
+@section scripts
+{
+    <script type="text/javascript" id="javascript-source">
+        //// Create sample data
+        function generateData(numberRows, autoHeight) {
+            var rows = [];
+            for (var index = 0; index < numberRows; index++) {
+                var row = {
+                    Columns: [
+                            { Name: "No", Value: index },
+                            { Name: "Text1", Value: parseFloat((Math.random() > 0.5 ? (Math.random() * 500).toFixed(3) : (Math.random() * 500 * -1).toFixed(3))) },
+                            { Name: "Number1", Value: parseFloat((Math.random() * 20000).toFixed(4)) },
+                            { Name: "Number2", Value: parseFloat((Math.random() * 100).toFixed(2)) },
+                            { Name: "Number3", Value: parseFloat((Math.random() * 500).toFixed(3)) },
+                            { Name: "Text2", Value: Math.random().toString(36).substring(7) },
+                            { Name: "Text3", Value: Math.random().toString(36).substring(8) },
+                            { Name: "Text4", Value: Math.random().toString(36).substring(9) },
+                            { Name: "Number4", Value: parseFloat((Math.random() * 1000).toFixed(3)) },
+                            { Name: "Number5", Value: parseFloat((index % 2 == 0 ? (Math.random() * 500).toFixed(3) : (Math.random() * 500 * -1).toFixed(3))) }
+                    ]
+                };
+                rows.push(row);
+            }
+
+            return rows;
+        }
+
+        //// Setup Grid options
+        var gridOptions =
+            {
+                columns: [
+                    { HeaderText: "Header 1", Width: 60, Name: "No", HeaderAlign: "center", CellAlign: "center"},
+                    { HeaderText: "Header 2", Width: 70, Name: "Text1", HeaderAlign: "center", CellAlign: "right" },
+                    { HeaderText: "Header 3", Width: 100, Name: "Number1", HeaderAlign: "center", CellAlign: "right" },
+                    { HeaderText: "Header 4", Width: 100, Name: "Number2", HeaderAlign: "center", CellAlign: "right" },
+                    { HeaderText: "Header 5", Width: 160, Name: "Number3", HeaderAlign: "center", CellAlign: "right" },
+                    { HeaderText: "Header 6", Width: 110, Name: "Text2" },
+                    { HeaderText: "Header 7", Width: 120, Name: "Text3" },
+                    { HeaderText: "Header 8", Width: 150, Name: "Text4" },
+                    { HeaderText: "Header 9", Width: 90, Name: "Number4", HeaderAlign: "center", CellAlign: "right" },
+                    { HeaderText: "Header 10", Width: 120, Name: "Number5", HeaderAlign: "center", CellAlign: "right" }
+                ],
+                bodyRows: generateData(100),
+                gridExpandHeight: 125,
+                showTitle: true,
+                titleInfo:
+                    {
+                        text: "Demo Title",
+                        customButtons: '<input id="btn-customized" type="button" class="title-customized-button" value="Click Me" />'
+                    }
+            };
+
+        $(function () {
+            //// Render
+            $("#gridId").fanexGrid(gridOptions);
+
+            //// Register customized button click event
+            $('#btn-customized')
+                .off('click.fanex.grid')
+                .on('click.fanex.grid', function () {
+                    alert('btn-customized clicked')
+                });
+        });
+    </script>
+
+}
