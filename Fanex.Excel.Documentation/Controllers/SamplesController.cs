@@ -17,10 +17,10 @@
                     ViewName = "CustomizedOptions",
                     SubMenus = new List<MenuItem>
                     {
-                        new MenuItem { Name = "Frozen Columns", Url = SamplePageUrl, ViewName = "FrozenColumns" },
+                        new MenuItem { Name = "Frozen Columns (*)", Url = SamplePageUrl, ViewName = "FrozenColumns" },
                         new MenuItem { Name = "Multiple Languages", Url = SamplePageUrl, ViewName = "MultipleLanguages" },
                         new MenuItem { Name = "Custom Height", Url = SamplePageUrl, ViewName = "CustomHeight" },
-                        new MenuItem { Name = "Distinct Rows", Url = SamplePageUrl, ViewName = "DistinctRows" },
+                        new MenuItem { Name = "Distinct Rows (*)", Url = SamplePageUrl, ViewName = "DistinctRows" },
                         new MenuItem { Name = "Highlight Rows", Url = SamplePageUrl, ViewName = "HighlightRows" },
                         new MenuItem { Name = "Show Number Column", Url = SamplePageUrl, ViewName = "ShowNumberColumn" },
                         new MenuItem { Name = "Margin Right", Url = SamplePageUrl, ViewName = "MarginRight" },
@@ -39,7 +39,7 @@
                     {
                         new MenuItem { Name = "Customized Column", Url = SamplePageUrl, ViewName = "CustomizedColumn" },
                         new MenuItem { Name = "Customized Row", Url = SamplePageUrl, ViewName = "CustomizedRow" },
-                        new MenuItem { Name = "Customized Cell", Url = SamplePageUrl, ViewName = "CustomizedCell" },
+                        new MenuItem { Name = "Customized Cell (*)", Url = SamplePageUrl, ViewName = "CustomizedCell" },
                         new MenuItem { Name = "Custom Rendering", Url = SamplePageUrl, ViewName = "CustomRendering" },
                         new MenuItem { Name = "Append Rows Realtime", Url = SamplePageUrl, ViewName = "AppendRowsRealtime" }
                     }
@@ -50,8 +50,8 @@
                     ViewName = "Header",
                     SubMenus = new List<MenuItem>
                     {
-                        new MenuItem { Name = "Grouping", Url = SamplePageUrl, ViewName = "Grouping" },
-                        new MenuItem { Name = "Customized", Url = SamplePageUrl, ViewName = "Customized" }
+                        new MenuItem { Name = "Grouping (*)", Url = SamplePageUrl, ViewName = "Grouping" },
+                        new MenuItem { Name = "Customized (*)", Url = SamplePageUrl, ViewName = "Customized" }
                     }
                 },
                 new MenuItem 
@@ -71,9 +71,9 @@
                     ViewName = "Footer",
                     SubMenus = new List<MenuItem>
                     {
-                        new MenuItem { Name = "Show", Url = SamplePageUrl, ViewName = "Show" },
-                        new MenuItem { Name = "Grouping", Url = SamplePageUrl, ViewName = "Grouping" },
-                        new MenuItem { Name = "Customized", Url = SamplePageUrl, ViewName = "Customized" }
+                        new MenuItem { Name = "Show (*)", Url = SamplePageUrl, ViewName = "Show" },
+                        new MenuItem { Name = "Grouping (*)", Url = SamplePageUrl, ViewName = "Grouping" },
+                        new MenuItem { Name = "Customized (*)", Url = SamplePageUrl, ViewName = "Customized" }
                     }
                 },
                 new MenuItem 
@@ -140,7 +140,7 @@
                     ViewName = "Formatters",
                     SubMenus = new List<MenuItem>
                     {
-                        new MenuItem { Name = "Date Time", Url = SamplePageUrl, ViewName = "DateTime" },
+                        new MenuItem { Name = "Date Time (*)", Url = SamplePageUrl, ViewName = "DateTime" },
                         new MenuItem { Name = "Number", Url = SamplePageUrl, ViewName = "Number" }
                     }
                 },

@@ -30,7 +30,11 @@
             customCellStyle.SetFont(Font.ToNPOIFont(workbook));
             customCellStyle.VerticalAlignment = VAlign;
             customCellStyle.Alignment = HAlign;
-            customCellStyle.DataFormat = workbook.CreateDataFormat().GetFormat(DataFormat);
+            if(DataFormat != null)
+            {
+                customCellStyle.DataFormat = workbook.CreateDataFormat().GetFormat(DataFormat);
+            }
+            
             customCellStyle.FillPattern = FillPattern.SolidForeground;
             customCellStyle.FillForegroundColor = this.BackgroundColor;
             customCellStyle.WrapText = this.WrapText;
@@ -49,15 +53,24 @@
 
     public class CustomExcelFont
     {
-        public string FontName{get;set ;}
+        public string FontName { get; set; }
 
         public short FontHeightInPoints { get; set; }
 
-        public bool IsBold{ get; set; }
+        public bool IsBold { get; set; }
 
         public bool IsItalic { get; set; }
 
         public short ForegroundColor { get; set; }
+
+        public CustomExcelFont()
+        {
+            this.FontName = "Tahoma";
+            this.FontHeightInPoints = 8;
+            this.IsBold = false;
+            this.IsItalic = false;
+            this.ForegroundColor = 0;
+        }
 
         public IFont ToNPOIFont(IWorkbook workbook)
         {

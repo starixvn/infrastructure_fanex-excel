@@ -4,81 +4,106 @@
     Layout = "~/Views/Shared/_SampleLayout.cshtml";
 }
 
-@section javascriptSource
+@section csharpSource
 {
-    <pre class="brush: javascript; highlight: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 27, 29]" id="javascript-destination"></pre>
+    <pre class="brush: csharp; highlight: []" id="csharp-source">
+        public GridOptions GenerateData()
+        {
+            this.GenerateHeader();
+            this.GenerateBody();
+            this._gridOptions.ShowDistinctRow = false;
+            return this._gridOptions;
+        }
+
+        private void GenerateHeader()
+        {
+            this._gridOptions.CustomizeHeader = true;
+            var groupHeader = new GroupHeaderRows()
+            {
+                Columns = new List<HeaderColumns>() {
+                    new HeaderColumns() {
+                        HeaderText = "Group Header 1", Name="No", MergeColNumber = 3
+                    },
+                    new HeaderColumns() {
+                        HeaderText = "Header 4", Name="Number2", MergeColNumber = 5, MergeRowNumber = 2
+                    },
+                    new HeaderColumns() {
+                        HeaderText = "Header 10", Name="Number4", MergeColNumber = 2
+                    }
+                }
+            };
+            this._gridOptions.CreateGroupHeaderRow(groupHeader);
+            groupHeader = new GroupHeaderRows()
+            {
+                Columns = new List<HeaderColumns>() {
+                    new HeaderColumns() {
+                        HeaderText = "Group Header 1", Name="No", MergeColNumber = 2
+                    },
+                    new HeaderColumns() {
+                        HeaderText = "Header 3", Name="Number1", MergeRowNumber = 2
+                    },
+                    new HeaderColumns() {
+                        HeaderText = "Header 10", Name="Number4", MergeRowNumber = 2
+                    },
+                    new HeaderColumns() {
+                        HeaderText = "Header 10", Name="Number5", MergeRowNumber = 2
+                    }
+                }
+            };
+            this._gridOptions.CreateGroupHeaderRow(groupHeader);
+            this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Header 1", Width = 60, Name = "No", HeaderAlignment = HAlignment.Center, CellAlignment = HAlignment.Center });
+            this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Header 2", Width = 100, Name = "Text1", HeaderAlignment = HAlignment.Center, CellAlignment = HAlignment.Right });
+            this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Header 3", Width = 100, Name = "Number1", HeaderAlignment = HAlignment.Center, CellAlignment = HAlignment.Right });
+            this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Header 4", Width = 100, Name = "Number2", MergeHeaderColNumber = 2 });
+            this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Header 5", Width = 100, Name = "Number3", HeaderAlignment = HAlignment.Center, CellAlignment = HAlignment.Right });
+            this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Header 6", Width = 110, Name = "Text2", MergeHeaderColNumber = 3 });
+            this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Header 7", Width = 120, Name = "Text3" });
+            this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Header 8", Width = 150, Name = "Text4" });
+            this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Header 9", Width = 90, Name = "Number4", HeaderAlignment = HAlignment.Center, CellAlignment = HAlignment.Right });
+            this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Header 10", Width = 120, Name = "Number5", HeaderAlignment = HAlignment.Center, CellAlignment = HAlignment.Right });
+        }
+
+        private void GenerateBody()
+        {
+            for (int i = 0; i &gt; 100; i++)
+            {
+                var bodyRow = new GridDataRow();
+                bodyRow.CreateColumns(new Columns() { Name = "No", Value = i });
+                bodyRow.CreateColumns(new Columns() { Name = "Text1", Value = RandomString(5) });
+                bodyRow.CreateColumns(new Columns() { Name = "Number1", Value = RandomDouble().ToString("0.###") });
+                bodyRow.CreateColumns(new Columns() { Name = "Number2", Value = RandomInteger() });
+                bodyRow.CreateColumns(new Columns() { Name = "Number3", Value = RandomDouble().ToString("0.####") });
+                bodyRow.CreateColumns(new Columns() { Name = "Text2", Value = RandomString(6) });
+                bodyRow.CreateColumns(new Columns() { Name = "Text3", Value = RandomString(7) });
+                bodyRow.CreateColumns(new Columns() { Name = "Text4", Value = RandomString(8) });
+                bodyRow.CreateColumns(new Columns() { Name = "Number4", Value = RandomInteger() });
+                bodyRow.CreateColumns(new Columns() { Name = "Number5", Value = RandomInteger() });
+                this._gridOptions.CreateBodyRow(bodyRow);
+            }
+        }
+    </pre>
 }
 
 @section scripts
 {
-    <script type="text/javascript" id="javascript-source">
-        //// Setup Grid options
-        var gridOptions =
-       {
-           customizeHeader: true,
-           groupHeaderRows: [
-                    {
-                        Columns: [
-                               { HeaderText: "Group Header 1", Name: "No", MergeColNumber: 3},
-                               { HeaderText: "Header 4", Name: "Number2", MergeColNumber: 5, MergeRowNumber: 2 },
-                               { HeaderText: "Header 10", Name: "Number4", MergeColNumber: 2 }
-                        ]
-                    },
-                     {
-                         Columns: [
-                                { HeaderText: "Group Header 1", Name: "No", MergeColNumber: 2 },
-                                { HeaderText: "Header 3", Name: "Number1", MergeRowNumber: 2 },
-                                //{ HeaderText: "Header 4", Name: "Number2", MergeColNumber: 5 },
-                                { HeaderText: "Header 10", Name: "Number4", MergeRowNumber: 2 },
-                                { HeaderText: "Header 10", Name: "Number5", MergeRowNumber: 2 }
-                         ]
-                     }
-           ],
-           columns: [
-               { HeaderText: "Header 1", Width: 60, Name: "No", HeaderAlign: "center", CellAlign: "center"},
-               { HeaderText: "Header 2", Width: 70, Name: "Text1", HeaderAlign: "center", CellAlign: "right" },
-               { HeaderText: "Header 3", Width: 100, Name: "Number1", HeaderAlign: "center", CellAlign: "right" },
-               { HeaderText: "Header 4", Width: 100, Name: "Number2", MergeHeaderColNumber: 2 },
-               { HeaderText: "Header 5", Width: 160, Name: "Number3", HeaderAlign: "center", CellAlign: "right" },
-               { HeaderText: "Header 6", Width: 110, Name: "Text2", MergeHeaderColNumber: 3 },
-               { HeaderText: "Header 7", Width: 120, Name: "Text3" },
-               { HeaderText: "Header 8", Width: 150, Name: "Text4" },
-               { HeaderText: "Header 9", Width: 90, Name: "Number4", HeaderAlign: "center", CellAlign: "right" },
-               { HeaderText: "Header 10", Width: 120, Name: "Number5", HeaderAlign: "center", CellAlign: "right" }
-           ],
-           bodyRows: generateData(100),
-           gridExpandHeight: 120,
-           numberOfFrozenColumn: 3
-       };
-
-        //// Create sample data
-        function generateData(numberRows, autoHeight) {
-            var rows = [];
-            for (var index = 0; index < numberRows; index++) {
-                var row = {
-                    Columns: [
-                            { Name: "No", Value: index },
-                            { Name: "Text1", Value: parseFloat((Math.random() > 0.5 ? (Math.random() * 500).toFixed(3) : (Math.random() * 500 * -1).toFixed(3))) },
-                            { Name: "Number1", Value: parseFloat((Math.random() * 20000).toFixed(4)) },
-                            { Name: "Number2", Value: parseFloat((Math.random() * 100).toFixed(2)) },
-                            { Name: "Number3", Value: parseFloat((Math.random() * 500).toFixed(3)) },
-                            { Name: "Text2", Value: Math.random().toString(36).substring(7) },
-                            { Name: "Text3", Value: Math.random().toString(36).substring(8) },
-                            { Name: "Text4", Value: Math.random().toString(36).substring(9) },
-                            { Name: "Number4", Value: parseFloat((Math.random() * 1000).toFixed(3)) },
-                            { Name: "Number5", Value: parseFloat((index % 2 == 0 ? (Math.random() * 500).toFixed(3) : (Math.random() * 500 * -1).toFixed(3))) }
-                    ]
-                };
-                rows.push(row);
-            }
-
-            return rows;
-        }
-
+<script type="text/javascript" id="javascript-source">
         $(function () {
-            //// Render
-            $("#gridId").fanexGrid(gridOptions);
+            Common.utility.CallAjax(this,
+                "../GroupingHeaderSample/Generate",
+                null,
+                function (result) {
+                    result.showTitle = true;
+                    result.titleInfo = {
+                        text: "Demo Title",
+                        showExcelButton: true,
+                        exportExcelFunction: function () {
+                            Common.downloadFile("../GroupingHeaderSample/ExportExcel");
+                        }
+                    }
+
+                    $('#gridId').fanexGrid(result);
+                });
         });
-    </script>
+</script>
 
 }

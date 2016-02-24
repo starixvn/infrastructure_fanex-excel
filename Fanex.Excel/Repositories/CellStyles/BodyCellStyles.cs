@@ -66,8 +66,8 @@ namespace Fanex.Excel.Repositories.CellStyles
             this.PercentageRedPositiveBold = new PercentageRedPositiveStyle(workbook, this._bodyBoldFont);
             this.PercentageRedNegativeBold = new PercentageRedNegativeStyle(workbook, this._bodyBoldFont);
             this.PercentageRedparenthesisNegativeBold = new PercentageRedparenthesisNegativeStyle(workbook, this._bodyBoldFont);
+            this.DateTimeStyle = new DateTimeStyle(workbook, this._bodyFont);
             this.DateTimeStyleBold = new DateTimeStyle(workbook, this._bodyBoldFont);
-
             this.DoubleParenthesisNegative = new DoubleParenthesisNegativeStyle(workbook, this._bodyFont);
             this.DoubleParenthesisNegativeBold = new DoubleParenthesisNegativeStyle(workbook, this._bodyBoldFont);
         }

@@ -212,18 +212,23 @@ namespace Fanex.Excel
                         continue;
                     }
 
-                    var headerCell = this.CreateOrGetCell(headerRow, cellColIndex++);
+                    ICell headerCell;
                     ICellStyle headerCellStyle;
-                    if (headerDataRow.Columns[j].CustomExcelCellStyleIndex > 0)
+                    do
                     {
-                        headerCellStyle = this.GetCustomHSSFCellStyles(headerDataRow.Columns[j].CustomExcelCellStyleIndex);
-                    }
-                    else
-                    {
-                        headerCellStyle = this._headerStyles.GetHeaderStyle(headerDataRow.Columns[j].HeaderAlign);
-                    }
+                        headerCell = this.CreateOrGetCell(headerRow, cellColIndex++);
+                        if (headerDataRow.Columns[j].CustomExcelCellStyleIndex >= 0)
+                        {
+                            headerCellStyle = this.GetCustomHSSFCellStyles(headerDataRow.Columns[j].CustomExcelCellStyleIndex);
+                        }
+                        else
+                        {
+                            headerCellStyle = this._headerStyles.GetHeaderStyle(headerDataRow.Columns[j].HeaderAlign);
+                        }
 
-                    headerCell.CellStyle = headerCellStyle;
+                        headerCell.CellStyle = headerCellStyle;
+                    } while (headerCell.IsMergedCell);
+
                     this.SetCellValue(
                         headerCell,
                         headerDataRow.Columns[j].DisplayValue != null ? headerDataRow.Columns[j].DisplayValue : headerDataRow.Columns[j].HeaderText);
@@ -309,10 +314,10 @@ namespace Fanex.Excel
         /// <param name="headerCell">The header cell.</param>
         /// <param name="headerCellStyle">The header cell style.</param>
         protected void RenderMergeRegionForMergeColumnOnly(
-            GroupHeaderRows headerDataRow, 
-            IRow headerRow, 
-            int dataColIndex, 
-            ICell headerCell, 
+            GroupHeaderRows headerDataRow,
+            IRow headerRow,
+            int dataColIndex,
+            ICell headerCell,
             ICellStyle headerCellStyle)
         {
             this._workSheet.AddMergedRegion(new CellRangeAddress(
@@ -355,6 +360,11 @@ namespace Fanex.Excel
                     currentCell.CellStyle = headerCellStyle;
                     this.SetCellValue(currentCell, headerCell.DisplayValue != null ? headerCell.DisplayValue : headerCell.HeaderText);
                     this._workSheet.SetColumnWidth(col, headerCell.WidthExcel);
+                    if (headerCell.MergeHeaderColNumber > 1)
+                    {
+                        this._workSheet.AddMergedRegion(new CellRangeAddress(currentCell.RowIndex, currentCell.RowIndex, currentCell.ColumnIndex, currentCell.ColumnIndex + headerCell.MergeHeaderColNumber - 1));
+                    }
+
                     col++;
                 }
             }
@@ -395,7 +405,7 @@ namespace Fanex.Excel
                 cell.Bold ? cell.Bold : header.IsBold);
                 cellStyle.WrapText = header.WrapText;
             }
-            
+
             if (cell.Indention != 0)
             {
                 var cloneCellStyle = this.WorkBook.CreateCellStyle();
@@ -832,7 +842,7 @@ namespace Fanex.Excel
         {
             this._currentBodyRowIndex += currentDataRow.RowType == RowType.Normal || currentDataRow.RowType == RowType.Even ? 1 : 0;
             int col = this._startCol, columnIndex = 0, numberColumnOfCurrentRow = currentDataRow.Columns.Count;
-            ICell curentCell; 
+            ICell curentCell;
             Columns currentDataCell;
             for (int i = 0; i < numberColumns; i++)
             {
@@ -978,7 +988,7 @@ namespace Fanex.Excel
             {
                 return this._gridOptions.CustomExcelHSSFCellStyles[index];
             }
-            catch 
+            catch
             {
                 return this.GetDefaultCellStyle();
             }

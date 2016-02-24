@@ -2,8 +2,8 @@
 {
     using Fanex.Excel.Models;
     using Fanex.Excel.Enums;
-
-    public class DistinctRowsService : BaseServices
+    using Grid.Documentation.Services;
+    public class DistinctRowsService : BaseServices, ISampleService
     {
         private GridOptions _gridOptions;
 

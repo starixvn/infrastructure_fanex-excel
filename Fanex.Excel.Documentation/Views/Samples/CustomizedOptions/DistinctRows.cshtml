@@ -35,7 +35,7 @@
 
 @section csharpSource
 {
-    <pre class="brush: csharp; highlight: [5]" id="csharp-source">
+    <pre class="brush: csharp;" id="csharp-source">
         public GridOptions GenerateData()
         {
             this.GenerateHeader();
@@ -43,6 +43,7 @@
             this._gridOptions.ShowDistinctRow = false;
             return this._gridOptions;
         }
+
         private void GenerateHeader()
         {
             this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Header 1", Width = 60, Name = "No", HeaderAlignment = HAlignment.Center, CellAlignment = HAlignment.Center });
@@ -56,6 +57,7 @@
             this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Header 9", Width = 90, Name = "Number4", HeaderAlignment = HAlignment.Center, CellAlignment = HAlignment.Right });
             this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Header 10", Width = 120, Name = "Number5", HeaderAlignment = HAlignment.Center, CellAlignment = HAlignment.Right });
         }
+
         private void GenerateBody()
         {
             for (int i = 0; i &gt; 100; i++)

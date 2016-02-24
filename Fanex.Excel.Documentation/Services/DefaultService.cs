@@ -2,8 +2,9 @@
 {
     using Fanex.Excel.Models;
     using Fanex.Excel.Enums;
+    using Grid.Documentation.Services;
 
-    public class DefaultService : BaseServices
+    public class DefaultService : BaseServices, ISampleService
     {
         private GridOptions _gridOptions;
 

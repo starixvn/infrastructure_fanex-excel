@@ -244,11 +244,20 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\BaseSampleController.cs" />
+    <Compile Include="Controllers\ISampleController.cs" />
+    <Compile Include="Controllers\Samples\CustomizedContent\CustomizedContentSampleController.cs" />
     <Compile Include="Controllers\Samples\CustomizedOptions\DistinctRowsController.cs" />
     <Compile Include="Controllers\Samples\CustomizedOptions\FrozenColumnController.cs" />
     <Compile Include="Controllers\Samples\DefaultSampleController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SamplesController.cs" />
+    <Compile Include="Controllers\Samples\Footer\CustomizedFooterSampleController.cs" />
+    <Compile Include="Controllers\Samples\Footer\GroupingFooterSampleController.cs" />
+    <Compile Include="Controllers\Samples\Footer\ShowFooterSampleController.cs" />
+    <Compile Include="Controllers\Samples\Formatters\FormatterSampleController.cs" />
+    <Compile Include="Controllers\Samples\Header\GroupingHeaderCustomizedSampleController.cs" />
+    <Compile Include="Controllers\Samples\Header\GroupingHeaderSampleController.cs" />
     <Compile Include="Controllers\TutorialsController.cs" />
     <Compile Include="Extensions\DemoExtension.cs" />
     <Compile Include="Extensions\JsonNetResult.cs" />
@@ -260,8 +269,16 @@
     <Compile Include="Services\BaseServices.cs" />
     <Compile Include="Services\DefaultService.cs" />
     <Compile Include="Services\MergeRowService.cs" />
+    <Compile Include="Services\Samples\CustomizedContent\CustomizedContentService.cs" />
+    <Compile Include="Services\Samples\Footer\CustomizedFooterService.cs" />
+    <Compile Include="Services\Samples\Footer\GroupingFooterService.cs" />
+    <Compile Include="Services\Samples\Footer\ShowFooterService.cs" />
+    <Compile Include="Services\Samples\Formatters\FormatterService.cs" />
+    <Compile Include="Services\Samples\Header\GroupingHeaderCustomizedService.cs" />
+    <Compile Include="Services\Samples\Header\GroupingHeaderService.cs" />
     <Compile Include="Services\Samples\CustomizedOptions\DistinctRowsService.cs" />
     <Compile Include="Services\Samples\CustomizedOptions\FrozenColumnService.cs" />
+    <Compile Include="Services\ISampleService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -361,6 +378,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\BaseSample\" />
     <Folder Include="Views\DefaultSample\" />
     <Folder Include="Views\FrozenColumn\" />
   </ItemGroup>

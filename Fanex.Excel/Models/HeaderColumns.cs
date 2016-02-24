@@ -139,10 +139,10 @@ namespace Fanex.Excel.Models
                 switch (this.CustomCellType)
                 {
                     case Enums.ExcelCellType.IntegerRedNegative:
-                    case Enums.ExcelCellType.IntegerRedparenthesisNegative:
                     case Enums.ExcelCellType.PercentageRedNegative:
                     case Enums.ExcelCellType.DoubleRedNegative:
                         return "$";
+                    case Enums.ExcelCellType.IntegerRedparenthesisNegative:
                     case Enums.ExcelCellType.DoubleRedParenthesisNegative:
                     case Enums.ExcelCellType.PercentageRedparenthesisNegative:
                         return "($)";
@@ -176,7 +176,7 @@ namespace Fanex.Excel.Models
                 switch (this.CustomCellType)
                 {
                     case Enums.ExcelCellType.DateTimeMMDDYYYY:
-                        return "MM/dd/yyyy";
+                        return "MM/DD/YYYY";
                     default:
                         return string.Empty;
                 }
@@ -217,6 +217,8 @@ namespace Fanex.Excel.Models
 
         public string ThClass { get; set; }
 
+        public int MergeHeaderColNumber { get; set; }
+
         public bool ShouldSerializeFormatNumber()
         {
             return this.FormatNumber != null && !string.IsNullOrEmpty(this.FormatNumber);
@@ -240,6 +242,11 @@ namespace Fanex.Excel.Models
         public bool ShouldSerializeTHCssClass()
         {
             return this.THCssClass != null && !string.IsNullOrEmpty(this.THCssClass);
+        }
+
+        public bool ShouldSerializeMergeHeaderColNumber()
+        {
+            return MergeHeaderColNumber > 1;
         }
 
         public bool ShouldSerializeWidth()

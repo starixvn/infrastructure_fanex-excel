@@ -2,60 +2,96 @@
     ViewBag.Title = "Format Date Time";
 }
 
-@section javascriptSource
+@section csharpSource
 {
-    <pre class="brush: javascript; highlight: [29, 40]" id="javascript-destination"></pre>
+    <pre class="brush: csharp;" id="csharp-source">
+        public GridOptions GenerateData()
+        {
+            this.GenerateHeader();
+            this.GenerateBody();
+            this.GenerateFooter();
+            this._gridOptions.ShowFooter = true;
+            return this._gridOptions;
+        }
+
+        private void GenerateHeader()
+        {
+            this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Header 1", Width = 60, Name = "No", CellAlignment = HAlignment.Center });
+            this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "General", Width = 100, Name = "Text1" });
+            this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Datetime", Width = 150, Name = "Datetime", CellAlignment = HAlignment.Right, CustomCellType = ExcelCellType.DateTimeMMDDYYYY });
+            this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Integer 1", Width = 100, Name = "Integer1", CellAlignment = HAlignment.Right, CustomCellType = ExcelCellType.Integer });
+            this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Integer 2", Width = 100, Name = "Integer2", CellAlignment = HAlignment.Right, CustomCellType = ExcelCellType.IntegerRedNegative });
+            this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Integer 3", Width = 100, Name = "Integer3", CellAlignment = HAlignment.Right, CustomCellType = ExcelCellType.IntegerRedparenthesisNegative });
+            this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Double 1", Width = 100, Name = "Double1", CellAlignment = HAlignment.Right, CustomCellType = ExcelCellType.Double });
+            this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Double 2", Width = 100, Name = "Double2", CellAlignment = HAlignment.Right, CustomCellType = ExcelCellType.DoubleRedNegative });
+            this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Double 3", Width = 100, Name = "Double3", CellAlignment = HAlignment.Right, CustomCellType = ExcelCellType.DoubleRedParenthesisNegative });
+            this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Percentage 1", Width = 100, Name = "Percentage1", CellAlignment = HAlignment.Right, CustomCellType = ExcelCellType.Percentage });
+            this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Percentage 2", Width = 100, Name = "Percentage2", CellAlignment = HAlignment.Right, CustomCellType = ExcelCellType.PercentageRedNegative });
+            this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Percentage 3", Width = 100, Name = "Percentage3", CellAlignment = HAlignment.Right, CustomCellType = ExcelCellType.PercentageRedparenthesisNegative });
+        }
+
+        private void GenerateBody()
+        {
+            for (int i = 0; i &gt; 100; i++)
+            {
+                var bodyRow = new GridDataRow();
+                bodyRow.CreateColumns(new Columns() { Name = "No", Value = i });
+                bodyRow.CreateColumns(new Columns() { Name = "Text1", Value = RandomString(5) });
+                bodyRow.CreateColumns(new Columns() { Name = "Datetime", Value = RandomDateTime() });
+                bodyRow.CreateColumns(new Columns() { Name = "Integer1", Value = RandomInteger() });
+                bodyRow.CreateColumns(new Columns() { Name = "Integer2", Value = RandomInteger() });
+                bodyRow.CreateColumns(new Columns() { Name = "Integer3", Value = RandomInteger() });
+                bodyRow.CreateColumns(new Columns() { Name = "Double1", Value = RandomDouble() });
+                bodyRow.CreateColumns(new Columns() { Name = "Double2", Value = RandomDouble() });
+                bodyRow.CreateColumns(new Columns() { Name = "Double3", Value = RandomDouble() });
+                bodyRow.CreateColumns(new Columns() { Name = "Percentage1", Value = RandomDouble(-1, 1) });
+                bodyRow.CreateColumns(new Columns() { Name = "Percentage2", Value = RandomDouble(-1, 1) });
+                bodyRow.CreateColumns(new Columns() { Name = "Percentage3", Value = RandomDouble(-1, 1) });
+                this._gridOptions.CreateBodyRow(bodyRow);
+            }
+        }
+
+        public void GenerateFooter()
+        {
+            var footerRow = new GridDataRow();
+            footerRow.CreateColumns(new Columns() { Name = "No", Value = "Total" });
+            footerRow.CreateColumns(new Columns() { Name = "Text1", Value = RandomString(5) });
+            footerRow.CreateColumns(new Columns() { Name = "Datetime", Value = RandomDateTime() });
+            footerRow.CreateColumns(new Columns() { Name = "Integer1", Value = RandomInteger() });
+            footerRow.CreateColumns(new Columns() { Name = "Integer2", Value = RandomInteger() });
+            footerRow.CreateColumns(new Columns() { Name = "Integer3", Value = RandomInteger() });
+            footerRow.CreateColumns(new Columns() { Name = "Double1", Value = RandomDouble() });
+            footerRow.CreateColumns(new Columns() { Name = "Double2", Value = RandomDouble() });
+            footerRow.CreateColumns(new Columns() { Name = "Double3", Value = RandomDouble() });
+            footerRow.CreateColumns(new Columns() { Name = "Percentage1", Value = RandomDouble(-1, 1) });
+            footerRow.CreateColumns(new Columns() { Name = "Percentage2", Value = RandomDouble(-1, 1) });
+            footerRow.CreateColumns(new Columns() { Name = "Percentage3", Value = RandomDouble(-1, 1) });
+            this._gridOptions.CreateFooterRow(footerRow);
+        }
+    </pre>
 }
 
 @section scripts
 {
     <script src="~/Scripts/Libraries/Moment/moment.min.js"></script>
+    <script src="~/Scripts/Libraries/Numeral/numeral.min.js"></script>
     <script type="text/javascript" id="javascript-source">
-        function generateDataTime(numberRows) {
-            var rows = [];
-            for (var index = 0; index < numberRows; index++) {
-                rows.push(
-                    {
-                        Columns: [
-                            { Name: "No", Value: index * 2 },
-                            { Name: "Text1", Value: (Math.random() > 0.5 ? (Math.random() * 500).toFixed(3) : (Math.random() * 500 * -1).toFixed(3)) },
-                            { Name: "Number1", Value: new Date() },
-                            { Name: "Number2", Value: (Math.random() * 100).toFixed(2) },
-                            { Name: "Number3", Value: (Math.random() * 500).toFixed(3) },
-                            { Name: "Text2", Value: Math.random().toString(36).substring(7) },
-                            { Name: "Text3", Value: Math.random().toString(36).substring(8) },
-                            { Name: "Text4", Value: Math.random().toString(36).substring(9) },
-                            { Name: "Number4", Value: (Math.random() * 1000).toFixed(3) },
-                            { Name: "Number5", Value: (index % 2 == 0 ? (Math.random() * 500).toFixed(3) : (Math.random() * 500 * -1).toFixed(3)) }
-                        ]
+    $(function () {
+        Common.utility.CallAjax(this,
+            "../FormatterSample/Generate",
+            null,
+            function (result) {
+                result.showTitle = true;
+                result.titleInfo = {
+                    text: "Demo Title",
+                    showExcelButton: true,
+                    exportExcelFunction: function () {
+                        Common.downloadFile("../FormatterSample/ExportExcel");
                     }
-                );
-            }
-            return rows;
-        }
+                }
 
-        var gridOptions =
-        {
-            columns: [
-                { HeaderText: "Header 1", Width: 60, Name: "No", HeaderAlign: "center", CellAlign: "center" },
-                { HeaderText: "Header 2", Width: 70, Name: "Text1", HeaderAlign: "center", CellAlign: "right" },
-                { HeaderText: "Header 3", Width: 200, Name: "Number1", HeaderAlign: "center", CellAlign: "right", FormatDateTime: "YYYY-MM-DD HH:mm Z" },
-                { HeaderText: "Header 4", Width: 100, Name: "Number2", HeaderAlign: "center", CellAlign: "right"},
-                { HeaderText: "Header 5", Width: 160, Name: "Number3", HeaderAlign: "center", CellAlign: "right"},
-                { HeaderText: "Header 6", Width: 110, Name: "Text2" },
-                { HeaderText: "Header 7", Width: 120, Name: "Text3" },
-                { HeaderText: "Header 8", Width: 150, Name: "Text4" },
-                { HeaderText: "Header 9", Width: 90, Name: "Number4", HeaderAlign: "center", CellAlign: "right"},
-                { HeaderText: "Header 10", Width: 120, Name: "Number5", HeaderAlign: "center", CellAlign: "right"}
-            ],
-            bodyRows: generateDataTime(100),
-            gridExpandHeight: 150,
-            timeZone: '-04:00'
-        };
-
-
-        $(function () {
-            var currentGrid = $("#gridId").fanexGrid(gridOptions);
-        });
+                $('#gridId').fanexGrid(result);
+            });
+    });
     </script>
 }

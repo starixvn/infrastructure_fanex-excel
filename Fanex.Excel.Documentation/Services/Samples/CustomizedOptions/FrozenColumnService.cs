@@ -2,8 +2,8 @@
 {
     using Fanex.Excel.Models;
     using Fanex.Excel.Enums;
-
-    public class FrozenColumnService : BaseServices
+    using Grid.Documentation.Services;
+    public class FrozenColumnService : BaseServices, ISampleService
     {
         private GridOptions _gridOptions;
 

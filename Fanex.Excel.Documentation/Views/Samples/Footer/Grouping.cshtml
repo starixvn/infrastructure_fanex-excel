@@ -4,90 +4,93 @@
     Layout = "~/Views/Shared/_SampleLayout.cshtml";
 }
 
-@section javascriptSource
+@section csharpSource
 {
-    <pre class="brush: javascript; highlight: [4, 8, 15, 19, 6, 7]" id="javascript-destination"></pre>
+    <pre class="brush: csharp;" id="csharp-source">
+        public GridOptions GenerateData()
+        {
+            this.GenerateHeader();
+            this.GenerateBody();
+            this.GenerateFooter();
+            this._gridOptions.ShowFooter = true;
+            return this._gridOptions;
+        }
+
+        private void GenerateHeader()
+        {
+            this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Header 1", Width = 60, Name = "No", HeaderAlignment = HAlignment.Center, CellAlignment = HAlignment.Center });
+            this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Header 2", Width = 100, Name = "Text1", HeaderAlignment = HAlignment.Center, CellAlignment = HAlignment.Right });
+            this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Header 3", Width = 100, Name = "Number1", HeaderAlignment = HAlignment.Center, CellAlignment = HAlignment.Right });
+            this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Header 4", Width = 100, Name = "Number2", CellAlignment = HAlignment.Right });
+            this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Header 5", Width = 100, Name = "Number3", HeaderAlignment = HAlignment.Center, CellAlignment = HAlignment.Right });
+            this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Header 6", Width = 110, Name = "Text2" });
+            this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Header 7", Width = 120, Name = "Text3" });
+            this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Header 8", Width = 150, Name = "Text4" });
+            this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Header 9", Width = 90, Name = "Number4", HeaderAlignment = HAlignment.Center, CellAlignment = HAlignment.Right });
+            this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Header 10", Width = 120, Name = "Number5", HeaderAlignment = HAlignment.Center, CellAlignment = HAlignment.Right });
+        }
+
+        private void GenerateBody()
+        {
+            for (int i = 0; i &gt; 100; i++)
+            {
+                var bodyRow = new GridDataRow();
+                bodyRow.CreateColumns(new Columns() { Name = "No", Value = i });
+                bodyRow.CreateColumns(new Columns() { Name = "Text1", Value = RandomString(5) });
+                bodyRow.CreateColumns(new Columns() { Name = "Number1", Value = RandomDouble().ToString("0.###") });
+                bodyRow.CreateColumns(new Columns() { Name = "Number2", Value = RandomInteger() });
+                bodyRow.CreateColumns(new Columns() { Name = "Number3", Value = RandomDouble().ToString("0.####") });
+                bodyRow.CreateColumns(new Columns() { Name = "Text2", Value = RandomString(6) });
+                bodyRow.CreateColumns(new Columns() { Name = "Text3", Value = RandomString(7) });
+                bodyRow.CreateColumns(new Columns() { Name = "Text4", Value = RandomString(8) });
+                bodyRow.CreateColumns(new Columns() { Name = "Number4", Value = RandomInteger() });
+                bodyRow.CreateColumns(new Columns() { Name = "Number5", Value = RandomInteger() });
+                this._gridOptions.CreateBodyRow(bodyRow);
+            }
+        }
+
+        public void GenerateFooter()
+        {
+            var footerRow = new GridDataRow();
+            footerRow.CreateColumns(new Columns() { Value = "Total", Name = "No", MergeColNumber = 2 });
+            footerRow.CreateColumns(new Columns() { Value = "Footer 3", Name = "Number1" });
+            footerRow.CreateColumns(new Columns() { Value = "Footer 4", Name = "Number2", MergeRowNumber = 2 });
+            footerRow.CreateColumns(new Columns() { Value = "Footer 5", Name = "Number3", MergeRowNumber = 2 });
+            footerRow.CreateColumns(new Columns() { Value = "Footer Merge 6", Name = "Text2", MergeColNumber = 3, CellAlignment = HAlignment.Center });
+            footerRow.CreateColumns(new Columns() { Value = "Footer 9", Name = "Number4" });
+            footerRow.CreateColumns(new Columns() { Value = "Footer 10", Name = "Number5" });
+            this._gridOptions.CreateFooterRow(footerRow);
+            footerRow = new GridDataRow();
+            footerRow.CreateColumns(new Columns() { Value = "Total 2", Name = "No", MergeColNumber = 3 });
+            footerRow.CreateColumns(new Columns() { Value = "Footer 6 Verrrrrrry loooooog texxxxxxxt", Name = "Text2" });
+            footerRow.CreateColumns(new Columns() { Value = "Footer 7", Name = "Text3" });
+            footerRow.CreateColumns(new Columns() { Value = "Footer 8", Name = "Text4" });
+            footerRow.CreateColumns(new Columns() { Value = "Footer Merge 9", Name = "Number4", MergeColNumber = 2 });
+            this._gridOptions.CreateFooterRow(footerRow);
+        }
+    </pre>
 }
 
 @section scripts
 {
     <script type="text/javascript" id="javascript-source">
-        var footerRows = [
-              {
-                  Columns: [
-                    { Value: "Total", Name: "No", MergeColNumber: 2 },
-                    { Value: "Footer 3", Name: "Number1" },
-                    { Value: "Footer 4", Name: "Number2", MergeRowNumber: 2 },
-                    { Value: "Footer 5", Name: "Number3", MergeRowNumber: 2 },
-                    { Value: "Footer Merge 6", Name: "Text2", MergeColNumber: 3, CellAlign: 'center' },
-                    { Value: "Footer 9", Name: "Number4" },
-                    { Value: "Footer 10", Name: "Number5" }
-                  ]
-              },
-                {
-                    Columns: [
-                    { Value: "Total 2", Name: "No", MergeColNumber: 3 },
-                    { Value: "Footer 6  Verrrrrrry loooooog texxxxxxxt", Name: "Text2" },
-                    { Value: "Footer 7", Name: "Text3" },
-                    { Value: "Footer 8", Name: "Text4" },
-                    { Value: "Footer Merge 9", Name: "Number4", MergeColNumber: 2 }
-                    ]
-                }
-        ];
-
-        //// Create sample data
-        function generateData(numberRows, autoHeight) {
-            var rows = [];
-            for (var index = 0; index < numberRows; index++) {
-                var row = {
-                    Columns: [
-                            { Name: "No", Value: index },
-                            { Name: "Text1", Value: parseFloat((Math.random() > 0.5 ? (Math.random() * 500).toFixed(3) : (Math.random() * 500 * -1).toFixed(3))) },
-                            { Name: "Number1", Value: parseFloat((Math.random() * 20000).toFixed(4)) },
-                            { Name: "Number2", Value: parseFloat((Math.random() * 100).toFixed(2)) },
-                            { Name: "Number3", Value: parseFloat((Math.random() * 500).toFixed(3)) },
-                            { Name: "Text2", Value: Math.random().toString(36).substring(7) },
-                            { Name: "Text3", Value: Math.random().toString(36).substring(8) },
-                            { Name: "Text4", Value: Math.random().toString(36).substring(9) },
-                            { Name: "Number4", Value: parseFloat((Math.random() * 1000).toFixed(3)) },
-                            { Name: "Number5", Value: parseFloat((index % 2 == 0 ? (Math.random() * 500).toFixed(3) : (Math.random() * 500 * -1).toFixed(3))) }
-                    ]
-                };
-                rows.push(row);
-            }
-
-            return rows;
-        }
-
-        //// Setup Grid options
-        var gridOptions =
-            {
-                columns: [
-                    { HeaderText: "Header 1", Width: 60, Name: "No", HeaderAlign: "center", CellAlign: "center", CustomAttr: "title='demo title'" },
-                    { HeaderText: "Header 2", Width: 70, Name: "Text1", HeaderAlign: "center", CellAlign: "right" },
-                    { HeaderText: "Header 3", Width: 100, Name: "Number1", HeaderAlign: "center", CellAlign: "right" },
-                    { HeaderText: "Header 4", Width: 100, Name: "Number2", HeaderAlign: "center", CellAlign: "right" },
-                    { HeaderText: "Header 5", Width: 160, Name: "Number3", HeaderAlign: "center", CellAlign: "right" },
-                    { HeaderText: "Header 6", Width: 110, Name: "Text2" },
-                    { HeaderText: "Header 7", Width: 120, Name: "Text3" },
-                    { HeaderText: "Header 8", Width: 150, Name: "Text4" },
-                    { HeaderText: "Header 9", Width: 90, Name: "Number4", HeaderAlign: "center", CellAlign: "right" },
-                    { HeaderText: "Header 10", Width: 120, Name: "Number5", HeaderAlign: "center", CellAlign: "right" }
-                ],
-                bodyRows: generateData(100),
-                gridExpandHeight: 100,
-                showFooter: true,
-                footerRows: footerRows
-            };
-
         $(function () {
-            //// Render
-            $("#gridId").fanexGrid(gridOptions);
+            Common.utility.CallAjax(this,
+                "../GroupingFooterSample/Generate",
+                null,
+                function (result) {
+                    result.showTitle = true;
+                    result.titleInfo = {
+                        text: "Demo Title",
+                        showExcelButton: true,
+                        exportExcelFunction: function () {
+                            Common.downloadFile("../GroupingFooterSample/ExportExcel");
+                        }
+                    }
+
+                    $('#gridId').fanexGrid(result);
+                });
         });
     </script>
 
 }
-
-
-
-

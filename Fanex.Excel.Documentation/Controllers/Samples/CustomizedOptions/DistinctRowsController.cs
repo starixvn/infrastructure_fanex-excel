@@ -5,25 +5,11 @@
     using Fanex.Excel.Documentation.Services;
     using System.Web.Mvc;
 
-    public class DistinctRowsSampleController : Controller
+    public class DistinctRowsSampleController : BaseSampleController
     {
-        private DistinctRowsService _service;
-
         public DistinctRowsSampleController()
         {
             this._service = new DistinctRowsService();
-        }
-
-        public JsonNetResult Generate()
-        {
-            return new JsonNetResult(this._service.GenerateData());
-        }
-
-        public ActionResult ExportExcel()
-        {
-            FanexExcel result = new FanexExcel(this._service.GenerateData());
-            DemoExtension.ResponseStreamExcel(result.ToExcel2003(), "Excel");
-            return new EmptyResult();
         }
     }
 }
