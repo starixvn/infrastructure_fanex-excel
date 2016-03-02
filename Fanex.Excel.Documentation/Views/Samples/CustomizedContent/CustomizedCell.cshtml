@@ -105,29 +105,13 @@
         private void GenerateGroupHeaderRows()
         {
             this._gridOptions.CustomizeHeader = true;
-            var groupHeader = new GroupHeaderRows()
-            {
-                Columns = new List&lt;HeaderColumns&gt;() {
-                    new HeaderColumns() {
-                        HeaderText = "Group Header 1", Name="No", MergeColNumber = 2, ThClass = "demo-class", CustomExcelCellStyleIndex = 0
-                    },
-                    new HeaderColumns() {
-                        HeaderText = "Header 3", Name="Number1", MergeRowNumber = 2, ThClass = "demo-class", CustomExcelCellStyleIndex = 0
-                    },
-                    new HeaderColumns() {
-                        HeaderText = "Header 4", Name="Number2", MergeColNumber = 2
-                    },
-                    new HeaderColumns() {
-                        HeaderText = "Group Header 2", Name="Text2", MergeColNumber = 3
-                    },
-                    new HeaderColumns() {
-                        HeaderText = "Header 10", Name="Number4", MergeRowNumber = 2
-                    },
-                    new HeaderColumns() {
-                        HeaderText = "Header 10", Name="Number5", MergeRowNumber = 2
-                    }
-                }
-            };
+            var groupHeader = new GroupHeaderRows();
+            groupHeader.CreateGroupHeaderColumn(new HeaderColumns() { HeaderText = "Group Header 1", Name = "No", MergeColNumber = 2, ThClass = "demo-class", CustomExcelCellStyleIndex = 0 });
+            groupHeader.CreateGroupHeaderColumn(new HeaderColumns() { HeaderText = "Header 3", Name = "Number1", MergeRowNumber = 2, ThClass = "demo-class", CustomExcelCellStyleIndex = 0 });
+            groupHeader.CreateGroupHeaderColumn(new HeaderColumns() { HeaderText = "Header 4", Name = "Number2", MergeColNumber = 2 });
+            groupHeader.CreateGroupHeaderColumn(new HeaderColumns() { HeaderText = "Group Header 2", Name = "Text2", MergeColNumber = 3 });
+            groupHeader.CreateGroupHeaderColumn(new HeaderColumns() { HeaderText = "Header 10", Name = "Number4", MergeRowNumber = 2 });
+            groupHeader.CreateGroupHeaderColumn(new HeaderColumns() { HeaderText = "Header 10", Name = "Number5", MergeRowNumber = 2 });
             this._gridOptions.CreateGroupHeaderRow(groupHeader);
         }
 

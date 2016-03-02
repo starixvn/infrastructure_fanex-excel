@@ -31,10 +31,6 @@ namespace Demo.Controllers
         public ActionResult Generate()
         {
             var gridOptions = this._service.GenerateData();
-            gridOptions.BodyRows[0].Columns[0].CustomAttributes = new Dictionary<string, string>(){
-                { "UserName", "Agent01" },
-                { "CustID", "100945"}
-            };
             var writer = new JsonTextWriter(HttpContext.Response.Output);
             var serializer = JsonSerializer.Create();
             serializer.Serialize(writer, gridOptions);

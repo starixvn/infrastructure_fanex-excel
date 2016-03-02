@@ -71,18 +71,25 @@ namespace Fanex.Excel.Models
 
             set
             {
-                if (!CheckValidValueType(value.GetType()))
+                if (value == null)
                 {
-                    throw new InvalidOperationException("\"" + value.GetType().FullName + "\" is not a valid NPOI CellType.");
-                }
-
-                if (value.GetType() == typeof(decimal))
-                {
-                    this._value = Convert.ToDouble(value);
+                    this._value = null;
                 }
                 else
                 {
-                    this._value = value;
+                    if (!CheckValidValueType(value.GetType()))
+                    {
+                        throw new InvalidOperationException("\"" + value.GetType().FullName + "\" is not a valid NPOI CellType.");
+                    }
+
+                    if (value.GetType() == typeof(decimal))
+                    {
+                        this._value = Convert.ToDouble(value);
+                    }
+                    else
+                    {
+                        this._value = value;
+                    }
                 }
             }
         }
@@ -119,7 +126,7 @@ namespace Fanex.Excel.Models
         public string CssClass { get; set; }
 
         [JsonProperty("CustomAttr")]
-        public Dictionary<string, string> CustomAttributes { get; set; }
+        public string CustomAttributes { get; set; }
 
         [JsonIgnore]
         public HAlignment CellAlignment { get; set; }
