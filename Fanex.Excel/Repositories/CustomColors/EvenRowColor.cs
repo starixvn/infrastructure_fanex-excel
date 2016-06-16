@@ -29,12 +29,14 @@ namespace Fanex.Excel.Repositories.CustomColors
             set { EvenRowColor._triplet = value; }
         }
 
-        public override short Indexed
+        public override short GetIndex()
         {
-            get
-            {
-                return Index;
-            }
+            return Index;
+        }
+
+        public override short[] GetTriplet()
+        {
+            return _triplet;
         }
     }
 }

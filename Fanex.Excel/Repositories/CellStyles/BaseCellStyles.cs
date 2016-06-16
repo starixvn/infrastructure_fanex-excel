@@ -124,7 +124,7 @@ namespace Fanex.Excel.Repositories.CellStyles
         {
             var cellStyle = this.Workbook.CreateCellStyle();
             cellStyle.DataFormat = this.DataFormat.GetFormat(dataFormat);
-            cellStyle.FillForegroundColor = colorBG.Indexed;
+            cellStyle.FillForegroundColor = colorBG.GetIndex();
             cellStyle.FillPattern = FillPattern.SolidForeground;
             cellStyle.SetFont(font);
             cellStyle.Alignment = alignment;
