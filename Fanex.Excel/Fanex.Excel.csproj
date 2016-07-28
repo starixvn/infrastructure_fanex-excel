@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants\ExcelConstants.cs" />
+    <Compile Include="Enums\FooterRowType.cs" />
     <Compile Include="Enums\RowType.cs" />
     <Compile Include="Enums\ExcelFont.cs" />
     <Compile Include="IFanexExcel.cs" />
@@ -234,7 +235,35 @@
     <Compile Include="Repositories\CellStyles\Body\PercentageStyles\RowTypeStyles\ParentLevelThreeStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\PercentageStyles\RowTypeStyles\ParentLevelTwoStyle.cs" />
     <Compile Include="Repositories\CellStyles\Body\PercentageStyles\RowTypeStyles\SubTotalStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\DoubleParenthesisNegativeStyles\RowTypeStyles\LowerStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\DoubleParenthesisNegativeStyles\RowTypeStyles\UpperStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\DoubleRedNegativeStyles\RowTypeStyles\LowerStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\DoubleRedNegativeStyles\RowTypeStyles\UpperStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\DoubleRedparenthesisNegativeStyles\RowTypeStyles\LowerStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\DoubleRedparenthesisNegativeStyles\RowTypeStyles\UpperStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\DoubleRedPositiveStyles\RowTypeStyles\LowerStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\DoubleRedPositiveStyles\RowTypeStyles\UpperStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\DoubleStyles\RowTypeStyles\LowerStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\DoubleStyles\RowTypeStyles\UpperStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\FooterBaseCellStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\FooterRowBaseStyle.cs" />
     <Compile Include="Repositories\CellStyles\Footer\DoubleParenthesisNegativeStyles\DoubleRedparenthesisNegativeStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\IntegerRedNegativeStyles\RowTypeStyles\LowerStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\IntegerRedNegativeStyles\RowTypeStyles\UpperStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\IntegerRedparenthesisNegativeStyles\RowTypeStyles\LowerStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\IntegerRedparenthesisNegativeStyles\RowTypeStyles\UpperStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\IntegerRedPositiveStyles\RowTypeStyles\LowerStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\IntegerRedPositiveStyles\RowTypeStyles\UpperStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\IntegerStyles\RowTypeStyles\LowerStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\IntegerStyles\RowTypeStyles\UpperStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\PercentageRedNegativeStyles\RowTypeStyles\LowerStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\PercentageRedNegativeStyles\RowTypeStyles\UpperStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\PercentageRedparenthesisNegativeStyles\RowTypeStyles\LowerStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\PercentageRedparenthesisNegativeStyles\RowTypeStyles\UpperStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\PercentageRedPositiveStyles\RowTypeStyles\LowerStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\PercentageRedPositiveStyles\RowTypeStyles\UpperStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\PercentageStyles\RowTypeStyles\UpperStyle.cs" />
+    <Compile Include="Repositories\CellStyles\Footer\PercentageStyles\RowTypeStyles\LowerStyle.cs" />
     <Compile Include="Repositories\CellStyles\IFooterCellStyles.cs" />
     <Compile Include="Repositories\CellStyles\IHeaderCellStyles.cs" />
     <Compile Include="Repositories\CellStyles\IBodyCellStyles.cs" />
@@ -280,6 +309,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="NPOI\" />
+    <Folder Include="Repositories\CellStyles\Footer\GeneralStyles\RowTypeStyles\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

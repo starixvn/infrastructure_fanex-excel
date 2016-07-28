@@ -6,39 +6,19 @@
 
 namespace Fanex.Excel.Repositories.CellStyles.Footer.PercentageRedparenthesisNegativeStyles
 {
-    using Fanex.Excel.Constants;
-    using Fanex.Excel.Repositories.CustomColors;
-    using NPOI.HSSF.UserModel;
-    using NPOI.HSSF.Util;
+    using Body.PercentageRedparenthesisNegativeStyles.RowTypeStyles;
     using NPOI.SS.UserModel;
-    using NPOI.XSSF.UserModel;
-
+    using RowTypeStyles;
     /// <summary>
     /// TODO: Update summary.
     /// </summary>
-    public class PercentageRedparenthesisNegativeStyle : BaseCellStyles
+    public class PercentageRedparenthesisNegativeStyle : FooterRowBaseStyle
     {
         public PercentageRedparenthesisNegativeStyle(IWorkbook workbook, IFont font)
-            : base(workbook)
+            : base(workbook, font)
         {
-            this.Style = this.CreateCellStyle(
-                ExcelConstants.PercentageRedparenthesisNegative,
-                this.Workbook.GetType().Equals(typeof(HSSFWorkbook)) ? (IColor)new GrandTotalRowColor() : (IColor)(new XSSFColor(ExcelConstants.FooterBackgroundColor)),
-                font,
-                HorizontalAlignment.General,
-                VerticalAlignment.Top);
-
-            this.UpperStyle = this.CreateCellStyle(
-                ExcelConstants.PercentageRedparenthesisNegative,
-                this.Workbook.GetType().Equals(typeof(HSSFWorkbook)) ? (IColor)new GrandTotalRowColor() : (IColor)(new XSSFColor(ExcelConstants.FooterBackgroundColor)),
-                font,
-                HorizontalAlignment.General,
-                VerticalAlignment.Top);
-
-            this.UpperStyle.BorderTop = BorderStyle.Thick;
-            this.UpperStyle.TopBorderColor = HSSFColor.Orange.Index;
+            this.Upper = new UpperStyle(workbook, font);
+            this.Lower = new LowerStyle(workbook, font);
         }
-
-        public ICellStyle UpperStyle { get; set; }
     }
 }

@@ -102,7 +102,7 @@
             footerRow.CreateColumns(new Columns() { Value = "Total", Name = "No", MergeColNumber = 2 });
             footerRow.CreateColumns(new Columns() { Value = "Footer 3", Name = "Number1", TDClass = "footer-class", CustomExcelCellStyleIndex = 0 });
             footerRow.CreateColumns(new Columns() { Value = "Footer 4", Name = "Number2", MergeRowNumber = 2 });
-            footerRow.CreateColumns(new Columns() { Value = "Footer 5", Name = "Number3", MergeRowNumber = 2 });
+            footerRow.CreateColumns(new Columns() { Value = RandomInteger(), Name = "Number3", MergeRowNumber = 2 });
             footerRow.CreateColumns(new Columns() { Value = "Footer Merge 6", Name = "Text2", MergeColNumber = 3, CellAlignment = HAlignment.Center });
             footerRow.CreateColumns(new Columns() { Value = "Footer 9", Name = "Number4" });
             footerRow.CreateColumns(new Columns() { Value = "Footer 10", Name = "Number5" });
@@ -111,9 +111,9 @@
             footerRow = new GridDataRow();
             footerRow.CreateColumns(new Columns() { Value = "Total 2", Name = "No", MergeColNumber = 3 });
             footerRow.CreateColumns(new Columns() { Value = "Footer 6 Verrrrrrry loooooog texxxxxxxt", Name = "Text2" });
-            footerRow.CreateColumns(new Columns() { Value = "Footer 7", Name = "Text3" });
+            footerRow.CreateColumns(new Columns() { Value = RandomDouble(), Name = "Text3" });
             footerRow.CreateColumns(new Columns() { Value = "Footer 8", Name = "Text4", TDClass = "footer-class", CustomExcelCellStyleIndex = 0 });
-            footerRow.CreateColumns(new Columns() { Value = "Footer Merge 9", Name = "Number4", MergeColNumber = 2 });
+            footerRow.CreateColumns(new Columns() { Value = "Footer Merge 9", Name = "Number4", MergeColNumber = 2, CellAlignment = HAlignment.Right });
             this._gridOptions.CreateFooterRow(footerRow);
         }
 

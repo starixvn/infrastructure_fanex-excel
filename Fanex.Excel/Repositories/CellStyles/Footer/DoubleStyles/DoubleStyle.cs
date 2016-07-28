@@ -6,39 +6,16 @@
 
 namespace Fanex.Excel.Repositories.CellStyles.Footer.DoubleStyles
 {
-    using Fanex.Excel.Constants;
-    using Fanex.Excel.Repositories.CustomColors;
-    using NPOI.HSSF.UserModel;
-    using NPOI.HSSF.Util;
     using NPOI.SS.UserModel;
-    using NPOI.XSSF.UserModel;
+    using RowTypeStyles;
 
-    /// <summary>
-    /// TODO: Update summary.
-    /// </summary>
-    public class DoubleStyle : BaseCellStyles
+    public class DoubleStyle : FooterRowBaseStyle
     {
         public DoubleStyle(IWorkbook workbook, IFont font)
-            : base(workbook)
+             : base(workbook, font)
         {
-            this.Style = this.CreateCellStyle(
-                ExcelConstants.Double,
-                this.Workbook.GetType().Equals(typeof(HSSFWorkbook)) ? (IColor)new GrandTotalRowColor() : (IColor)(new XSSFColor(ExcelConstants.FooterBackgroundColor)),
-                font,
-                HorizontalAlignment.General,
-                VerticalAlignment.Top);
-
-            this.UpperStyle = this.CreateCellStyle(
-                ExcelConstants.Double,
-                this.Workbook.GetType().Equals(typeof(HSSFWorkbook)) ? (IColor)new GrandTotalRowColor() : (IColor)(new XSSFColor(ExcelConstants.FooterBackgroundColor)),
-                font,
-                HorizontalAlignment.General,
-                VerticalAlignment.Top);
-
-            this.UpperStyle.BorderTop = BorderStyle.Thick;
-            this.UpperStyle.TopBorderColor = HSSFColor.Orange.Index;
+            this.Upper = new UpperStyle(workbook, font);
+            this.Lower = new LowerStyle(workbook, font);
         }
-
-        public ICellStyle UpperStyle { get; set; }
     }
 }
