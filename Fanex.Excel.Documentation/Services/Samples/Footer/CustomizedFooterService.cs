@@ -67,6 +67,7 @@
             footerRow.CreateColumns(new Columns() { Value = "Footer Merge 6", Name = "Text2", MergeColNumber = 3, CellAlignment = HAlignment.Center });
             footerRow.CreateColumns(new Columns() { Value = "Footer 9", Name = "Number4" });
             footerRow.CreateColumns(new Columns() { Value = "Footer 10", Name = "Number5" });
+            GenerateSubFooterRows(footerRow);
             this._gridOptions.CreateFooterRow(footerRow);
 
             footerRow = new GridDataRow();
@@ -75,7 +76,28 @@
             footerRow.CreateColumns(new Columns() { Value = "Footer 7", Name = "Text3" });
             footerRow.CreateColumns(new Columns() { Value = "Footer 8", Name = "Text4", TDClass = "demo-class", CustomExcelCellStyleIndex = 0 });
             footerRow.CreateColumns(new Columns() { Value = "Footer Merge 9", Name = "Number4", MergeColNumber = 2 });
+            GenerateSubFooterRows(footerRow);
             this._gridOptions.CreateFooterRow(footerRow);
+        }
+
+        public void GenerateSubFooterRows(GridDataRow footerRow)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                var subFooterRow = new GridDataRow();
+                subFooterRow.CreateColumns(new Columns() { Name = "No", Value = i });
+                subFooterRow.CreateColumns(new Columns() { Name = "Text1", Value = RandomString(5), CustomExcelCellStyleIndex = 0 });
+                subFooterRow.CreateColumns(new Columns() { Name = "Number1", Value = RandomDouble() });
+                subFooterRow.CreateColumns(new Columns() { Name = "Number2", Value = RandomInteger() });
+                subFooterRow.CreateColumns(new Columns() { Name = "Number3", Value = RandomDouble() });
+                subFooterRow.CreateColumns(new Columns() { Name = "Text2", Value = RandomString(6), CustomExcelCellStyleIndex = 0 });
+                subFooterRow.CreateColumns(new Columns() { Name = "Text3", Value = RandomString(7) });
+                subFooterRow.CreateColumns(new Columns() { Name = "Text4", Value = RandomString(8) });
+                subFooterRow.CreateColumns(new Columns() { Name = "Number4", Value = RandomInteger(), CustomExcelCellStyleIndex = 0 });
+                subFooterRow.CreateColumns(new Columns() { Name = "Number5", Value = RandomInteger() });
+                footerRow.CreateSubRows(subFooterRow);
+            }
+
         }
 
         public void RegisterCustomCellStyle()

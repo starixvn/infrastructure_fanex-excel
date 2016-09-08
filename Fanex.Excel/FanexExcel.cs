@@ -594,6 +594,16 @@ namespace Fanex.Excel
                 footerCell.CellStyle = this._footerStyles.GetCellStyle(Enums.ExcelCellType.General, Enums.HAlignment.Left, false);
                 mergeColNumber--;
             }
+
+            if (footerDataRow.SubRows != null && footerDataRow.SubRows.Count > 0)
+            {
+                var subFooterRowCount = footerDataRow.SubRows.Count;
+                for (int i = 0; i < subFooterRowCount; i++)
+                {
+                    var footerExcelRow = this.CreateOrGetRow(this._workSheet, this._startRow++);
+                    this.RenderFooterRow(footerExcelRow, footerDataRow.SubRows[i], false);
+                }
+            }
         }
 
         /// <summary>
