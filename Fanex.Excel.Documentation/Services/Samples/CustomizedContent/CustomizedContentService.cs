@@ -33,7 +33,7 @@
             this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Header 2", Width = 100, Name = "Text1", HeaderAlignment = HAlignment.Center, CellAlignment = HAlignment.Right });
             this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Header 3", Width = 100, Name = "Number1", HeaderAlignment = HAlignment.Center, CellAlignment = HAlignment.Right });
             this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Header 4", Width = 100, Name = "Number2", MergeHeaderColNumber = 2 });
-            this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Header 5", Width = 100, Name = "Number3", HeaderAlignment = HAlignment.Center, CellAlignment = HAlignment.Right });
+            this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Header 5", Width = 100, Name = "Number3", HeaderAlignment = HAlignment.Center, CellAlignment = HAlignment.Right, CustomCellType = ExcelCellType.Percentage });
             this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Header 6", Width = 110, Name = "Text2", MergeHeaderColNumber = 3, ThClass = "demo-class", CustomExcelCellStyleIndex = 0 });
             this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Header 7", Width = 120, Name = "Text3" });
             this._gridOptions.CreateColumns(new HeaderColumns() { HeaderText = "Header 8", Width = 150, Name = "Text4" });
@@ -48,7 +48,7 @@
             bodyRow.CreateColumns(new Columns() { Name = "Text1", Value = RandomString(5) });
             bodyRow.CreateColumns(new Columns() { Name = "Number1", Value = RandomDouble().ToString("0.###") });
             bodyRow.CreateColumns(new Columns() { Name = "Number2", Value = RandomInteger(), TDClass = "cell-td-class", CustomExcelCellStyleIndex = 1 });
-            bodyRow.CreateColumns(new Columns() { Name = "Number3", Value = RandomDouble().ToString("0.####") });
+            bodyRow.CreateColumns(new Columns() { Name = "Number3", Value = RandomDouble() });
             bodyRow.CreateColumns(new Columns() { Name = "Text2", Value = RandomString(6) });
             bodyRow.CreateColumns(new Columns() { Name = "Text3", Value = RandomString(7) });
             bodyRow.CreateColumns(new Columns() { Name = "Text4", Value = RandomString(8), TDClass = "cell-td-class", CustomExcelCellStyleIndex = 1 });

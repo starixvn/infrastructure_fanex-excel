@@ -39,13 +39,13 @@ namespace Fanex.Excel.Constants
 
         public const string Percentage = "0.00%";
 
-        public const string PercentageRedPositive = "[Red]0.00%;-0.00%;0.00%";
+        public const string PercentageRedPositive = "[Red]#,##0.00%;-#,##0.00%;#,##0.00%";
 
-        public const string PercentageRedNegative = "0.00%;[Red]-0.00%";
+        public const string PercentageRedNegative = "#,##0.00%;[Red]-#,##0.00%";
 
-        public const string PercentageRedparenthesisNegative = "0.00%;[Red](0.00%)";
+        public const string PercentageRedparenthesisNegative = "#,##0.00%;[Red](#,##0.00%)";
 
-        public const string PercentageparenthesisNegative = "0.00%;(0.00%)";
+        public const string PercentageparenthesisNegative = "#,##0.00%;(#,##0.00%)";
 
         public const string DateTimemmddyyyy = "mm/dd/yyyy";
 
