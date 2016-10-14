@@ -6,11 +6,6 @@
 
 namespace Fanex.Excel
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Drawing;
-    using System.IO;
     using Fanex.Excel.Constants;
     using Fanex.Excel.Enums;
     using Fanex.Excel.Extensions;
@@ -18,10 +13,15 @@ namespace Fanex.Excel
     using Fanex.Excel.Repositories.CellStyles;
     using Fanex.Excel.Repositories.CustomColors;
     using NPOI.HSSF.UserModel;
+    using NPOI.HSSF.Util;
     using NPOI.SS.UserModel;
     using NPOI.SS.Util;
     using NPOI.XSSF.UserModel;
-    using NPOI.HSSF.Util;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Drawing;
+    using System.IO;
     /// <summary>
     /// TODO: Update summary.
     /// </summary>
@@ -176,7 +176,7 @@ namespace Fanex.Excel
             this._workbook.Write(fileStream);
         }
 
-        public void SetColorAtIndex(short index, short[] triplet)
+        public void SetColorAtIndex(short index, byte[] triplet)
         {
             var palette = ((HSSFWorkbook)this._workbook).GetCustomPalette();
             palette.SetColorAtIndex(index, (byte)triplet[0], (byte)triplet[1], (byte)triplet[2]);
@@ -674,9 +674,9 @@ namespace Fanex.Excel
             }
         }
 
-        private short[] GetColorTriplet(Color color, short[] defaultTriplet)
+        private byte[] GetColorTriplet(Color color, byte[] defaultTriplet)
         {
-            return color == Color.Transparent ? defaultTriplet : new short[] { color.R, color.G, color.B };
+            return color == Color.Transparent ? defaultTriplet : new byte[] { color.R, color.G, color.B };
         }
 
         private Color GetColor(Color color, Color defaultColor)

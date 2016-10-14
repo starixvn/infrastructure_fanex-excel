@@ -6,11 +6,11 @@
 
 namespace Fanex.Excel.Repositories.CellStyles
 {
-    using System.Diagnostics.CodeAnalysis;
     using Fanex.Excel.Enums;
     using NPOI.HSSF.Util;
     using NPOI.SS.UserModel;
     using NPOI.XSSF.UserModel;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// TODO: Update summary.
@@ -124,7 +124,7 @@ namespace Fanex.Excel.Repositories.CellStyles
         {
             var cellStyle = this.Workbook.CreateCellStyle();
             cellStyle.DataFormat = this.DataFormat.GetFormat(dataFormat);
-            cellStyle.FillForegroundColor = colorBG.GetIndex();
+            cellStyle.FillForegroundColor = colorBG.Indexed;
             cellStyle.FillPattern = FillPattern.SolidForeground;
             cellStyle.SetFont(font);
             cellStyle.Alignment = alignment;

@@ -16,25 +16,28 @@ namespace Fanex.Excel.Repositories.CustomColors
     {
         public const string HexString = "";
         public const short Index = 32;
-        private static short[] _triplet = new short[3] { 228, 242, 253 };
+        private static byte[] _triplet = new byte[3] { 228, 242, 253 };
 
         public EvenRowColor()
             : base()
         {
         }
 
-        public static short[] Triplet
+        public static byte[] Triplet
         {
             get { return EvenRowColor._triplet; }
             set { EvenRowColor._triplet = value; }
         }
 
-        public override short GetIndex()
+        public override short Indexed
         {
-            return Index;
+            get
+            {
+                return Index;
+            }
         }
 
-        public override short[] GetTriplet()
+        public override byte[] GetTriplet()
         {
             return _triplet;
         }

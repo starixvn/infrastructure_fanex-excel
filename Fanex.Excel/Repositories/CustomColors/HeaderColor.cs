@@ -6,7 +6,6 @@
 
 namespace Fanex.Excel.Repositories.CustomColors
 {
-    using System.Diagnostics.CodeAnalysis;
     using NPOI.HSSF.Util;
 
     /// <summary>
@@ -16,25 +15,28 @@ namespace Fanex.Excel.Repositories.CustomColors
     {
         public const string HexString = "";
         public const short Index = 27;
-        private static short[] _triplet = new short[3] { 60, 94, 165 };
+        private static byte[] _triplet = new byte[3] { 60, 94, 165 };
 
         public HeaderColor()
             : base()
         {
         }
 
-        public static short[] Triplet
+        public static byte[] Triplet
         {
             get { return HeaderColor._triplet; }
             set { HeaderColor._triplet = value; }
         }
 
-        public override short GetIndex()
+        public override short Indexed
         {
-            return Index;
+            get
+            {
+                return Index;
+            }
         }
 
-        public override short[] GetTriplet()
+        public override byte[] GetTriplet()
         {
             return _triplet;
         }
