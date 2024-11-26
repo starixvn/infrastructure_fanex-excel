@@ -1,15 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <TargetFrameworks>net8.0</TargetFrameworks> 
-        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>        
-        <Version>2.7.2</Version>
-        <InfomationalVersion>2.7.2</InfomationalVersion>
-       
-        <Authors>Nexcel Solutions</Authors>
-        <PackageTags>Fanex Excel</PackageTags>
-    </PropertyGroup>
-    <ItemGroup>
-      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-      <PackageReference Include="NPOI" Version="2.7.2" />
-    </ItemGroup>
+  <PropertyGroup>
+    <TargetFrameworks>net8.0</TargetFrameworks>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Version>2.7.2.1</Version>
+    <InfomationalVersion>2.7.2.1</InfomationalVersion>
+    <Title>Fanex.Excel</Title>
+    <Authors>Nexcel Solutions</Authors>
+    <PackageTags>Fanex Excel</PackageTags>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="NPOI" Version="2.7.2" />
+  </ItemGroup>
 </Project>

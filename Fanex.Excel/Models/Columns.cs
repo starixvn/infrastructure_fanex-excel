@@ -112,12 +112,12 @@ namespace Fanex.Excel.Models
 
         public int MergeColNumber { get; set; }
 
-        [JsonProperty("TdClass")]
+        [JsonProperty("tdClass")]
         public string TDClass { get; set; }
 
         public string CssClass { get; set; }
 
-        [JsonProperty("CustomAttr")]
+        [JsonProperty("customAttr")]
         public string CustomAttributes { get; set; }
 
         [JsonIgnore]
