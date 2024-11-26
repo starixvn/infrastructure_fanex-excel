@@ -6,11 +6,12 @@
 
 namespace Fanex.Excel.Repositories.CellStyles.Body.DateTimeStyles.RowTypeStyles
 {
-    using System.Drawing;
+    
     using Fanex.Excel.Constants;
     using NPOI.HSSF.Util;
     using NPOI.SS.UserModel;
     using NPOI.XSSF.UserModel;
+    using SixLabors.ImageSharp;
 
     /// <summary>
     /// TODO: Update summary.

@@ -81,3 +81,4 @@ UpgradeLog*.XML
 /*.suo
 /.vs/config/applicationhost.config
 packages/
+/.vs

@@ -1,6 +1,7 @@
 ﻿namespace Fanex.Excel.Models
 {
-    using System.Drawing;
+    using SixLabors.ImageSharp;
+
 
     /// <summary>
     /// Excel Color.

@@ -1,1 +1,0 @@
-"C:\Program Files (x86)\Microsoft\ILMerge\ILMerge.exe" /out:D:\Fanex.Excel.dll /t:library /lib:"C:\Windows\Microsoft.NET\Framework\v4.0.30319" /lib:"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\PublicAssemblies" Fanex.Excel.dll NPOI.dll NPOI.OOXML.dll NPOI.OpenXml4Net.dll NPOI.OpenXmlFormats.dll ICSharpCode.SharpZipLib.dll

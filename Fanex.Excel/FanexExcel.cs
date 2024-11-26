@@ -20,8 +20,11 @@ namespace Fanex.Excel
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using System.Drawing;
+    
     using System.IO;
+    using SixLabors.ImageSharp;
+    using SixLabors.ImageSharp.PixelFormats;
+
     /// <summary>
     /// TODO: Update summary.
     /// </summary>
@@ -676,7 +679,8 @@ namespace Fanex.Excel
 
         private byte[] GetColorTriplet(Color color, byte[] defaultTriplet)
         {
-            return color == Color.Transparent ? defaultTriplet : new byte[] { color.R, color.G, color.B };
+            var rgb = color.ToPixel<Argb32>();
+            return color == Color.Transparent ? defaultTriplet : new byte[] { rgb.R, rgb.G, rgb.B };
         }
 
         private Color GetColor(Color color, Color defaultColor)

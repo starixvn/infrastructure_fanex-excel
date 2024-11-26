@@ -1,6 +1,6 @@
 ﻿namespace Fanex.Excel.Repositories.CellStyles.Body
 {
-    using System.Drawing;
+    
     using NPOI.HSSF.UserModel;
     using NPOI.HSSF.Util;
     using NPOI.SS.UserModel;
