@@ -1,44 +1,16 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="IntegerRedPositiveStyle.cs" company="Nexcel Solutions Vietnam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// -----------------------------------------------------------------------
 
-namespace Fanex.Excel.Repositories.CellStyles.Footer.IntegerStyles
+namespace Fanex.Excel.Repositories.CellStyles.Footer.IntegerRedPositiveStyles
 {
-    using Fanex.Excel.Constants;
-    using Fanex.Excel.Repositories.CustomColors;
-    using NPOI.HSSF.UserModel;
-    using NPOI.HSSF.Util;
+    using IntegerRedPositiveStyles.RowTypeStyles;
     using NPOI.SS.UserModel;
-    using NPOI.XSSF.UserModel;
 
-    /// <summary>
-    /// TODO: Update summary.
-    /// </summary>
-    public class IntegerRedPositiveStyle : BaseCellStyles
+    public class IntegerRedPositiveStyle : FooterRowBaseStyle
     {
         public IntegerRedPositiveStyle(IWorkbook workbook, IFont font)
-            : base(workbook)
+            : base(workbook, font)
         {
-            this.Style = this.CreateCellStyle(
-                ExcelConstants.IntegerRedPositive,
-                this.Workbook.GetType().Equals(typeof(HSSFWorkbook)) ? (IColor)new GrandTotalRowColor() : (IColor)(new XSSFColor(ExcelConstants.FooterBackgroundColor)),
-                font,
-                HorizontalAlignment.General,
-                VerticalAlignment.Top);
-
-            this.UpperStyle = this.CreateCellStyle(
-                ExcelConstants.IntegerRedPositive,
-                this.Workbook.GetType().Equals(typeof(HSSFWorkbook)) ? (IColor)new GrandTotalRowColor() : (IColor)(new XSSFColor(ExcelConstants.FooterBackgroundColor)),
-                font,
-                HorizontalAlignment.General,
-                VerticalAlignment.Top);
-
-            this.UpperStyle.BorderTop = BorderStyle.Thick;
-            this.UpperStyle.TopBorderColor = HSSFColor.Orange.Index;
+            this.Upper = new UpperStyle(workbook, font);
+            this.Lower = new LowerStyle(workbook, font);
         }
-
-        public ICellStyle UpperStyle { get; set; }
     }
 }

@@ -78,3 +78,7 @@ UpgradeLog*.XML
 
 # Zeta Resource Editor
 *.zreproj
+/*.suo
+/.vs/config/applicationhost.config
+packages/
+/.vs

@@ -1,8 +1,3 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="GridOptions.cs" company="Nexcel Solutions Vietnam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// -----------------------------------------------------------------------
 
 namespace Fanex.Excel.Models
 {
@@ -12,10 +7,8 @@ namespace Fanex.Excel.Models
     using Fanex.Excel.Constants;
     using Fanex.Excel.Enums;
     using Newtonsoft.Json;
-
-    /// <summary>
-    /// TODO: Update summary.
-    /// </summary>
+    using NPOI.HSSF.UserModel;
+    using NPOI.SS.UserModel;    /// <summary>
     [Serializable]
     public class GridOptions
     {
@@ -36,6 +29,7 @@ namespace Fanex.Excel.Models
             this.HeaderColumnHeight = 25;
             this.BodyRowHeight = 21;
             this.BodyRowHeightAutofit = false;
+            this.FreezeHeader = false;
         }
 
         [JsonProperty("groupHeaderRows")]
@@ -81,6 +75,9 @@ namespace Fanex.Excel.Models
 
         [JsonProperty("numberOfFrozenColumn")]
         public int NumberOfFrozenColumn { get; set; }
+
+        [JsonIgnore]
+        public bool FreezeHeader { get; set; }
 
         [JsonIgnore]
         public TitleType TitleType { get; set; }
@@ -133,6 +130,12 @@ namespace Fanex.Excel.Models
             } 
         }
 
+        [JsonIgnore]
+        public List<CustomExcelCellStyle> CustomExcelCellStyles { get; set; }
+
+        [JsonIgnore]
+        internal List<ICellStyle> CustomExcelHSSFCellStyles { get; set; }
+
         public bool ShouldSerializePagerOption()
         {
             return this.ShowPager && this.CustomPager;
@@ -177,11 +180,6 @@ namespace Fanex.Excel.Models
             this.FooterRows.Add(footerRow);
         }
 
-        /// <summary>
-        /// Clones the specified is clone body.
-        /// </summary>
-        /// <param name="isCloneBody">If set to <c>true</c> [is clone body].</param>
-        /// <returns>Grid Options object.</returns>
         [SuppressMessage("StyleCop.CSharp.Nexcel.NexcelCustomRules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. This is ok")]
         public GridOptions Clone(bool isCloneBody = false)
         {
@@ -240,11 +238,6 @@ namespace Fanex.Excel.Models
             return clone;
         }
 
-        /// <summary>
-        /// Gets the name of the header column by.
-        /// </summary>
-        /// <param name="headerName">Name of the header.</param>
-        /// <returns>Header Column.</returns>
         public HeaderColumns GetHeaderColumnByName(string headerName)
         {
             foreach (var header in this.Columns)

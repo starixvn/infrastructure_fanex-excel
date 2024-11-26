@@ -1,20 +1,13 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="OddStyle.cs" company="Nexcel Solutions Vietnam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// -----------------------------------------------------------------------
 
 namespace Fanex.Excel.Repositories.CellStyles.Body.PercentageRedPositiveStyles.RowTypeStyles
 {
-    using System.Drawing;
+    
     using Fanex.Excel.Constants;
     using NPOI.HSSF.Util;
     using NPOI.SS.UserModel;
     using NPOI.XSSF.UserModel;
+    using SixLabors.ImageSharp;
 
-    /// <summary>
-    /// TODO: Update summary.
-    /// </summary>
     public class OddStyle : BodyBaseCellStyle
     {
         public OddStyle(IWorkbook workbook, IFont font)

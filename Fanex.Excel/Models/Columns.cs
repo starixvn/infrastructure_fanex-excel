@@ -1,8 +1,3 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="Columns.cs" company="Nexcel Solutions Vietnam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// -----------------------------------------------------------------------
 
 namespace Fanex.Excel.Models
 {
@@ -12,9 +7,6 @@ namespace Fanex.Excel.Models
     using Newtonsoft.Json;
     using NPOI.SS.UserModel;
 
-    /// <summary>
-    /// The Columns.
-    /// </summary>
     [Serializable]
     public class Columns : IColumns
     {
@@ -22,6 +14,12 @@ namespace Fanex.Excel.Models
 
         [JsonIgnore]
         private bool _bold;
+
+        public Columns()
+            : this(0)
+        {
+
+        }
 
         public Columns(int columnIndex = 0)
         {
@@ -37,6 +35,7 @@ namespace Fanex.Excel.Models
             this.WrapText = false;
             this.HiddenColumn = false;
             this.Indention = (short)0;
+            this.CustomExcelCellStyleIndex = -1;
         }
 
         public Columns(int columnIndex, string name, object value, HAlignment cellAlignment = HAlignment.Right)
@@ -64,18 +63,25 @@ namespace Fanex.Excel.Models
 
             set
             {
-                if (!CheckValidValueType(value.GetType()))
+                if (value == null)
                 {
-                    throw new InvalidOperationException("\"" + value.GetType().FullName + "\" is not a valid NPOI CellType.");
-                }
-
-                if (value.GetType() == typeof(decimal))
-                {
-                    this._value = Convert.ToDouble(value);
+                    this._value = null;
                 }
                 else
                 {
-                    this._value = value;
+                    if (!CheckValidValueType(value.GetType()))
+                    {
+                        throw new InvalidOperationException("\"" + value.GetType().FullName + "\" is not a valid NPOI CellType.");
+                    }
+
+                    if (value.GetType() == typeof(decimal))
+                    {
+                        this._value = Convert.ToDouble(value);
+                    }
+                    else
+                    {
+                        this._value = value;
+                    }
                 }
             }
         }
@@ -106,12 +112,12 @@ namespace Fanex.Excel.Models
 
         public int MergeColNumber { get; set; }
 
-        [JsonProperty("TdClass")]
+        [JsonProperty("tdClass")]
         public string TDClass { get; set; }
 
         public string CssClass { get; set; }
 
-        [JsonProperty("CustomAttr")]
+        [JsonProperty("customAttr")]
         public string CustomAttributes { get; set; }
 
         [JsonIgnore]
@@ -148,6 +154,9 @@ namespace Fanex.Excel.Models
         public ExcelCellType CustomCellType { get; set; }
 
         [JsonIgnore]
+        public int CustomExcelCellStyleIndex { get; set; }
+
+        [JsonIgnore]
         public bool WrapText { get; set; }
 
         [JsonIgnore]
@@ -171,13 +180,6 @@ namespace Fanex.Excel.Models
             return !string.IsNullOrEmpty(TDClass);
         }
 
-        /// <summary>
-        /// Gets the reference header column.
-        /// </summary>
-        /// <param name="root">The parent object.</param>
-        /// <returns>
-        /// Header Columns object.
-        /// </returns>
         public HeaderColumns ReferenceHeaderColumn(GridDataRow root = null)
         {
             if (root != null)
@@ -200,10 +202,6 @@ namespace Fanex.Excel.Models
             return null;
         }
 
-        /// <summary>
-        /// Clones this instance.
-        /// </summary>
-        /// <returns>Columns object.</returns>
         public Columns Clone()
         {
             Columns clone = new Columns(this.ColumnIndex);

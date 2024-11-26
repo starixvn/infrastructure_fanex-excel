@@ -1,8 +1,3 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="HeaderColumns.cs" company="Nexcel Solutions Vietnam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
-// </copyright>
-// -----------------------------------------------------------------------
 
 namespace Fanex.Excel.Models
 {
@@ -10,17 +5,20 @@ namespace Fanex.Excel.Models
     using Fanex.Excel.Enums;
     using Newtonsoft.Json;
 
-    /// <summary>
-    /// Header Columns.
-    /// </summary>
     [Serializable]
     public class HeaderColumns : Columns, IHeaderColumns
     {
+        public HeaderColumns()
+            : this(false)
+        {
+
+        }
+		
         public HeaderColumns(bool isGroupHeader = false)
             : base(0)
         {
             this.Width = isGroupHeader ? 0 : 150;
-            this.HeaderAlign = "center";
+            this.HeaderAlignment = HAlignment.Center;
             this.CellAlignment = HAlignment.Null;
             this.ThClass = string.Empty;
             this.IsBold = false;
@@ -44,7 +42,7 @@ namespace Fanex.Excel.Models
             string name,
             int width,
             HAlignment cellAlignment,
-            string headerAlign,
+            HAlignment headerAlignment,
             ExcelCellType customCellType = ExcelCellType.Double)
             : this()
         {
@@ -52,7 +50,7 @@ namespace Fanex.Excel.Models
             this.Name = name;
             this.Width = width;
             this.CellAlignment = cellAlignment;
-            this.HeaderAlign = headerAlign;
+            this.HeaderAlignment = headerAlignment;
             this.CustomCellType = customCellType;
         }
 
@@ -77,7 +75,26 @@ namespace Fanex.Excel.Models
             }
         }
 
-        public string HeaderAlign { get; set; }
+        [JsonIgnore]
+        public HAlignment HeaderAlignment { get; set; }
+
+        public string HeaderAlign
+        {
+            get
+            {
+                switch (this.HeaderAlignment)
+                {
+                    case HAlignment.Left:
+                        return "left";
+                    case HAlignment.Right:
+                        return "right";
+                    case HAlignment.Center:
+                        return "center";
+                    default:
+                        return string.Empty;
+                }
+            }
+        }
 
         public string FormatNumber
         {
@@ -114,10 +131,10 @@ namespace Fanex.Excel.Models
                 switch (this.CustomCellType)
                 {
                     case Enums.ExcelCellType.IntegerRedNegative:
-                    case Enums.ExcelCellType.IntegerRedparenthesisNegative:
                     case Enums.ExcelCellType.PercentageRedNegative:
                     case Enums.ExcelCellType.DoubleRedNegative:
                         return "$";
+                    case Enums.ExcelCellType.IntegerRedparenthesisNegative:
                     case Enums.ExcelCellType.DoubleRedParenthesisNegative:
                     case Enums.ExcelCellType.PercentageRedparenthesisNegative:
                         return "($)";
@@ -151,7 +168,7 @@ namespace Fanex.Excel.Models
                 switch (this.CustomCellType)
                 {
                     case Enums.ExcelCellType.DateTimeMMDDYYYY:
-                        return "MM/dd/yyyy";
+                        return "MM/DD/YYYY";
                     default:
                         return string.Empty;
                 }
@@ -192,6 +209,8 @@ namespace Fanex.Excel.Models
 
         public string ThClass { get; set; }
 
+        public int MergeHeaderColNumber { get; set; }
+
         public bool ShouldSerializeFormatNumber()
         {
             return this.FormatNumber != null && !string.IsNullOrEmpty(this.FormatNumber);
@@ -215,6 +234,11 @@ namespace Fanex.Excel.Models
         public bool ShouldSerializeTHCssClass()
         {
             return this.THCssClass != null && !string.IsNullOrEmpty(this.THCssClass);
+        }
+
+        public bool ShouldSerializeMergeHeaderColNumber()
+        {
+            return MergeHeaderColNumber > 1;
         }
 
         public bool ShouldSerializeWidth()
@@ -242,17 +266,13 @@ namespace Fanex.Excel.Models
             return this.ThClass != null && !string.IsNullOrEmpty(this.ThClass);
         }
 
-        /// <summary>
-        /// Clones this instance.
-        /// </summary>
-        /// <returns>Header Columns object.</returns>
         public new HeaderColumns Clone()
         {
             var clone = (HeaderColumns)base.Clone();
             clone.HeaderText = this.HeaderText;
             clone.DisplayValue = this.DisplayValue;
             clone.Width = this.Width;
-            clone.HeaderAlign = this.HeaderAlign;
+            clone.HeaderAlignment = this.HeaderAlignment;
             clone.IsBold = this.IsBold;
             clone.THCssClass = this.THCssClass;
             clone.IsMergedColumn = this.IsMergedColumn;
